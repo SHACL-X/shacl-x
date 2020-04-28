@@ -48,7 +48,7 @@ public class SHACLScriptEngineManager {
 	public static JSScriptEngine getCurrentEngine() {
 		JSScriptEngine engine = engines.get();
 		if(engine == null) {
-			engine = JSScriptEngineFactory.get().createScriptEngine();
+			engine = JSScriptEngineFactory.get().createScriptEngine("Nashorn");
 			engines.set(engine);
 		}
 		return engine;
