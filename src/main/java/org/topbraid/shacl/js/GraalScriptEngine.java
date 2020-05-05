@@ -13,7 +13,6 @@ import org.topbraid.shacl.js.model.JSFactory;
 import org.topbraid.shacl.js.model.TermFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -122,11 +121,6 @@ public class GraalScriptEngine implements JSScriptEngine {
         return context.getBindings("js").getMember(varName);
     }
 
-    @Override
-    public final ScriptEngine getEngine() {
-        return null;
-        // TODO decide how to implement
-    }
 
     public final Context getContext() {
         return context;
@@ -145,7 +139,7 @@ public class GraalScriptEngine implements JSScriptEngine {
         try {
             String funcString = context.getBindings("js").getMember(functionName).toString();
             Value result = what.execute(funcString);
-            List<String> results = NashornUtil.asGraalArray(result);
+            List<String> results = GraalUtil.asArray(result);
             functionParametersMap.put(functionName, results);
             return results;
         } catch (Exception ex) {

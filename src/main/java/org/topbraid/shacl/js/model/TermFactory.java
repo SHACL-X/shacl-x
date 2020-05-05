@@ -48,12 +48,16 @@ public class TermFactory {
 	}
 	
 	
-	public JSLiteral literal(String value, Object langOrDatatype) {
+	public JSLiteral literal(Object value, Object langOrDatatype) {
+        String stringVal = value.toString();
+        if (value instanceof Number) {
+            stringVal = String.valueOf(value);
+        }
 		if(langOrDatatype instanceof JSNamedNode) {
-			return new JSLiteral(NodeFactory.createLiteral(value, TypeMapper.getInstance().getTypeByName(((JSNamedNode)langOrDatatype).getValue())));
+			return new JSLiteral(NodeFactory.createLiteral(stringVal, TypeMapper.getInstance().getTypeByName(((JSNamedNode)langOrDatatype).getValue())));
 		}
 		else if(langOrDatatype instanceof String) {
-			return new JSLiteral(NodeFactory.createLiteral(value, (String)langOrDatatype));
+			return new JSLiteral(NodeFactory.createLiteral(stringVal, (String)langOrDatatype));
 		}
 		else {
 			throw new IllegalArgumentException("Invalid type of langOrDatatype argument");
