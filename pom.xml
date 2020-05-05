@@ -51,7 +51,7 @@
       <name>Holger Knublauch</name>
     </developer>
   </developers>
-  
+
   <contributors>
     <contributor>
       <!-- Github contributors page -->
@@ -76,6 +76,20 @@
   </properties>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/org.graalvm.js/js-scriptengine -->
+    <dependency>
+      <groupId>org.graalvm.js</groupId>
+      <artifactId>js-scriptengine</artifactId>
+      <version>20.0.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.graalvm.js/js -->
+    <dependency>
+      <groupId>org.graalvm.js</groupId>
+      <artifactId>js</artifactId>
+      <version>20.0.0</version>
+    </dependency>
+
 
     <dependency>
       <groupId>org.apache.jena</groupId>
@@ -120,7 +134,7 @@
     </dependency>
 
   </dependencies>
-  
+
   <build>
     <plugins>
 
@@ -150,17 +164,17 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <version>3.0.1</version>
-        <executions> 
+        <executions>
           <execution>
             <id>attach-sources</id>
             <!-- <phase>package</phase> package is the default -->
             <goals>
-              <goal>jar-no-fork</goal> 
+              <goal>jar-no-fork</goal>
             </goals>
           </execution>
           <execution>
@@ -171,7 +185,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -198,12 +212,12 @@
         <configuration>
           <goals>deploy</goals>
           <autoVersionSubmodules>true</autoVersionSubmodules>
-        </configuration> 
+        </configuration>
       </plugin>
-      
+
     </plugins>
   </build>
-  
+
   <profiles>
     <profile>
       <id>release</id>
@@ -257,7 +271,7 @@
       </build>
     </profile>
   </profiles>
-  
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh.snapshots</id>
