@@ -48,6 +48,7 @@ public class SHACLScriptEngineManager {
 	public static JSScriptEngine getCurrentEngine() {
 		JSScriptEngine engine = engines.get();
 		if(engine == null) {
+			// TODO decide how to manage the Engine creation
 			engine = JSScriptEngineFactory.get().createScriptEngine("Nashorn");
 			engines.set(engine);
 		}
