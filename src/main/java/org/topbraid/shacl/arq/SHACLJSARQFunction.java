@@ -25,6 +25,7 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.sparql.expr.ExprEvalException;
 import org.apache.jena.sparql.expr.NodeValue;
+import org.graalvm.polyglot.Value;
 import org.topbraid.jenax.util.ExceptionUtil;
 import org.topbraid.jenax.util.JenaDatatypes;
 import org.topbraid.shacl.js.JSGraph;
@@ -65,6 +66,9 @@ public class SHACLJSARQFunction extends SHACLARQFunction {
 			
 			Object result = engine.invokeFunction(functionName, bindings);
 			if(result != null) {
+				if(result instanceof Value) {
+					result = ((Value) result).as(Object.class);
+				}
 				Node node = JSFactory.getNode(result);
 				if(node != null) {
 					return NodeValue.makeNode(node);

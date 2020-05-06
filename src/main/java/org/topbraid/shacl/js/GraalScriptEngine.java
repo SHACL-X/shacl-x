@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GraalScriptEngine implements JSScriptEngine {
 
@@ -139,7 +140,7 @@ public class GraalScriptEngine implements JSScriptEngine {
         try {
             String funcString = context.getBindings("js").getMember(functionName).toString();
             Value result = what.execute(funcString);
-            List<String> results = GraalUtil.asArray(result);
+            List<String> results = GraalUtil.asArray(result).stream().map(e -> e.toString()).collect(Collectors.toList());
             functionParametersMap.put(functionName, results);
             return results;
         } catch (Exception ex) {
@@ -165,7 +166,7 @@ public class GraalScriptEngine implements JSScriptEngine {
                 }
             }
         }
-        return invokeFunctionOrdered(functionName, params).as(Object.class);
+        return invokeFunctionOrdered(functionName, params);
     }
 
     @Override
