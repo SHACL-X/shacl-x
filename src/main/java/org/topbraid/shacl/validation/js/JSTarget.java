@@ -11,10 +11,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.jenax.util.ExceptionUtil;
-import org.topbraid.shacl.js.JSGraph;
-import org.topbraid.shacl.js.JSScriptEngine;
-import org.topbraid.shacl.js.NashornUtil;
-import org.topbraid.shacl.js.SHACLScriptEngineManager;
+import org.topbraid.shacl.js.*;
 import org.topbraid.shacl.js.model.JSFactory;
 import org.topbraid.shacl.model.SHJSExecutable;
 import org.topbraid.shacl.model.SHParameterizableTarget;
@@ -56,8 +53,8 @@ public class JSTarget implements Target {
 			}
 
 			Object result = engine.invokeFunction(as.getFunctionName(), bindings);
-			if(NashornUtil.isArray(result)) {
-				for(Object obj : NashornUtil.asArray(result)) {
+			if(ScriptEngineUtil.isArray(result)) {
+				for(Object obj : ScriptEngineUtil.asArray(result)) {
 					Node node = JSFactory.getNode(obj);
 					results.add(model.asRDFNode(node));
 				}

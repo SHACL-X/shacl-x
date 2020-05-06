@@ -33,10 +33,7 @@ import org.topbraid.jenax.progress.ProgressMonitor;
 import org.topbraid.jenax.util.ExceptionUtil;
 import org.topbraid.jenax.util.JenaUtil;
 import org.topbraid.shacl.engine.Shape;
-import org.topbraid.shacl.js.JSGraph;
-import org.topbraid.shacl.js.JSScriptEngine;
-import org.topbraid.shacl.js.NashornUtil;
-import org.topbraid.shacl.js.SHACLScriptEngineManager;
+import org.topbraid.shacl.js.*;
 import org.topbraid.shacl.js.model.JSFactory;
 import org.topbraid.shacl.model.SHJSExecutable;
 import org.topbraid.shacl.validation.SHACLException;
@@ -80,13 +77,13 @@ class JSRule extends AbstractRule {
 				QuerySolutionMap bindings = new QuerySolutionMap();
 				bindings.add(SH.thisVar.getVarName(), focusNode);
 				Object result = engine.invokeFunction(functionName, bindings);
-				if(NashornUtil.isArray(result)) {
-					for(Object tripleO : NashornUtil.asArray(result)) {
-						if(NashornUtil.isArray(tripleO)) {
-							Object[] nodes = NashornUtil.asArray(tripleO);
-							Node subject = JSFactory.getNode(nodes[0]);
-							Node predicate = JSFactory.getNode(nodes[1]);
-							Node object = JSFactory.getNode(nodes[2]);
+				if(ScriptEngineUtil.isArray(result)) {
+					for(Object tripleO : ScriptEngineUtil.asArray(result)) {
+						if(ScriptEngineUtil.isArray(tripleO)) {
+							List<Object> nodes = ScriptEngineUtil.asArray(tripleO);
+							Node subject = JSFactory.getNode(nodes.get(0));
+							Node predicate = JSFactory.getNode(nodes.get(1));
+							Node object = JSFactory.getNode(nodes.get(2));
 							ruleEngine.infer(Triple.create(subject, predicate, object), this, shape);
 						}
 						else if(tripleO instanceof Map) {
