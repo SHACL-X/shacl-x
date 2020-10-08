@@ -53,13 +53,13 @@ public class TestDASHTestCases {
         JSScriptEngineFactory.set(new JSScriptEngineFactory() {
             @Override
             public JSScriptEngine createScriptEngine(final String engineName) {
-                // TODO manage the engine creation according to the passed parameter
                 return new NashornScriptEngine() {
                     @Override
                     protected Reader createScriptReader(String url) throws Exception {
                         if (DASH_JS.equals(url)) {
                             return new InputStreamReader(NashornScriptEngine.class.getResourceAsStream("/js/dash.js"));
                         } else if (RDFQUERY_JS.equals(url)) {
+                            //return new InputStreamReader(new FileInputStream("/Users/ashleycaselli/git/shacl/src/main/ts/rdfquery.js"));
                             return new InputStreamReader(NashornScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
                         } else if (url.startsWith("http://datashapes.org/js/")) {
                             return new InputStreamReader(NashornScriptEngine.class.getResourceAsStream(url.substring(21)));
