@@ -29,9 +29,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.topbraid.jenax.util.JenaUtil;
+import org.topbraid.shacl.js.GraalJSScriptEngine;
 import org.topbraid.shacl.js.JSScriptEngine;
 import org.topbraid.shacl.js.JSScriptEngineFactory;
-import org.topbraid.shacl.js.NashornScriptEngine;
 import org.topbraid.shacl.testcases.TestCase;
 import org.topbraid.shacl.testcases.TestCaseType;
 import org.topbraid.shacl.testcases.TestCaseTypes;
@@ -53,16 +53,16 @@ public class TestDASHTestCases {
         JSScriptEngineFactory.set(new JSScriptEngineFactory() {
             @Override
             public JSScriptEngine createScriptEngine(final String engineName) {
-                return new NashornScriptEngine() {
+                return new GraalJSScriptEngine() {
                     @Override
                     protected Reader createScriptReader(String url) throws Exception {
                         if (DASH_JS.equals(url)) {
-                            return new InputStreamReader(NashornScriptEngine.class.getResourceAsStream("/js/dash.js"));
+                            return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream("/js/dash.js"));
                         } else if (RDFQUERY_JS.equals(url)) {
                             //return new InputStreamReader(new FileInputStream("/Users/ashleycaselli/git/shacl/src/main/ts/rdfquery.js"));
-                            return new InputStreamReader(NashornScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
+                            return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
                         } else if (url.startsWith("http://datashapes.org/js/")) {
-                            return new InputStreamReader(NashornScriptEngine.class.getResourceAsStream(url.substring(21)));
+                            return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream(url.substring(21)));
                         } else {
                             return new InputStreamReader(new URL(url).openStream());
                         }

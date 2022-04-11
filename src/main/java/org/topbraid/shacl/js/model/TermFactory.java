@@ -26,7 +26,7 @@ import org.apache.jena.sparql.util.NodeFactoryExtra;
 /**
  * A partial implementation of DataFactory from
  * https://github.com/rdfjs/representation-task-force/blob/master/interface-spec.md
- * to be used by JavaScript via Nashorn.
+ * to be used by JavaScript.
  * 
  * @author Holger Knublauch
  */

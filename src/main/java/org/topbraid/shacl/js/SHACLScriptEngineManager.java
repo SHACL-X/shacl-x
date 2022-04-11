@@ -49,7 +49,7 @@ public class SHACLScriptEngineManager {
 		JSScriptEngine engine = engines.get();
 		if(engine == null) {
 			// TODO decide how to manage the Engine creation
-			engine = JSScriptEngineFactory.get().createScriptEngine("Nashorn");
+			engine = JSScriptEngineFactory.get().createScriptEngine("Graal");
 			engines.set(engine);
 		}
 		return engine;

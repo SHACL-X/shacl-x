@@ -78,9 +78,9 @@ public abstract class JSScriptEngineImpl implements JSScriptEngine {
 
     protected Reader createScriptReader(String url) throws Exception {
         if (DASH_JS.equals(url)) {
-            return new InputStreamReader(GraalScriptEngine.class.getResourceAsStream("/js/dash.js"));
+            return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream("/js/dash.js"));
         } else if (RDFQUERY_JS.equals(url)) {
-            return new InputStreamReader(GraalScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
+            return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
         } else {
             return new InputStreamReader(new URL(url).openStream());
         }

@@ -5,11 +5,14 @@ import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Value;
 import org.topbraid.shacl.js.model.TermFactory;
 
-public class GraalScriptEngine extends JSScriptEngineImpl {
+/**
+ * @author Ashley Caselli
+ */
+public class GraalJSScriptEngine extends JSScriptEngineImpl {
 
     private Context context;
 
-    public GraalScriptEngine() {
+    public GraalJSScriptEngine() {
         initEngine();
         context.getBindings("js").putMember("TermFactory", new TermFactory());
         context.eval("js", ARGS_FUNCTION);
@@ -21,7 +24,6 @@ public class GraalScriptEngine extends JSScriptEngineImpl {
                 //.allowHostClassLookup(s -> true)
                 .allowHostAccess(HostAccess.ALL)
                 .allowExperimentalOptions(true)
-
                 //.allowNativeAccess(true)
                 //.allowCreateThread(true)
                 //.allowIO(true)

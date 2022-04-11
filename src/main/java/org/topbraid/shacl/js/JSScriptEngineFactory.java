@@ -35,11 +35,8 @@ public class JSScriptEngineFactory {
     }
 
     public JSScriptEngine createScriptEngine(final String engineName) {
-        if (engineName.equals("Nashorn")) {
-            return new NashornScriptEngine();
-        }
         if (engineName.equals("Graal")) {
-            return new GraalScriptEngine();
+            return new GraalJSScriptEngine();
         }
         // TODO integrate another Script engines
         return null;
