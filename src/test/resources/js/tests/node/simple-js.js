@@ -1,5 +1,5 @@
 function simple($value) {
-	if(!$value.isURI()) {
-		return "IRIs expected";
-	}
+    if (!$value.isURI()) {
+        return "IRIs expected";
+    }
 }

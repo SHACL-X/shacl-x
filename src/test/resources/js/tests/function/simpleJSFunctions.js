@@ -1,23 +1,23 @@
 function booleanFunction() {
-	return true;
+    return true;
 }
 
 function floatFunction() {
-	return 4.2;
+    return 4.2;
 }
 
 function integerFunction() {
-	return 42;
+    return 42;
 }
 
 function nodeFunction() {
-	return TermFactory.namedNode("http://aldi.de");
+    return TermFactory.namedNode("http://aldi.de");
 }
 
 function stringFunction() {
-	return "Hello";
+    return "Hello";
 }
 
 function withArguments($arg1, $arg2) {
-	return TermFactory.namedNode("http://aldi.de/product_" + $arg1.value + "_" + $arg2.value);
+    return TermFactory.namedNode("http://aldi.de/product_" + $arg1.value + "_" + $arg2.value);
 }

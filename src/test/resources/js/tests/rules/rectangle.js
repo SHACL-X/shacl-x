@@ -1,16 +1,16 @@
-var NS = "http://datashapes.org/js/tests/rules/rectangle.test#";
+const NS = "http://datashapes.org/js/tests/rules/rectangle.test#";
 
 function computeArea($this) {
-	var width = getProperty($this, "width");
-	var height = getProperty($this, "height");
-	var area = TermFactory.literal(width.lex * height.lex, width.datatype);
-	var areaProperty = TermFactory.namedNode(NS + "area");
-	return [ [$this, areaProperty, area] ]; 
+    let width = getProperty($this, "width");
+    let height = getProperty($this, "height");
+    let area = TermFactory.literal(width.lex * height.lex, width.datatype);
+    let areaProperty = TermFactory.namedNode(NS + "area");
+    return [ [$this, areaProperty, area] ];
 }
 
 function getProperty($this, name) {
-	var it = $data.find($this, TermFactory.namedNode(NS + name), null);
-	var result = it.next().object;
-	it.close();
-	return result;
+    let it = $data.find($this, TermFactory.namedNode(NS + name), null);
+    let result = it.next().object;
+    it.close();
+    return result;
 }
