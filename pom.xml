@@ -74,19 +74,14 @@
         <ver.antlr>4.5.3</ver.antlr>
         <ver.slf4j>1.7.26</ver.slf4j>
         <ver.log4j1>1.2.17</ver.log4j1>
+        <ver.graalvm-js>21.1.0</ver.graalvm-js>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.graalvm.js</groupId>
-            <artifactId>js-scriptengine</artifactId>
-            <version>21.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.graalvm.js</groupId>
             <artifactId>js</artifactId>
-            <version>21.1.0</version>
+            <version>${ver.graalvm-js}</version>
         </dependency>
 
         <dependency>
