@@ -1,3 +1,5 @@
+![GitHub CI](https://github.com/ashleycaselli/shacl/actions/workflows/build-maven.yml/badge.svg)
+
 # TopBraid SHACL API
 
 **An open source implementation of the W3C Shapes Constraint Language (SHACL) based on Apache Jena.**
