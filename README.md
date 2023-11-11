@@ -72,9 +72,12 @@ export PATH=$SHACLROOT:$PATH
 
 Both tools take the following parameters, for example:
 
-`shaclvalidate.bat -datafile myfile.ttl -shapesfile myshapes.ttl`
+`shaclvalidate.bat -datafile myfile.ttl -shapesfile myshapes.ttl -ont myontology.ttl`
 
-where `-shapesfile` is optional and falls back to using the data graph as shapes graph.
+where
+- `-shapesfile` is optional and falls back to using the data graph as shapes graph
+- `-ont` is optional and injects extra ontological information into the data graph
+
 Add -validateShapes in case you want to include the metashapes (from the tosh namespace in particular).
 
 Currently only Turtle (.ttl) files are supported.
@@ -92,13 +95,13 @@ docker build -f .docker/Dockerfile -t ghcr.io/topquadrant/shacl:1.4.2 --build-ar
 To use the Docker image, there are two possible commands. To run the validator:
 
 ```
-docker run --rm -v /path/to/data:/data ghcr.io/topquadrant/shacl:1.4.2 validate -datafile /data/myfile.ttl -shapesfile /data/myshapes.ttl
+docker run --rm -v /path/to/data:/data ghcr.io/topquadrant/shacl:1.4.2 validate -datafile /data/myfile.ttl -shapesfile /data/myshapes.ttl -ont /data/myontology.ttl 
 ```
 
 To run rule inferencing:
 
 ```
-docker run --rm -v /path/to/data:/data ghcr.io/topquadrant/shacl:1.4.2 infer -datafile /data/myfile.ttl -shapesfile /data/myshapes.ttl
+docker run --rm -v /path/to/data:/data ghcr.io/topquadrant/shacl:1.4.2 infer -datafile /data/myfile.ttl -shapesfile /data/myshapes.ttl -ont /data/myontology.ttl
 ```
 
 Any other command after `ghcr.io/topquadrant/shacl:1.4.2` will print the following help page:
@@ -116,4 +119,6 @@ PARAMETERS:
 		input to be validated (only .ttl format supported)
 	-shapesfile /data/myshapes.ttl [OPTIONAL]
 		shapes for validation (only .ttl format supported)
+	-ont /data/myontology.ttl [OPTIONAL]
+                extra ontological information (only .ttl format supported)
 ```

@@ -23,6 +23,8 @@ PARAMETER:
 		input to be validated (only .ttl format supported)
 	-shapesfile /data/myshapes.ttl [OPTIONAL]
 		shapes for validation (only .ttl format supported)
+	-ont /data/myontology.ttl [OPTIONAL]
+	  extra ontological information (only .ttl format supported)
 EOF
 	exit 1
 fi
