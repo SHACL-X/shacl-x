@@ -16,42 +16,46 @@
  */
 package org.topbraid.shacl.tools;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.util.FileUtils;
 import org.topbraid.shacl.rules.RuleUtil;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 /**
  * Stand-alone utility to perform inferences based on SHACL rules from a given file.
- *
+ * <p>
  * Example arguments:
- * 
- * 		-datafile my.ttl
- * 
+ * <p>
+ * -datafile my.ttl
+ *
  * @author Holger Knublauch
  */
 public class Infer extends AbstractTool {
-	
-	public static void main(String[] args) throws IOException {
-		// Temporarily redirect system.err to avoid SLF4J warning
-		PrintStream oldPS = System.err;
-		System.setErr(new PrintStream(new ByteArrayOutputStream()));
-		Infer infer = new Infer();
-		System.setErr(oldPS);
-		infer.run(args);
-	}
-	
-	
-	private void run(String[] args) throws IOException {
-		Model dataModel = getDataModel(args);
-		Model shapesModel = getShapesModel(args);
-		if(shapesModel == null) {
-			shapesModel = dataModel;
-		}
-		Model results = RuleUtil.executeRules(dataModel, shapesModel, null, null);
-		results.write(System.out, FileUtils.langTurtle);
-	}
+
+    public static void main(String[] args) throws IOException {
+        // Temporarily redirect system.err to avoid SLF4J warning
+        PrintStream oldPS = System.err;
+        System.setErr(new PrintStream(new ByteArrayOutputStream()));
+        Infer infer = new Infer();
+        System.setErr(oldPS);
+        infer.run(args);
+    }
+
+
+    private void run(String[] args) throws IOException {
+        Model dataModel = getDataModel(args);
+        Model shapesModel = getShapesModel(args);
+        Model ontologicalModel = getOntologicalModel(args);
+        if (shapesModel == null) {
+            shapesModel = dataModel;
+        }
+        if (ontologicalModel != null) {
+            dataModel.add(ontologicalModel);
+        }
+        Model results = RuleUtil.executeRules(dataModel, shapesModel, null, null);
+        results.write(System.out, FileUtils.langTurtle);
+    }
 }
