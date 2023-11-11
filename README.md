@@ -120,5 +120,5 @@ PARAMETERS:
 	-shapesfile /data/myshapes.ttl [OPTIONAL]
 		shapes for validation (only .ttl format supported)
 	-ont /data/myontology.ttl [OPTIONAL]
-                extra ontological information (only .ttl format supported)
+		extra ontological information (only .ttl format supported)
 ```
