@@ -4,5 +4,5 @@ function propertyShape($this, $path, $minCardinality) {
     for (let t = it.next(); t; t = it.next()) {
         count++;
     }
-    return count >= $minCardinality.lex;
+    return count >= $minCardinality.getLex();
 }

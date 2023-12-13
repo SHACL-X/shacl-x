@@ -1,7 +1,7 @@
 function bindNewLabel() {
 	return RDFQuery($data).
 		match("owl:Class", "rdfs:label", "?label").
-		bind("?newLabel", function(sol) { return TermFactory.literal(sol.label.value, "en-US") }).
+		bind("?newLabel", function(sol) { return TermFactory.literal(sol.label.getValue(), "en-US") }).
 		getNode("?newLabel");
 }
 

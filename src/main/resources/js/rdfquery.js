@@ -140,8 +140,8 @@ if(!this["TermFactory"]) {
 
 // Install NodeFactory as an alias - unsure which name is best long term:
 // The official name in RDF is "term", while "node" is more commonly understood.
-// Oficially, a "node" must be in a graph though, while "terms" are independent.
-var NodeFactory = TermFactory;
+// Officially, a "node" must be in a graph though, while "terms" are independent.
+let NodeFactory = TermFactory;
 
 
 NodeFactory.registerNamespace("dc", "http://purl.org/dc/elements/1.1/")
@@ -709,13 +709,13 @@ MatchQuery.prototype.nextSolution = function() {
         if(n != null) {
             var result = createSolution(this.inputSolution);
             if(this.sv) {
-                result[this.sv] = n.subject;
+                result[this.sv] = n.getSubject();
             }
             if(this.pv) {
-                result[this.pv] = n.predicate;
+                result[this.pv] = n.getPredicate();
             }
             if(this.ov) {
-                result[this.ov] = n.object;
+                result[this.ov] = n.getObject();
             }
             return result;
         }
@@ -902,24 +902,24 @@ function compareTerms(t1, t2) {
     else if(!t2) {
         return -1;
     }
-    var bt = t1.termType.localeCompare(t2.termType);
+    var bt = t1.getTermType().localeCompare(t2.getTermType());
     if(bt != 0) {
         return bt;
     }
     else {
         // TODO: Does not handle numeric or date comparison
-        var bv = t1.value.localeCompare(t2.value);
+        var bv = t1.getValue().localeCompare(t2.getValue());
         if(bv != 0) {
             return bv;
         }
         else {
             if(t1.isLiteral()) {
-                var bd = t1.datatype.uri.localeCompare(t2.datatype.uri);
+                var bd = t1.getDatatype().getUri().localeCompare(t2.getDatatype().getUri());
                 if(bd != 0) {
                     return bd;
                 }
-                else if(T("rdf:langString").equals(t1.datatype)) {
-                    return t1.language.localeCompare(t2.language);
+                else if(T("rdf:langString").equals(t1.getDatatype())) {
+                    return t1.getLanguage().localeCompare(t2.getLanguage());
                 }
                 else {
                     return 0;
@@ -1017,7 +1017,7 @@ function var2Attr(varName) {
 // This should really be doing lazy evaluation and only up to the point
 // where the match object is found.
 function addPathValues(graph, subject, path, set) {
-    if(path.uri) {
+    if(path.getUri) {
         set.addAll(RDFQuery(graph).match(subject, path, "?object").getNodeArray("?object"));
     }
     else if(Array.isArray(path)) {
