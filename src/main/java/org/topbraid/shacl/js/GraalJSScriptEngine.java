@@ -21,16 +21,8 @@ public class GraalJSScriptEngine extends JSScriptEngineImpl {
     @Override
     public void initEngine() {
         this.context = Context.newBuilder("js")
-                //.allowHostClassLookup(s -> true)
                 .allowHostAccess(HostAccess.ALL)
-                .allowExperimentalOptions(true)
-                //.allowNativeAccess(true)
-                //.allowCreateThread(true)
-                //.allowIO(true)
-                //.allowHostClassLoading(true)
-                .allowAllAccess(true)
                 .option("js.ecmascript-version", "2021")
-                .option("js.nashorn-compat", "true")
                 .build();
         if (this.context == null) {
             throw new RuntimeException("GraalVM not found in the current context");

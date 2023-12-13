@@ -22,7 +22,7 @@ import org.apache.jena.rdf.model.Resource;
 import javax.script.ScriptException;
 
 /**
- * Abstraction layer between TopBraid and the (Nashorn) JavaScript API.
+ * Abstraction layer between TopBraid and the JavaScript API.
  * This layer allows different TopBraid products to install additional features.
  *
  * @author Holger Knublauch
