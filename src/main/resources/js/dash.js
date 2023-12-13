@@ -6,17 +6,17 @@
 // There is no validator for sh:property as this is expected to be
 // natively implemented by the surrounding engine.
 
-var XSDIntegerTypes = new NodeSet();
+let XSDIntegerTypes = new NodeSet();
 XSDIntegerTypes.add(T("xsd:integer"));
 
-var XSDDecimalTypes = new NodeSet();
+let XSDDecimalTypes = new NodeSet();
 XSDDecimalTypes.addAll(XSDIntegerTypes.toArray());
 XSDDecimalTypes.add(T("xsd:decimal"));
 XSDDecimalTypes.add(T("xsd:float"));
 
 function validateAnd($value, $and) {
-	var shapes = new RDFQueryUtil($shapes).rdfListToArray($and);
-	for(var i = 0; i < shapes.length; i++) {
+	let shapes = new RDFQueryUtil($shapes).rdfListToArray($and);
+	for(let i = 0; i < shapes.length; i++) {
 		if(!SHACL.nodeConformsToShape($value, shapes[i])) {
 			return false;
 		}
@@ -32,7 +32,7 @@ function validateClosed($value, $closed, $ignoredProperties, $currentShape) {
 	if(!T("true").equals($closed)) {
 		return;
 	}
-	var allowed = $shapes.query().
+	let allowed = $shapes.query().
 		match($currentShape, "sh:property", "?propertyShape").
 		match("?propertyShape", "sh:path", "?path").
 		filter(function(solution) { return solution.path.isURI() } ).
@@ -40,7 +40,7 @@ function validateClosed($value, $closed, $ignoredProperties, $currentShape) {
 	if($ignoredProperties) {
 		allowed.addAll(new RDFQueryUtil($shapes).rdfListToArray($ignoredProperties));
 	}
-	var results = [];
+	let results = [];
 	$data.query().
 		match($value, "?predicate", "?object").
 		filter(function(sol) { return !allowed.contains(sol.predicate)}).
@@ -57,8 +57,8 @@ function validateClosedByTypesNode($this, $closedByTypes) {
 	if(!T("true").equals($closedByTypes)) {
 		return;
 	}
-	var results = [];
-	var allowedProperties = new NodeSet();
+	let results = [];
+	let allowedProperties = new NodeSet();
 	$data.query().
 		match($this, "rdf:type", "?directType").
 		path("?directType", { zeroOrMore : T("rdfs:subClassOf") }, "?type").
@@ -83,9 +83,9 @@ function validateClosedByTypesNode($this, $closedByTypes) {
 }
 
 function validateCoExistsWith($this, $path, $coExistsWith) {
-	var path = toRDFQueryPath($path);
-	var has1 = $data.query().path($this, path, null).getCount() > 0;
-	var has2 = $data.query().match($this, $coExistsWith, null).getCount() > 0;
+	let path = toRDFQueryPath($path);
+	let has1 = $data.query().path($this, path, null).getCount() > 0;
+	let has2 = $data.query().match($this, $coExistsWith, null).getCount() > 0;
 	return has1 == has2;
 }
 
@@ -103,8 +103,8 @@ function validateDisjoint($this, $value, $disjoint) {
 }
 
 function validateEqualsProperty($this, $path, $equals) {
-	var results = [];
-	var path = toRDFQueryPath($path);
+	let results = [];
+	let path = toRDFQueryPath($path);
 	$data.query().path($this, path, "?value").forEach(
 		function(solution) {
 			if(!$data.query().match($this, $equals, solution.value).hasSolution()) {
@@ -124,9 +124,9 @@ function validateEqualsProperty($this, $path, $equals) {
 	return results;
 }
 
-var validateEqualsNode = function ($this, $equals) {
-    var results = [];
-    var solutions = 0;
+let validateEqualsNode = function ($this, $equals) {
+    let results = [];
+    let solutions = 0;
     $data.query().path($this, $equals, "?value").forEach(
         function (solution) {
             solutions++;
@@ -149,7 +149,7 @@ function validateHasValueNode($this, $hasValue) {
 }
 
 function validateHasValueProperty($this, $path, $hasValue) {
-	var count = $data.query().path($this, toRDFQueryPath($path), $hasValue).getCount();
+	let count = $data.query().path($this, toRDFQueryPath($path), $hasValue).getCount();
 	return count > 0;
 }
 
@@ -161,7 +161,7 @@ function validateHasValueWithClass($this, $path, $hasValueWithClass) {
 }
 
 function validateIn($value, $in) {
-	var set = new NodeSet();
+	let set = new NodeSet();
 	set.addAll(new RDFQueryUtil($shapes).rdfListToArray($in));
 	return set.contains($value);
 }
@@ -170,12 +170,12 @@ function validateLanguageIn($value, $languageIn) {
 	if(!$value.isLiteral()) {
 		return false;
 	}
-	var lang = $value.language;
+	let lang = $value.language;
 	if(!lang || lang === "") {
 		return false;
 	}
-	var ls = new RDFQueryUtil($shapes).rdfListToArray($languageIn);
-	for(var i = 0; i < ls.length; i++) {
+	let ls = new RDFQueryUtil($shapes).rdfListToArray($languageIn);
+	for(let i = 0; i < ls.length; i++) {
 		if(lang.startsWith(ls[i].lex)) {
 			return true;
 		}
@@ -184,12 +184,12 @@ function validateLanguageIn($value, $languageIn) {
 }
 
 function validateLessThanProperty($this, $path, $lessThan) {
-	var results = [];
+	let results = [];
 	$data.query().
 		path($this, toRDFQueryPath($path), "?value").
 		match($this, $lessThan, "?otherValue").
 		forEach(function(sol) {
-					var c = SHACL.compareNodes(sol.value, sol.otherValue);
+					let c = SHACL.compareNodes(sol.value, sol.otherValue);
 					if(c == null || c >= 0) {
 						results.push({
 							value: sol.value
@@ -200,12 +200,12 @@ function validateLessThanProperty($this, $path, $lessThan) {
 }
 
 function validateLessThanOrEqualsProperty($this, $path, $lessThanOrEquals) {
-	var results = [];
+	let results = [];
 	$data.query().
 		path($this, toRDFQueryPath($path), "?value").
 		match($this, $lessThanOrEquals, "?otherValue").
 		forEach(function(sol) {
-					var c = SHACL.compareNodes(sol.value, sol.otherValue);
+					let c = SHACL.compareNodes(sol.value, sol.otherValue);
 					if(c == null || c > 0) {
 						results.push({
 							value: sol.value
@@ -216,7 +216,7 @@ function validateLessThanOrEqualsProperty($this, $path, $lessThanOrEquals) {
 }
 
 function validateMaxCountProperty($this, $path, $maxCount) {
-	var count = $data.query().path($this, toRDFQueryPath($path), "?any").getCount();
+	let count = $data.query().path($this, toRDFQueryPath($path), "?any").getCount();
 	return count <= Number($maxCount.value);
 }
 
@@ -236,7 +236,7 @@ function validateMaxLength($value, $maxLength) {
 }
 
 function validateMinCountProperty($this, $path, $minCount) {
-	var count = $data.query().path($this, toRDFQueryPath($path), "?any").getCount();
+	let count = $data.query().path($this, toRDFQueryPath($path), "?any").getCount();
 	return count >= Number($minCount.value);
 }
 
@@ -293,8 +293,8 @@ function validateNot($value, $not) {
 }
 
 function validateOr($value, $or) {
-	var shapes = new RDFQueryUtil($shapes).rdfListToArray($or);
-	for(var i = 0; i < shapes.length; i++) {
+	let shapes = new RDFQueryUtil($shapes).rdfListToArray($or);
+	for(let i = 0; i < shapes.length; i++) {
 		if(SHACL.nodeConformsToShape($value, shapes[i])) {
 			return true;
 		}
@@ -306,7 +306,7 @@ function validatePattern($value, $pattern, $flags) {
 	if($value.isBlankNode()) {
 		return false;
 	}
-	var re = $flags ? new RegExp($pattern.lex, $flags.lex) : new RegExp($pattern.lex);
+	let re = $flags ? new RegExp($pattern.lex, $flags.lex) : new RegExp($pattern.lex);
 	return re.test($value.value);
 }
 
@@ -317,25 +317,25 @@ function validatePrimaryKeyProperty($this, $path, $uriStart) {
 	if($data.query().path($this, toRDFQueryPath($path), null).getCount() != 1) {
 		return "Must have exactly one value";
 	}
-	var value = $data.query().path($this, toRDFQueryPath($path), "?value").getNode("?value");
-	var uri = $uriStart.lex + encodeURIComponent(value.value);
+	let value = $data.query().path($this, toRDFQueryPath($path), "?value").getNode("?value");
+	let uri = $uriStart.lex + encodeURIComponent(value.value);
 	if(!$this.uri.equals(uri)) {
 		return "Does not have URI " + uri;
 	}
 }
 
 function validateQualifiedMaxCountProperty($this, $path, $qualifiedValueShape, $qualifiedValueShapesDisjoint, $qualifiedMaxCount, $currentShape) {
-	var c = validateQualifiedHelper($this, $path, $qualifiedValueShape, $qualifiedValueShapesDisjoint, $currentShape);
+	let c = validateQualifiedHelper($this, $path, $qualifiedValueShape, $qualifiedValueShapesDisjoint, $currentShape);
 	return c <= Number($qualifiedMaxCount.lex);
 }
 
 function validateQualifiedMinCountProperty($this, $path, $qualifiedValueShape, $qualifiedValueShapesDisjoint, $qualifiedMinCount, $currentShape) {
-	var c = validateQualifiedHelper($this, $path, $qualifiedValueShape, $qualifiedValueShapesDisjoint, $currentShape);
+	let c = validateQualifiedHelper($this, $path, $qualifiedValueShape, $qualifiedValueShapesDisjoint, $currentShape);
 	return c >= Number($qualifiedMinCount.lex);
 }
 
 function validateQualifiedHelper($this, $path, $qualifiedValueShape, $qualifiedValueShapesDisjoint, $currentShape) {
-	var siblingShapes = new NodeSet();
+	let siblingShapes = new NodeSet();
 	if(T("true").equals($qualifiedValueShapesDisjoint)) {
 		$shapes.query().
 			match("?parentShape", "sh:property", $currentShape).
@@ -354,7 +354,7 @@ function validateQualifiedHelper($this, $path, $qualifiedValueShape, $qualifiedV
 }
 
 function validateQualifiedConformsToASibling(value, siblingShapes) {
-	for(var i = 0; i < siblingShapes.length; i++) {
+	for(let i = 0; i < siblingShapes.length; i++) {
 		if(SHACL.nodeConformsToShape(value, siblingShapes[i])) {
 			return true;
 		}
@@ -384,9 +384,9 @@ function validateSubSetOf($this, $subSetOf, $value) {
 }
 
 function validateSymmetric($this, $path, $symmetric) {
-	var results = [];
+	let results = [];
 	if(T("true").equals($symmetric)) {
-		var path = toRDFQueryPath($path);
+		let path = toRDFQueryPath($path);
 		$data.query().
 			path($this, path, "?value").
 			filter(function(sol) {
@@ -405,11 +405,11 @@ function validateUniqueLangProperty($this, $uniqueLang, $path) {
 	if(!T("true").equals($uniqueLang)) {
 		return;
 	}
-	var map = {};
+	let map = {};
 	$data.query().path($this, toRDFQueryPath($path), "?value").forEach(function(sol) {
-		var lang = sol.value.language;
+		let lang = sol.value.language;
 		if(lang && lang != "") {
-			var old = map[lang];
+			let old = map[lang];
 			if(!old) {
 				map[lang] = 1;
 			}
@@ -418,10 +418,10 @@ function validateUniqueLangProperty($this, $uniqueLang, $path) {
 			}
 		}
 	})
-	var results = [];
-	for(var lang in map) {
+	let results = [];
+	for(let lang in map) {
 		if(map.hasOwnProperty(lang)) {
-			var count = map[lang];
+			let count = map[lang];
 			if(count > 1) {
 				results.push("Language \"" + lang + "\" has been used by " + count + " values");
 			}
@@ -431,7 +431,7 @@ function validateUniqueLangProperty($this, $uniqueLang, $path) {
 }
 
 function validateUniqueValueForClass($this, $uniqueValueForClass, $path) {
-	var results = [];
+	let results = [];
 	$data.query().
 		path($this, toRDFQueryPath($path), "?value").
 		path("?other", toRDFQueryPath($path), "?value").
@@ -451,9 +451,9 @@ function validateUniqueValueForClass($this, $uniqueValueForClass, $path) {
 }
 
 function validateXone($value, $xone) {
-	var shapes = new RDFQueryUtil($shapes).rdfListToArray($xone);
-	var count = 0;
-	for(var i = 0; i < shapes.length; i++) {
+	let shapes = new RDFQueryUtil($shapes).rdfListToArray($xone);
+	let count = 0;
+	for(let i = 0; i < shapes.length; i++) {
 		if(SHACL.nodeConformsToShape($value, shapes[i])) {
 			count++;
 		}
@@ -495,9 +495,9 @@ function dash_allSubjects() {
 
 function toRDFQueryPath(shPath) {
     if (shPath.termType === "Collection") {
-        var paths = new RDFQueryUtil($shapes).rdfListToArray(shPath);
-        var result = [];
-        for (var i = 0; i < paths.length; i++) {
+        let paths = new RDFQueryUtil($shapes).rdfListToArray(shPath);
+        let result = [];
+        for (let i = 0; i < paths.length; i++) {
             result.push(toRDFQueryPath(paths[i]));
         }
         return result;
@@ -506,37 +506,37 @@ function toRDFQueryPath(shPath) {
 		return shPath;
 	}
 	else if(shPath.isBlankNode()) {
-		var util = new RDFQueryUtil($shapes);
+		let util = new RDFQueryUtil($shapes);
 		if($shapes.query().getObject(shPath, "rdf:first")) {
-			var paths = util.rdfListToArray(shPath);
-			var result = [];
-			for(var i = 0; i < paths.length; i++) {
+			let paths = util.rdfListToArray(shPath);
+			let result = [];
+			for(let i = 0; i < paths.length; i++) {
 				result.push(toRDFQueryPath(paths[i]));
 			}
 			return result;
 		}
-		var alternativePath = $shapes.query().getObject(shPath, "sh:alternativePath");
+		let alternativePath = $shapes.query().getObject(shPath, "sh:alternativePath");
 		if(alternativePath) {
-			var paths = util.rdfListToArray(alternativePath);
-			var result = [];
-			for(var i = 0; i < paths.length; i++) {
+			let paths = util.rdfListToArray(alternativePath);
+			let result = [];
+			for(let i = 0; i < paths.length; i++) {
 				result.push(toRDFQueryPath(paths[i]));
 			}
 			return { or : result };
 		}
-		var zeroOrMorePath = $shapes.query().getObject(shPath, "sh:zeroOrMorePath");
+		let zeroOrMorePath = $shapes.query().getObject(shPath, "sh:zeroOrMorePath");
 		if(zeroOrMorePath) {
 			return { zeroOrMore : toRDFQueryPath(zeroOrMorePath) };
 		}
-		var oneOrMorePath = $shapes.query().getObject(shPath, "sh:oneOrMorePath");
+		let oneOrMorePath = $shapes.query().getObject(shPath, "sh:oneOrMorePath");
 		if(oneOrMorePath) {
 			return { oneOrMore : toRDFQueryPath(oneOrMorePath) };
 		}
-		var zeroOrOnePath = $shapes.query().getObject(shPath, "sh:zeroOrOnePath");
+		let zeroOrOnePath = $shapes.query().getObject(shPath, "sh:zeroOrOnePath");
 		if(zeroOrOnePath) {
 			return { zeroOrOne : toRDFQueryPath(zeroOrOnePath) };
 		}
-		var inversePath = $shapes.query().getObject(shPath, "sh:inversePath");
+		let inversePath = $shapes.query().getObject(shPath, "sh:inversePath");
 		if(inversePath) {
 			return { inverse : toRDFQueryPath(inversePath) };
 		}
@@ -552,11 +552,11 @@ function toRDFQueryPath(shPath) {
 //TODO: Support more datatypes
 function isValidForDatatype(lex, datatype) {
 	if(XSDIntegerTypes.contains(datatype)) {
-		var r = parseInt(lex);
+		let r = parseInt(lex);
 		return !isNaN(r);
 	}
 	else if(XSDDecimalTypes.contains(datatype)) {
-		var r = parseFloat(lex);
+		let r = parseFloat(lex);
 		return !isNaN(r);
 	}
 	else if (datatype.value === "http://www.w3.org/2001/XMLSchema#boolean") {
@@ -572,11 +572,11 @@ function RDFQueryUtil($source) {
 }
 
 RDFQueryUtil.prototype.getInstancesOf = function($class) {
-	var set = new NodeSet();
-	var classes = this.getSubClassesOf($class);
+	let set = new NodeSet();
+	let classes = this.getSubClassesOf($class);
 	classes.add($class);
-	var car = classes.toArray();
-	for(var i = 0; i < car.length; i++) {
+	let car = classes.toArray();
+	for(let i = 0; i < car.length; i++) {
 		set.addAll(RDFQuery(this.source).match("?instance", "rdf:type", car[i]).getNodeArray("?instance"));
 	}
 	return set;
@@ -593,15 +593,15 @@ RDFQueryUtil.prototype.getObject = function($subject, $predicate) {
 }
 
 RDFQueryUtil.prototype.getSubClassesOf = function($class) {
-	var set = new NodeSet();
+	let set = new NodeSet();
 	this.walkSubjects(set, $class, T("rdfs:subClassOf"));
 	return set;
 }
 
 RDFQueryUtil.prototype.isInstanceOf = function($instance, $class) {
-	var classes = this.getSubClassesOf($class);
-	var types = $data.query().match($instance, "rdf:type", "?type");
-	for(var n = types.nextSolution(); n; n = types.nextSolution()) {
+	let classes = this.getSubClassesOf($class);
+	let types = $data.query().match($instance, "rdf:type", "?type");
+	for(let n = types.nextSolution(); n; n = types.nextSolution()) {
 		if(n.type.equals($class) || classes.contains(n.type)) {
 			types.close();
 			return true;
@@ -614,7 +614,7 @@ RDFQueryUtil.prototype.rdfListToArray = function($rdfList) {
     if ($rdfList.elements != null) {
         return $rdfList.elements;
     } else {
-        var array = [];
+        let array = [];
         while (!T("rdf:nil").equals($rdfList)) {
             array.push(this.getObject($rdfList, T("rdf:first")));
             $rdfList = this.getObject($rdfList, T("rdf:rest"));
@@ -624,8 +624,8 @@ RDFQueryUtil.prototype.rdfListToArray = function($rdfList) {
 }
 
 RDFQueryUtil.prototype.walkObjects = function($results, $subject, $predicate) {
-	var it = this.source.find($subject, $predicate, null);
-	for(var n = it.next(); n; n = it.next()) {
+	let it = this.source.find($subject, $predicate, null);
+	for(let n = it.next(); n; n = it.next()) {
 		if(!$results.contains(n.object)) {
 			$results.add(n.object);
 			this.walkObjects($results, n.object, $predicate);
@@ -634,8 +634,8 @@ RDFQueryUtil.prototype.walkObjects = function($results, $subject, $predicate) {
 }
 
 RDFQueryUtil.prototype.walkSubjects = function($results, $object, $predicate) {
-	var it = this.source.find(null, $predicate, $object);
-	for(var n = it.next(); n; n = it.next()) {
+	let it = this.source.find(null, $predicate, $object);
+	for(let n = it.next(); n; n = it.next()) {
 		if(!$results.contains(n.subject)) {
 			$results.add(n.subject);
 			this.walkSubjects($results, n.subject, $predicate);

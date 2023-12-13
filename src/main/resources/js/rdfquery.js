@@ -33,7 +33,7 @@
 /*
 Example:
 
-	var result = $data.query().
+	let result = $data.query().
 		match("owl:Class", "rdfs:label", "?label").
 		match("?otherClass", "rdfs:label", "?label").
 		filter(function(sol) { return !T("owl:Class").equals(sol.otherClass) }).
@@ -92,9 +92,9 @@ if(!this["TermFactory"]) {
                 return this.literal(str, (this.term("xsd:float")));
             }
 
-            var col = str.indexOf(":");
+            let col = str.indexOf(":");
             if (col > 0) {
-                var ns = this.namespaces[str.substring(0, col)];
+                let ns = this.namespaces[str.substring(0, col)];
                 if (ns != null) {
                     return this.namedNode(ns + str.substring(col + 1));
                 } else {
@@ -285,9 +285,9 @@ AbstractQuery.prototype.path = function(s, path, o) {
  * @param set  the set to add to
  */
 AbstractQuery.prototype.addAllNodes = function(varName, set) {
-    var attrName = var2Attr(varName);
-    for(var sol = this.nextSolution(); sol; sol = this.nextSolution()) {
-        var node = sol[attrName];
+    let attrName = var2Attr(varName);
+    for(let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
+        let node = sol[attrName];
         if(node) {
             set.add(node);
         }
@@ -304,9 +304,9 @@ AbstractQuery.prototype.addAllNodes = function(varName, set) {
  * @param object  the object node
  */
 AbstractQuery.prototype.construct = function(subject, predicate, object) {
-    var results = [];
-    for(var sol = this.nextSolution(); sol; sol = this.nextSolution()) {
-        var s = null;
+    let results = [];
+    for(let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
+        let s = null;
         if(typeof subject === 'string') {
             if(subject.indexOf('?') == 0) {
                 s = sol[var2Attr(subject)];
@@ -318,7 +318,7 @@ AbstractQuery.prototype.construct = function(subject, predicate, object) {
         else {
             s = subject;
         }
-        var p = null;
+        let p = null;
         if(typeof predicate === 'string') {
             if(predicate.indexOf('?') == 0) {
                 p = sol[var2Attr(predicate)];
@@ -331,7 +331,7 @@ AbstractQuery.prototype.construct = function(subject, predicate, object) {
             p = predicate;
         }
 
-        var o = null;
+        let o = null;
         if(typeof object === 'string') {
             if(object.indexOf('?') == 0) {
                 o = sol[var2Attr(object)];
@@ -356,7 +356,7 @@ AbstractQuery.prototype.construct = function(subject, predicate, object) {
  * @param callback  a function that takes a solution as argument
  */
 AbstractQuery.prototype.forEach = function(callback) {
-    for(var n = this.nextSolution(); n; n = this.nextSolution()) {
+    for(let n = this.nextSolution(); n; n = this.nextSolution()) {
         callback(n);
     }
 }
@@ -367,9 +367,9 @@ AbstractQuery.prototype.forEach = function(callback) {
  * @param callback  a function that takes a node as argument
  */
 AbstractQuery.prototype.forEachNode = function(varName, callback) {
-    var attrName = var2Attr(varName);
-    for(var sol = this.nextSolution(); sol; sol = this.nextSolution()) {
-        var node = sol[attrName];
+    let attrName = var2Attr(varName);
+    for(let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
+        let node = sol[attrName];
         if(node) {
             callback(node);
         }
@@ -381,8 +381,8 @@ AbstractQuery.prototype.forEachNode = function(varName, callback) {
  * @return an array consisting of solution objects
  */
 AbstractQuery.prototype.getArray = function() {
-    var results = [];
-    for(var n = this.nextSolution(); n != null; n = this.nextSolution()) {
+    let results = [];
+    for(let n = this.nextSolution(); n != null; n = this.nextSolution()) {
         results.push(n);
     }
     return results;
@@ -403,7 +403,7 @@ AbstractQuery.prototype.getCount = function() {
  * @return the value of the variable or null or undefined if it doesn't exist
  */
 AbstractQuery.prototype.getNode = function(varName) {
-    var s = this.nextSolution();
+    let s = this.nextSolution();
     if(s) {
         this.close();
         return s[var2Attr(varName)];
@@ -418,9 +418,9 @@ AbstractQuery.prototype.getNode = function(varName) {
  * @return an array consisting of RDF node objects
  */
 AbstractQuery.prototype.getNodeArray = function(varName) {
-    var results = [];
-    var attr = var2Attr(varName);
-    for(var n = this.nextSolution(); n != null; n = this.nextSolution()) {
+    let results = [];
+    let attr = var2Attr(varName);
+    for(let n = this.nextSolution(); n != null; n = this.nextSolution()) {
         results.push(n[attr]);
     }
     return results;
@@ -433,9 +433,9 @@ AbstractQuery.prototype.getNodeArray = function(varName) {
  * @return a set consisting of RDF node objects
  */
 AbstractQuery.prototype.getNodeSet = function(varName) {
-    var results = new NodeSet();
-    var attr = var2Attr(varName);
-    for(var n = this.nextSolution(); n != null; n = this.nextSolution()) {
+    let results = new NodeSet();
+    let attr = var2Attr(varName);
+    for(let n = this.nextSolution(); n != null; n = this.nextSolution()) {
         results.add(n[attr]);
     }
     return results;
@@ -453,10 +453,10 @@ AbstractQuery.prototype.getNodeSet = function(varName) {
  * @return the object of the "first" triple matching the subject/predicate combination
  */
 AbstractQuery.prototype.getObject = function(subject, predicate) {
-    var sol = this.nextSolution();
+    let sol = this.nextSolution();
     if(sol) {
         this.close();
-        var s;
+        let s;
         if(typeof subject === 'string') {
             if(subject.indexOf('?') == 0) {
                 s = sol[var2Attr(subject)];
@@ -471,7 +471,7 @@ AbstractQuery.prototype.getObject = function(subject, predicate) {
         if(!s) {
             throw "getObject() called with null subject";
         }
-        var p;
+        let p;
         if(typeof predicate === 'string') {
             if(predicate.indexOf('?') == 0) {
                 p = sol[var2Attr(predicate)];
@@ -487,8 +487,8 @@ AbstractQuery.prototype.getObject = function(subject, predicate) {
             throw "getObject() called with null predicate";
         }
 
-        var it = this.source.find(s, p, null);
-        var triple = it.next();
+        let it = this.source.find(s, p, null);
+        let triple = it.next();
         if(triple) {
             it.close();
             return triple.object;
@@ -569,12 +569,12 @@ BindQuery.prototype.close = function() {
 // Pulls the next result from the input Query and passes it into
 // the given bind function to add a new node
 BindQuery.prototype.nextSolution = function() {
-    var result = this.input.nextSolution();
+    let result = this.input.nextSolution();
     if(result == null) {
         return null;
     }
     else {
-        var newNode = this.bindFunction(result);
+        let newNode = this.bindFunction(result);
         if(newNode) {
             result[this.attr] = newNode;
         }
@@ -603,7 +603,7 @@ FilterQuery.prototype.close = function() {
 // the given filter function
 FilterQuery.prototype.nextSolution = function() {
     for(;;) {
-        var result = this.input.nextSolution();
+        let result = this.input.nextSolution();
         if(result == null) {
             return null;
         }
@@ -703,11 +703,11 @@ MatchQuery.prototype.close = function() {
 // own solutions.
 MatchQuery.prototype.nextSolution = function() {
 
-    var oit = this.ownIterator;
+    let oit = this.ownIterator;
     if(oit) {
-        var n = oit.next();
+        let n = oit.next();
         if(n != null) {
-            var result = createSolution(this.inputSolution);
+            let result = createSolution(this.inputSolution);
             if(this.sv) {
                 result[this.sv] = n.getSubject();
             }
@@ -727,9 +727,9 @@ MatchQuery.prototype.nextSolution = function() {
     // Pull from input
     this.inputSolution = this.input.nextSolution();
     if(this.inputSolution) {
-        var sm = this.sv ? this.inputSolution[this.sv] : this.s;
-        var pm = this.pv ? this.inputSolution[this.pv] : this.p;
-        var om = this.ov ? this.inputSolution[this.ov] : this.o;
+        let sm = this.sv ? this.inputSolution[this.sv] : this.s;
+        let pm = this.pv ? this.inputSolution[this.pv] : this.p;
+        let om = this.ov ? this.inputSolution[this.ov] : this.o;
         this.ownIterator = this.source.find(sm, pm, om);
         return this.nextSolution();
     }
@@ -757,7 +757,7 @@ OrderByQuery.prototype.close = function() {
 OrderByQuery.prototype.nextSolution = function() {
     if(!this.solutions) {
         this.solutions = this.input.getArray();
-        var attrName = this.attrName;
+        let attrName = this.attrName;
         this.solutions.sort(function(s1, s2) {
             return compareTerms(s1[attrName], s2[attrName]);
         });
@@ -810,10 +810,10 @@ PathQuery.prototype.close = function() {
 
 PathQuery.prototype.nextSolution = function() {
 
-    var r = this.pathResults;
+    let r = this.pathResults;
     if(r) {
-        var n = r[this.pathIndex++];
-        var result = createSolution(this.inputSolution);
+        let n = r[this.pathIndex++];
+        let result = createSolution(this.inputSolution);
         if(this.objectAttr) {
             result[this.objectAttr] = n;
         }
@@ -826,12 +826,12 @@ PathQuery.prototype.nextSolution = function() {
     // Pull from input
     this.inputSolution = this.input.nextSolution();
     if(this.inputSolution) {
-        var sm = this.subjectAttr ? this.inputSolution[this.subjectAttr] : this.subject;
+        let sm = this.subjectAttr ? this.inputSolution[this.subjectAttr] : this.subject;
         if(sm == null) {
             throw "Path cannot have unbound subject";
         }
-        var om = this.objectAttr ? this.inputSolution[this.objectAttr] : this.object;
-        var pathResultsSet = new NodeSet();
+        let om = this.objectAttr ? this.inputSolution[this.objectAttr] : this.object;
+        let pathResultsSet = new NodeSet();
         addPathValues(this.source, sm, this.path_, pathResultsSet);
         this.pathResults = pathResultsSet.toArray();
         if(this.pathResults.length == 0) {
@@ -885,8 +885,8 @@ StartQuery.prototype.nextSolution = function() {
 // Helper functions
 
 function createSolution(base) {
-    var result = {};
-    for(var attr in base) {
+    let result = {};
+    for(let attr in base) {
         if(base.hasOwnProperty(attr)) {
             result[attr] = base[attr];
         }
@@ -902,19 +902,19 @@ function compareTerms(t1, t2) {
     else if(!t2) {
         return -1;
     }
-    var bt = t1.getTermType().localeCompare(t2.getTermType());
+    let bt = t1.getTermType().localeCompare(t2.getTermType());
     if(bt != 0) {
         return bt;
     }
     else {
         // TODO: Does not handle numeric or date comparison
-        var bv = t1.getValue().localeCompare(t2.getValue());
+        let bv = t1.getValue().localeCompare(t2.getValue());
         if(bv != 0) {
             return bv;
         }
         else {
             if(t1.isLiteral()) {
-                var bd = t1.getDatatype().getUri().localeCompare(t2.getDatatype().getUri());
+                let bd = t1.getDatatype().getUri().localeCompare(t2.getDatatype().getUri());
                 if(bd != 0) {
                     return bd;
                 }
@@ -934,7 +934,7 @@ function compareTerms(t1, t2) {
 
 function getLocalName(uri) {
     // TODO: This is not the 100% correct local name algorithm
-    var index = uri.lastIndexOf("#");
+    let index = uri.lastIndexOf("#");
     if(index < 0) {
         index = uri.lastIndexOf("/");
     }
@@ -959,13 +959,13 @@ NodeSet.prototype.add = function(node) {
 }
 
 NodeSet.prototype.addAll = function(nodes) {
-    for(var i = 0; i < nodes.length; i++) {
+    for(let i = 0; i < nodes.length; i++) {
         this.add(nodes[i]);
     }
 }
 
 NodeSet.prototype.contains = function(node) {
-    for(var i = 0; i < this.values.length; i++) {
+    for(let i = 0; i < this.values.length; i++) {
         if(this.values[i].equals(node)) {
             return true;
         }
@@ -974,7 +974,7 @@ NodeSet.prototype.contains = function(node) {
 }
 
 NodeSet.prototype.forEach = function(callback) {
-    for(var i = 0; i < this.values.length; i++) {
+    for(let i = 0; i < this.values.length; i++) {
         callback(this.values[i]);
     }
 }
@@ -988,9 +988,9 @@ NodeSet.prototype.toArray = function() {
 }
 
 NodeSet.prototype.toString = function() {
-    var str = "NodeSet(" + this.size() + "): [";
-    var arr = this.toArray();
-    for(var i = 0; i < arr.length; i++) {
+    let str = "NodeSet(" + this.size() + "): [";
+    let arr = this.toArray();
+    for(let i = 0; i < arr.length; i++) {
         if(i > 0) {
             str += ", ";
         }
@@ -1021,19 +1021,19 @@ function addPathValues(graph, subject, path, set) {
         set.addAll(RDFQuery(graph).match(subject, path, "?object").getNodeArray("?object"));
     }
     else if(Array.isArray(path)) {
-        var s = new NodeSet();
+        let s = new NodeSet();
         s.add(subject);
-        for(var i = 0; i < path.length; i++) {
-            var a = s.toArray();
+        for(let i = 0; i < path.length; i++) {
+            let a = s.toArray();
             s = new NodeSet();
-            for(var j = 0; j < a.length; j++) {
+            for(let j = 0; j < a.length; j++) {
                 addPathValues(graph, a[j], path[i], s);
             }
         }
         set.addAll(s.toArray());
     }
     else if(path.or) {
-        for(var i = 0; i < path.or.length; i++) {
+        for(let i = 0; i < path.or.length; i++) {
             addPathValues(graph, subject, path.or[i], set);
         }
     }
@@ -1063,11 +1063,11 @@ function addPathValues(graph, subject, path, set) {
 
 function walkPath(graph, subject, path, set, visited) {
     visited.add(subject);
-    var s = new NodeSet();
+    let s = new NodeSet();
     addPathValues(graph, subject, path, s);
-    var a = s.toArray();
+    let a = s.toArray();
     set.addAll(a);
-    for(var i = 0; i < a.length; i++) {
+    for(let i = 0; i < a.length; i++) {
         if(!visited.contains(a[i])) {
             walkPath(graph, a[i], path, set, visited);
         }

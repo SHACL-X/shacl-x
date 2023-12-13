@@ -6,7 +6,7 @@ function bindNewLabel() {
 }
 
 function countAllSubClasses() {
-	var count = RDFQuery($data).
+	let count = RDFQuery($data).
 		match("?subClass", "rdfs:subClassOf", "sh:Shape").
 		getCount();
 	return TermFactory.literal(count, T("xsd:decimal"));
@@ -33,7 +33,7 @@ function limit10() {
 }
 
 function orderByVarProperty() {
-	var list = RDFQuery($data).
+	let list = RDFQuery($data).
 		match("?property", "rdfs:domain", "rdf:Statement").
 		orderBy("?property").
 		getNodeArray("?property");
@@ -46,10 +46,10 @@ function orderByVarProperty() {
 
 // Verify that the start query produces a single binding with zero attributes
 function startEmpty() {
-	var query = RDFQuery($data);
-	var first = query.nextSolution();
-	var count = 0;
-	for (var k in first) {
+	let query = RDFQuery($data);
+	let first = query.nextSolution();
+	let count = 0;
+	for (let k in first) {
 	    if (first.hasOwnProperty(k)) {
 	       ++count;
 	    }
@@ -57,7 +57,7 @@ function startEmpty() {
 	if(count != 0) {
 		return "Expected empty object";
 	}
-	var next = query.nextSolution();
+	let next = query.nextSolution();
 	if(next != null) {
 		return "Expected null";
 	}
