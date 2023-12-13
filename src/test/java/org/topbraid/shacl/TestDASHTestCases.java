@@ -59,7 +59,6 @@ public class TestDASHTestCases {
                         if (DASH_JS.equals(url)) {
                             return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream("/js/dash.js"));
                         } else if (RDFQUERY_JS.equals(url)) {
-                            //return new InputStreamReader(new FileInputStream("/Users/ashleycaselli/git/shacl/src/main/ts/rdfquery.js"));
                             return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
                         } else if (url.startsWith("http://datashapes.org/js/")) {
                             return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream(url.substring(21)));
