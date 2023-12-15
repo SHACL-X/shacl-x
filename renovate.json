@@ -31,6 +31,7 @@
       "matchPaths": [
           "pom.xml"
       ],
+      "semanticCommitType": "chore",
       "semanticCommitScope": "core-deps"
     }
   ]
