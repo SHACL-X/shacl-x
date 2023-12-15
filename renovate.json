@@ -5,6 +5,14 @@
   ],
   "packageRules": [
     {
+      "description": "Updates to the parent dependencies should trigger a new patch release",
+      "matchPaths": [
+          "pom.xml"
+      ],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "core-deps"
+    },
+    {
         "description": "Updates to the dependencies under the build settings element should not trigger any release",
         "matchPaths": [
             "pom.xml"
@@ -25,14 +33,6 @@
       ],
       "semanticCommitType": "test",
       "semanticCommitScope": "deps"
-    },
-    {
-      "description": "Updates to the parent dependencies should trigger a new patch release",
-      "matchPaths": [
-          "pom.xml"
-      ],
-      "semanticCommitType": "chore",
-      "semanticCommitScope": "core-deps"
     }
   ]
 }
