@@ -75,7 +75,7 @@ This namespace also includes the function tosh:hasShape, which can be used to im
   owl:imports <http://datashapes.org/dash> ;
   sh:declare [
       a sh:PrefixDeclaration ;
-      sh:namespace "http://jena.hpl.hp.com/ARQ/function#"^^xsd:anyURI ;
+      sh:namespace "http://jena.apache.org/ARQ/function#"^^xsd:anyURI ;
       sh:prefix "afn" ;
     ] ;
   sh:declare [
@@ -1001,7 +1001,7 @@ sh:InConstraintComponent
       sh:prefixes <http://topbraid.org/tosh> ;
       sh:select """SELECT ?newObject
 WHERE {
-	$in <http://jena.hpl.hp.com/ARQ/list#index> (?index ?newObject ) .
+	$in <http://jena.apache.org/ARQ/list#index> (?index ?newObject ) .
 }
 ORDER BY ?index""" ;
       sh:update """DELETE {
