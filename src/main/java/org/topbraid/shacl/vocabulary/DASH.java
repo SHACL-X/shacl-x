@@ -60,6 +60,8 @@ public class DASH {
 
     public final static Resource JSTestCase = ResourceFactory.createResource(NS + "JSTestCase");
 
+    public final static Resource PyTestCase = ResourceFactory.createResource(NS + "PyTestCase");
+
     public final static Resource ListShape = ResourceFactory.createResource(NS + "ListShape");
     
     public final static Resource None = ResourceFactory.createResource(NS + "None");
@@ -71,6 +73,7 @@ public class DASH {
     public final static Resource ParameterConstraintComponent = ResourceFactory.createResource(NS + "ParameterConstraintComponent");
 
     public final static Resource RDFQueryJSLibrary = ResourceFactory.createResource(NS + "RDFQueryJSLibrary");
+    // TODO check if RDFQueryPyLibrary is needed
 
     public final static Resource ReifiableByConstraintComponent = ResourceFactory.createResource(NS + "ReifiableByConstraintComponent");
 
