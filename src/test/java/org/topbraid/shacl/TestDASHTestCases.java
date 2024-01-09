@@ -30,9 +30,10 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.topbraid.jenax.util.JenaUtil;
 import org.topbraid.shacl.js.GraalJSScriptEngine;
-import org.topbraid.shacl.js.JSScriptEngine;
 import org.topbraid.shacl.js.JSScriptEngineFactory;
 import org.topbraid.shacl.js.ScriptEngine;
+import org.topbraid.shacl.py.GraalPyScriptEngine;
+import org.topbraid.shacl.py.PyScriptEngineFactory;
 import org.topbraid.shacl.testcases.TestCase;
 import org.topbraid.shacl.testcases.TestCaseType;
 import org.topbraid.shacl.testcases.TestCaseTypes;
@@ -53,7 +54,6 @@ public class TestDASHTestCases {
         // Redirect loading of text JS files to local folder
         JSScriptEngineFactory.set(new JSScriptEngineFactory() {
             @Override
-            public JSScriptEngine createScriptEngine(final String engineName) {
             public ScriptEngine createScriptEngine(final String engineName) {
                 return new GraalJSScriptEngine() {
                     @Override
@@ -64,6 +64,27 @@ public class TestDASHTestCases {
                             return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
                         } else if (url.startsWith("http://datashapes.org/js/")) {
                             return new InputStreamReader(GraalJSScriptEngine.class.getResourceAsStream(url.substring(21)));
+                        } else {
+                            return new InputStreamReader(new URL(url).openStream());
+                        }
+                    }
+                };
+            }
+        });
+
+        PyScriptEngineFactory.set(new PyScriptEngineFactory() {
+            @Override
+            public ScriptEngine createScriptEngine(final String engineName) {
+                return new GraalPyScriptEngine() {
+                    @Override
+                    protected Reader createScriptReader(String url) throws Exception {
+                        // TODO replace with dash and rdfquery python versions
+                        if (DASH_PY.equals(url)) {
+                            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/js/dash.js"));
+                        } else if (RDFQUERY_PY.equals(url)) {
+                            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
+                        } else if (url.startsWith("http://datashapes.org/py/")) {
+                            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream(url.substring(21)));
                         } else {
                             return new InputStreamReader(new URL(url).openStream());
                         }
