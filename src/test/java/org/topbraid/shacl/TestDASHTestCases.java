@@ -32,6 +32,7 @@ import org.topbraid.jenax.util.JenaUtil;
 import org.topbraid.shacl.js.GraalJSScriptEngine;
 import org.topbraid.shacl.js.JSScriptEngine;
 import org.topbraid.shacl.js.JSScriptEngineFactory;
+import org.topbraid.shacl.js.ScriptEngine;
 import org.topbraid.shacl.testcases.TestCase;
 import org.topbraid.shacl.testcases.TestCaseType;
 import org.topbraid.shacl.testcases.TestCaseTypes;
@@ -53,6 +54,7 @@ public class TestDASHTestCases {
         JSScriptEngineFactory.set(new JSScriptEngineFactory() {
             @Override
             public JSScriptEngine createScriptEngine(final String engineName) {
+            public ScriptEngine createScriptEngine(final String engineName) {
                 return new GraalJSScriptEngine() {
                     @Override
                     protected Reader createScriptReader(String url) throws Exception {

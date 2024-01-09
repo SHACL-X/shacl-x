@@ -30,14 +30,14 @@ import org.topbraid.shacl.util.FailureLog;
 
 public class JSGraph {
 	
-	protected JSScriptEngine engine;
+	protected ScriptEngine engine;
 	
 	private Graph graph;
 	
 	private Set<JSTripleIterator> openIterators = new HashSet<>();
 	
 	
-	public JSGraph(Graph graph, JSScriptEngine engine) {
+	public JSGraph(Graph graph, ScriptEngine engine) {
 		this.engine = engine;
 		this.graph = graph;
 	}

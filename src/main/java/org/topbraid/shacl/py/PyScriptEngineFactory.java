@@ -1,5 +1,7 @@
 package org.topbraid.shacl.py;
 
+import org.topbraid.shacl.js.ScriptEngine;
+
 public class PyScriptEngineFactory {
 
     private static PyScriptEngineFactory singleton = new PyScriptEngineFactory();
@@ -12,7 +14,7 @@ public class PyScriptEngineFactory {
         PyScriptEngineFactory.singleton = value;
     }
 
-    public PyScriptEngine createScriptEngine(final String engineName) {
+    public ScriptEngine createScriptEngine(final String engineName) {
         if (engineName.equals("Graal")) {
             return new GraalPyScriptEngine();
         }

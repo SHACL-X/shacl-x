@@ -27,7 +27,7 @@ import javax.script.ScriptException;
  *
  * @author Holger Knublauch
  */
-public interface JSScriptEngine {
+public interface ScriptEngine {
 
     void initEngine();
 

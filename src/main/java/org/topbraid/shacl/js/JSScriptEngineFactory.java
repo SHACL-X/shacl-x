@@ -18,7 +18,7 @@ package org.topbraid.shacl.js;
 
 /**
  * A singleton that should be used to produce new JSScriptEngines.
- * Returns a Nashorn-based engine by default.
+ * Returns a GraalVM engine by default.
  *
  * @author Holger Knublauch
  */
@@ -34,7 +34,7 @@ public class JSScriptEngineFactory {
         JSScriptEngineFactory.singleton = value;
     }
 
-    public JSScriptEngine createScriptEngine(final String engineName) {
+    public ScriptEngine createScriptEngine(final String engineName) {
         if (engineName.equals("Graal")) {
             return new GraalJSScriptEngine();
         }

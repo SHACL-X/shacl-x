@@ -4,7 +4,7 @@ import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.junit.Test;
 import org.topbraid.shacl.js.GraalJSScriptEngine;
-import org.topbraid.shacl.js.JSScriptEngine;
+import org.topbraid.shacl.js.ScriptEngine;
 import org.topbraid.shacl.js.JSScriptEngineFactory;
 import org.topbraid.shacl.js.model.JSLiteral;
 import org.topbraid.shacl.js.model.TermFactory;
@@ -15,7 +15,7 @@ public class TestGraalJSScriptEngine {
 
     @Test
     public void testEngine() {
-        JSScriptEngine engine = JSScriptEngineFactory.get().createScriptEngine("Graal");
+        ScriptEngine engine = JSScriptEngineFactory.get().createScriptEngine("Graal");
         Context context = ((GraalJSScriptEngine) engine).getContext();
         context.getBindings("js").putMember("TermFactory", new TermFactory());
         Value a = context.eval("js", "TermFactory.literal(\"testEngine\", \"en\")");

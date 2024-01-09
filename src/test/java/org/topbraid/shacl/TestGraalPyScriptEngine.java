@@ -3,8 +3,8 @@ package org.topbraid.shacl;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.junit.Test;
+import org.topbraid.shacl.js.ScriptEngine;
 import org.topbraid.shacl.py.GraalPyScriptEngine;
-import org.topbraid.shacl.py.PyScriptEngine;
 import org.topbraid.shacl.py.PyScriptEngineFactory;
 import org.topbraid.shacl.py.model.PyLiteral;
 import org.topbraid.shacl.py.model.PyTermFactory;
@@ -16,10 +16,10 @@ public class TestGraalPyScriptEngine {
     private static final String VALUE = "testEngine";
 
     private static final String LANG = "en";
-    
+
     @Test
     public void testEngine() {
-        PyScriptEngine engine = PyScriptEngineFactory.get().createScriptEngine("Graal");
+        ScriptEngine engine = PyScriptEngineFactory.get().createScriptEngine("Graal");
         Context context = ((GraalPyScriptEngine) engine).getContext();
         context.getPolyglotBindings().putMember("PyTermFactory", new PyTermFactory());
         Value value = context.eval("python",
