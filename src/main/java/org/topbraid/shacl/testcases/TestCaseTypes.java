@@ -32,6 +32,7 @@ public class TestCaseTypes {
 		types.add(new GraphValidationTestCaseType());
 		//types.add(new InferencingTestCaseType());
 		types.add(new JSTestCaseType());
+		types.add(new PyTestCaseType());
 		types.add(new QueryTestCaseType());
 	}
 	
