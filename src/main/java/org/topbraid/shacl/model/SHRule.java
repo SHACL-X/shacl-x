@@ -46,6 +46,12 @@ public interface SHRule extends SHResource {
 	 */
 	boolean isJSRule();
 
+	/**
+	 * Checks if this rule is an instance of sh:PyRule
+	 * @return true if this is a sh:PyRule
+	 */
+	boolean isPyRule();
+
 	
 	/**
 	 * Checks if this rule is an instance of sh:SPARQLRule
