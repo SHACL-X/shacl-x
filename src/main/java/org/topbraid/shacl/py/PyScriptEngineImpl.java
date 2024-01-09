@@ -24,21 +24,14 @@ public abstract class PyScriptEngineImpl implements ScriptEngine {
     protected final static String ARGS_FUNCTION_NAME = "get_args";
 
     protected final static String ARGS_FUNCTION = "def " + ARGS_FUNCTION_NAME + "(func_str): \n" +
-            "\t start_idx = func_str.find('(') + 1\n" +
-            "\t end_idx = func_str.find(')', start_idx)\n" +
-            "\t if start_idx != -1 and end_idx != -1:\n" +
-            "\t\t params_str = func_str[start_idx:end_idx]\n" +
-            "\t\t args_list = [arg.strip() for arg in params_str.split(',')]\n" +
-            "\t\t return args_list\n" +
-            "\t else:\n" +
+            "\t start_idx = func_str.find('(') + 1 \n" +
+            "\t end_idx = func_str.find(')', start_idx) \n" +
+            "\t if start_idx != -1 and end_idx != -1: \n" +
+            "\t\t params_str = func_str[start_idx:end_idx] \n" +
+            "\t\t args_list = [arg.strip() for arg in params_str.split(',')] \n" +
+            "\t\t return args_list \n" +
+            "\t else: \n" +
             "\t\t return []";
-
-    // Copied from https://davidwalsh.name/javascript-arguments
-    protected final static String ARGS_FUNCTION_2 =
-            "def " + ARGS_FUNCTION_NAME + "(funcString): \n" +
-                    "\t func_code = func.__code__ \n" +
-                    "\t args_list = func_code.co_varnames[:func_code.co_argcount]\n" +
-                    "\t return args_list\n";
 
     public static final String DASH_PY = "http://datashapes.org/py/dash.py";
 
@@ -114,6 +107,7 @@ public abstract class PyScriptEngineImpl implements ScriptEngine {
     public abstract void put(String varName, Object value);
 
     protected Reader createScriptReader(String url) throws Exception {
+        // TODO replace dash.js and rdfquery.js with python versions
         if (DASH_PY.equals(url)) {
             return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/js/dash.js"));
         } else if (RDFQUERY_PY.equals(url)) {
@@ -133,7 +127,6 @@ public abstract class PyScriptEngineImpl implements ScriptEngine {
             throw new ScriptException("Cannot find Python function \"" + functionName + "\"");
         }
         try {
-            //String funcString = what.toString();
             String funcString = ((Value) what).getSourceLocation().getCharacters().toString();
             Object result = this.invokeFunctionOrdered(ARGS_FUNCTION_NAME, Collections.singletonList(funcString).toArray());
             List<String> results = ScriptEngineUtil.asArray(result).stream().map(Object::toString).collect(Collectors.toList());
@@ -143,4 +136,5 @@ public abstract class PyScriptEngineImpl implements ScriptEngine {
             throw new ScriptException(ex);
         }
     }
+
 }

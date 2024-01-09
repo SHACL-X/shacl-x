@@ -1,8 +1,7 @@
 package org.topbraid.shacl.py;
 
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.rdf.model.Resource;
 import org.graalvm.polyglot.Context;
+import org.topbraid.shacl.py.model.PyTermFactory;
 
 import javax.script.ScriptException;
 
@@ -15,12 +14,19 @@ public class GraalPyScriptEngine extends PyScriptEngineImpl {
 
     public GraalPyScriptEngine() {
         initEngine();
-        // TODO implement
+        context.getPolyglotBindings().putMember("PyTermFactory", new PyTermFactory());
+        context.eval("python",
+                """
+                        import polyglot\s
+                        py_tf = polyglot.import_value('PyTermFactory')
+                        """);
+        context.eval("python", ARGS_FUNCTION);
     }
 
     @Override
     public void initEngine() {
         this.context = Context.newBuilder()
+                .allowAllAccess(true)
                 .option("engine.WarnInterpreterOnly", "false")
                 .build();
         if (this.context == null) {
@@ -34,24 +40,8 @@ public class GraalPyScriptEngine extends PyScriptEngineImpl {
     }
 
     @Override
-    public void executeLibraries(Resource exec) throws Exception {
-        // TODO implement
-    }
-
-    @Override
-    public void executeScriptFromURL(String url) throws Exception {
-        // TODO implement
-    }
-
-    @Override
     public Object get(String varName) {
         return context.getBindings("python").getMember(varName);
-    }
-
-    @Override
-    public Object invokeFunction(String functionName, QuerySolution bindings) throws ScriptException, NoSuchMethodException {
-        return null;
-        // TODO implement
     }
 
     public final Context getContext() {
@@ -59,7 +49,7 @@ public class GraalPyScriptEngine extends PyScriptEngineImpl {
     }
 
     @Override
-    public Object invokeFunctionOrdered(String functionName, Object[] args) throws ScriptException, NoSuchMethodException {
+    public Object invokeFunctionOrdered(String functionName, Object[] args) {
         return context.getBindings("python").getMember(functionName).execute(args);
     }
 
