@@ -35,7 +35,7 @@ ex:MaxLengthConstraintComponent
   rdf:type sh:ConstraintComponent ;
   rdfs:label "Max length constraint component" ;
   sh:parameter [
-      sh:path ex:maxLength ;
+      sh:path ex:max_length ;
       sh:datatype xsd:integer ;
       sh:name "max length" ;
     ] ;
@@ -44,13 +44,13 @@ ex:MaxLengthConstraintComponent
       sh:pyFunctionName "max_length" ;
       sh:pyLibrary [
           rdf:type sh:PyLibrary ;
-          sh:pyLibraryURL "http://datashapes.org/py/tests/component/maxLengthComponent.py"^^xsd:anyURI ;
+          sh:pyLibraryURL "http://datashapes.org/py/tests/component/max_length_component.py"^^xsd:anyURI ;
         ] ;
     ] ;
 .
 ex:TestShape
   rdf:type sh:NodeShape ;
-  ex:maxLength 10 ;
+  ex:max_length 10 ;
   rdfs:label "Test shape" ;
   sh:targetNode "123456789" ;
   sh:targetNode "1234567890" ;
