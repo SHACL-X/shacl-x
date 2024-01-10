@@ -101,9 +101,9 @@ public class ConstraintExecutors {
 
 
     /**
-     * Can be used to make the JavaScript engine the preferred implementation over SPARQL.
+     * Can be used to make the JavaScript engine the preferred implementation to SPARQL.
      * By default, SPARQL is preferred.
-     * In cases where a constraint component has multiple validators, it would then chose
+     * In cases where a constraint component has multiple validators, it would then choose
      * the JavaScript one.
      *
      * @param value true to make JS
@@ -111,12 +111,15 @@ public class ConstraintExecutors {
     public void setJSPreferred(boolean value) {
         languages.remove(0);
         languages.remove(0);
+        languages.remove(0);
         if (value) {
             languages.add(0, JSValidationLanguage.get());
             languages.add(1, SPARQLValidationLanguage.get());
+            languages.add(1, PyValidationLanguage.get());
         } else {
             languages.add(0, SPARQLValidationLanguage.get());
             languages.add(1, JSValidationLanguage.get());
+            languages.add(2, PyValidationLanguage.get());
         }
     }
 
@@ -129,8 +132,8 @@ public class ConstraintExecutors {
             languages.add(1, JSValidationLanguage.get());
             languages.add(2, SPARQLValidationLanguage.get());
         } else {
-            languages.add(0, SPARQLValidationLanguage.get());
-            languages.add(1, JSValidationLanguage.get());
+            languages.add(0, JSValidationLanguage.get());
+            languages.add(1, SPARQLValidationLanguage.get());
             languages.add(2, PyValidationLanguage.get());
         }
     }

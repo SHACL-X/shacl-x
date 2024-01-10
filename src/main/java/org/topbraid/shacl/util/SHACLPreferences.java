@@ -45,13 +45,13 @@ public class SHACLPreferences {
 	
 	public static void setJSPreferred(boolean value) {
 		jsPreferred = value;
-		ConstraintExecutors.get().setPyPreferred(value);
-		SHACLFunctionDriver.setPyPreferred(value);
+		ConstraintExecutors.get().setJSPreferred(value);
+		SHACLFunctionDriver.setJSPreferred(value);
 		CustomTargets.get().setJSPreferred(value);
 	}
 
 	public static void setPyPreferred(boolean value) {
-		jsPreferred = value;
+		pyPreferred = value;
 		ConstraintExecutors.get().setPyPreferred(value);
 		SHACLFunctionDriver.setPyPreferred(value);
 		//CustomTargets.get().setPyPreferred(value);

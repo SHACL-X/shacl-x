@@ -49,6 +49,7 @@ public class SHConstraintComponentImpl extends SHParameterizableImpl implements 
 		// Not entirely correct - someone may define their own component in the SH namespace, but close enough
 		return SH.NS.equals(getNameSpace()) &&
 				!SH.JSConstraintComponent.equals(this) &&
-				!SH.SPARQLConstraintComponent.equals(this);
+				!SH.SPARQLConstraintComponent.equals(this) &&
+				!SH.PyConstraintComponent.equals(this);
 	}
 }
