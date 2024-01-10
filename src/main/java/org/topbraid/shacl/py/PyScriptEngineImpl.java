@@ -88,7 +88,7 @@ public abstract class PyScriptEngineImpl implements ScriptEngine {
             String varName = varNames.next();
             int index = functionParams.indexOf(varName);
             if (index < 0) {
-                index = functionParams.indexOf("$" + varName);
+                index = functionParams.indexOf("_" + varName);
             }
             if (index >= 0) {
                 RDFNode value = bindings.get(varName);

@@ -471,9 +471,9 @@ public class SH {
 
     public final static String JS_SHAPES_VAR = "$shapes";
 
-    public final static String Py_DATA_VAR = "$data";
+    public final static String Py_DATA_VAR = "_data";
 
-    public final static String Py_SHAPES_VAR = "$shapes";
+    public final static String Py_SHAPES_VAR = "_shapes";
 
 
     public static String getURI() {
