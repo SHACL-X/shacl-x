@@ -16,6 +16,6 @@
  */
 package org.topbraid.shacl.model;
 
-public interface SHPyFunction extends SHFunction, SHJSExecutable {
+public interface SHPyFunction extends SHFunction, SHPyExecutable {
 
 }
