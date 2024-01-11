@@ -107,11 +107,10 @@ public abstract class PyScriptEngineImpl implements ScriptEngine {
     public abstract void put(String varName, Object value);
 
     protected Reader createScriptReader(String url) throws Exception {
-        // TODO replace dash.js and rdfquery.js with python versions
         if (DASH_PY.equals(url)) {
-            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/js/dash.js"));
+            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/py/dash.py"));
         } else if (RDFQUERY_PY.equals(url)) {
-            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
+            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/py/rdfquery.py"));
         } else {
             return new InputStreamReader(new URL(url).openStream());
         }

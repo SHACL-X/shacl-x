@@ -78,11 +78,10 @@ public class TestDASHTestCases {
                 return new GraalPyScriptEngine() {
                     @Override
                     protected Reader createScriptReader(String url) throws Exception {
-                        // TODO replace with dash and rdfquery python versions
                         if (DASH_PY.equals(url)) {
-                            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/js/dash.js"));
+                            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/py/dash.py"));
                         } else if (RDFQUERY_PY.equals(url)) {
-                            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/js/rdfquery.js"));
+                            return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream("/py/rdfquery.py"));
                         } else if (url.startsWith("http://datashapes.org/py/")) {
                             return new InputStreamReader(GraalPyScriptEngine.class.getResourceAsStream(url.substring(21)));
                         } else {
