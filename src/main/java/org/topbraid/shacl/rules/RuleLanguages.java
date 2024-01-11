@@ -41,6 +41,7 @@ public class RuleLanguages {
 	
 	protected RuleLanguages() {
 		addLanguage(SH.JSRule, new JSRuleLanguage());
+		addLanguage(SH.PyRule, new PyRuleLanguage());
 		addLanguage(SH.SPARQLRule, new SPARQLRuleLanguage());
 		addLanguage(SH.TripleRule, new TripleRuleLanguage());
 	}
