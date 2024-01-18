@@ -26,7 +26,7 @@ public abstract class PyScriptEngineImpl implements ScriptEngine {
     protected final static String ARGS_FUNCTION = "def " + ARGS_FUNCTION_NAME + "(func_str): \n" +
             "\t start_idx = func_str.find('(') + 1 \n" +
             "\t end_idx = func_str.find(')', start_idx) \n" +
-            "\t if start_idx != -1 and end_idx != -1: \n" +
+            "\t if start_idx != -1 and end_idx != -1 and end_idx - start_idx > 0: \n" +
             "\t\t params_str = func_str[start_idx:end_idx] \n" +
             "\t\t args_list = [arg.strip() for arg in params_str.split(',')] \n" +
             "\t\t return args_list \n" +
