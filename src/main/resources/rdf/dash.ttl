@@ -619,6 +619,11 @@ dash:RDFQueryJSLibrary
   rdfs:label "rdfQuery JavaScript Library" ;
   sh:jsLibraryURL "http://datashapes.org/js/rdfquery.js"^^xsd:anyURI ;
 .
+dash:RDFQueryPyLibrary
+  a sh:PyLibrary ;
+  rdfs:label "RDF Query Python Library" ;
+  sh:pyLibraryURL "http://datashapes.org/py/rdfquery.py"^^xsd:anyURI ;
+.
 dash:ReifiableByConstraintComponent
   a sh:ConstraintComponent ;
   rdfs:label "Reifiable-by constraint component" ;

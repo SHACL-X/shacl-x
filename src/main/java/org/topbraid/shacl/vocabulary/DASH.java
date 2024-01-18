@@ -26,7 +26,7 @@ import org.apache.jena.rdf.model.ResourceFactory;
 public class DASH {
 
     public final static String BASE_URI = "http://datashapes.org/dash";
-    
+
     public final static String NAME = "DASH Data Shapes Vocabulary";
 
     public final static String NS = BASE_URI + "#";
@@ -34,16 +34,16 @@ public class DASH {
     public final static String PREFIX = "dash";
 
 
-	public final static Resource all = ResourceFactory.createResource(NS + "all");
+    public final static Resource all = ResourceFactory.createResource(NS + "all");
 
-	public final static Resource DefaultValueTypeRule = ResourceFactory.createResource(NS + "DefaultValueTypeRule");
+    public final static Resource DefaultValueTypeRule = ResourceFactory.createResource(NS + "DefaultValueTypeRule");
 
     public final static Resource Editor = ResourceFactory.createResource(NS + "Editor");
 
     public final static Resource ExecutionPlatform = ResourceFactory.createResource(NS + "ExecutionPlatform");
 
     public final static Resource FailureResult = ResourceFactory.createResource(NS + "FailureResult");
-    
+
     public final static Resource FailureTestCaseResult = ResourceFactory.createResource(NS + "FailureTestCaseResult");
 
     public final static Resource FunctionTestCase = ResourceFactory.createResource(NS + "FunctionTestCase");
@@ -63,7 +63,7 @@ public class DASH {
     public final static Resource PyTestCase = ResourceFactory.createResource(NS + "PyTestCase");
 
     public final static Resource ListShape = ResourceFactory.createResource(NS + "ListShape");
-    
+
     public final static Resource None = ResourceFactory.createResource(NS + "None");
 
     public final static Resource NonRecursiveConstraintComponent = ResourceFactory.createResource(NS + "NonRecursiveConstraintComponent");
@@ -73,7 +73,8 @@ public class DASH {
     public final static Resource ParameterConstraintComponent = ResourceFactory.createResource(NS + "ParameterConstraintComponent");
 
     public final static Resource RDFQueryJSLibrary = ResourceFactory.createResource(NS + "RDFQueryJSLibrary");
-    // TODO check if RDFQueryPyLibrary is needed
+
+    public final static Resource RDFQueryPyLibrary = ResourceFactory.createResource(NS + "RDFQueryPyLibrary");
 
     public final static Resource ReifiableByConstraintComponent = ResourceFactory.createResource(NS + "ReifiableByConstraintComponent");
 
@@ -86,7 +87,7 @@ public class DASH {
     public final static Resource SingleLineConstraintComponent = ResourceFactory.createResource(NS + "SingleLineConstraintComponent");
 
     public final static Resource SuccessResult = ResourceFactory.createResource(NS + "SuccessResult");
-    
+
     public final static Resource SuccessTestCaseResult = ResourceFactory.createResource(NS + "SuccessTestCaseResult");
 
     public final static Resource SuggestionResult = ResourceFactory.createResource(NS + "SuggestionResult");
@@ -105,7 +106,7 @@ public class DASH {
 
 
     public final static Property abstract_ = ResourceFactory.createProperty(NS + "abstract");
-    
+
     public final static Property addedTriple = ResourceFactory.createProperty(NS + "addedTriple");
 
     public final static Property applicableToClass = ResourceFactory.createProperty(NS + "applicableToClass");
@@ -117,53 +118,53 @@ public class DASH {
     public final static Property defaultValueType = ResourceFactory.createProperty(NS + "defaultValueType");
 
     public final static Property defaultViewForRole = ResourceFactory.createProperty(NS + "defaultViewForRole");
-    
+
     public final static Property deletedTriple = ResourceFactory.createProperty(NS + "deletedTriple");
-    
+
     public final static Property detailsEndpoint = ResourceFactory.createProperty(NS + "detailsEndpoint");
-    
+
     public final static Property detailsGraph = ResourceFactory.createProperty(NS + "detailsGraph");
-    
+
     public final static Property editor = ResourceFactory.createProperty(NS + "editor");
-    
+
     public final static Property expectedResult = ResourceFactory.createProperty(NS + "expectedResult");
-    
+
     public final static Property expectedResultIsJSON = ResourceFactory.createProperty(NS + "expectedResultIsJSON");
-    
+
     public final static Property expectedResultIsTTL = ResourceFactory.createProperty(NS + "expectedResultIsTTL");
 
     public final static Property expression = ResourceFactory.createProperty(NS + "expression");
 
     public final static Property hidden = ResourceFactory.createProperty(NS + "hidden");
-    
+
     public final static Property includedExecutionPlatform = ResourceFactory.createProperty(NS + "includedExecutionPlatform");
 
     public final static Property includeSuggestions = ResourceFactory.createProperty(NS + "includeSuggestions");
-    
+
     public final static Property node = ResourceFactory.createProperty(NS + "node");
-    
+
     public final static Property private_ = ResourceFactory.createProperty(NS + "private");
-    
+
     public final static Property propertySuggestionGenerator = ResourceFactory.createProperty(NS + "propertySuggestionGenerator");
-    
+
     public final static Property requiredExecutionPlatform = ResourceFactory.createProperty(NS + "requiredExecutionPlatform");
 
     public final static Property rootClass = ResourceFactory.createProperty(NS + "rootClass");
 
     public final static Property readOnly = ResourceFactory.createProperty(NS + "readOnly");
-    
+
     public final static Property reifiableBy = ResourceFactory.createProperty(NS + "reifiableBy");
 
     public final static Property shape = ResourceFactory.createProperty(NS + "shape");
-    
+
     public final static Property singleLine = ResourceFactory.createProperty(NS + "singleLine");
-    
+
     public final static Property suggestion = ResourceFactory.createProperty(NS + "suggestion");
-    
+
     public final static Property suggestionConfidence = ResourceFactory.createProperty(NS + "suggestionConfidence");
-    
+
     public final static Property suggestionGenerator = ResourceFactory.createProperty(NS + "suggestionGenerator");
-    
+
     public final static Property suggestionGroup = ResourceFactory.createProperty(NS + "suggestionGroup");
 
     public final static Property testCase = ResourceFactory.createProperty(NS + "testCase");
@@ -171,23 +172,22 @@ public class DASH {
     public final static Property testEnvironment = ResourceFactory.createProperty(NS + "testEnvironment");
 
     public final static Property testGraph = ResourceFactory.createProperty(NS + "testGraph");
-    
-    public final static Property testModifiesEnvironment = ResourceFactory.createProperty(NS + "testModifiesEnvironment");
-    
-    public final static Property uri = ResourceFactory.createProperty(NS + "uri");
-    
-    public final static Property uriStart = ResourceFactory.createProperty(NS + "uriStart");
-    
-    public final static Property validateShapes = ResourceFactory.createProperty(NS + "validateShapes");
-    
-    public final static Property viewer = ResourceFactory.createProperty(NS + "viewer");
-    
-    public final static Property x = ResourceFactory.createProperty(NS + "x");
-    
-    public final static Property y = ResourceFactory.createProperty(NS + "y");
 
+    public final static Property testModifiesEnvironment = ResourceFactory.createProperty(NS + "testModifiesEnvironment");
+
+    public final static Property uri = ResourceFactory.createProperty(NS + "uri");
+
+    public final static Property uriStart = ResourceFactory.createProperty(NS + "uriStart");
+    public final static Property validateShapes = ResourceFactory.createProperty(NS + "validateShapes");
+
+    public final static Property viewer = ResourceFactory.createProperty(NS + "viewer");
+
+    public final static Property x = ResourceFactory.createProperty(NS + "x");
+
+    public final static Property y = ResourceFactory.createProperty(NS + "y");
 
     public static String getURI() {
         return NS;
     }
+
 }
