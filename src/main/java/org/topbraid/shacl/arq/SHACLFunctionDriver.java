@@ -20,6 +20,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.topbraid.jenax.functions.DeclarativeFunctionDriver;
 import org.topbraid.jenax.functions.DeclarativeFunctionFactory;
 import org.topbraid.shacl.model.SHJSFunction;
+import org.topbraid.shacl.model.SHPyFunction;
 import org.topbraid.shacl.model.SHSPARQLFunction;
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -50,10 +51,12 @@ public class SHACLFunctionDriver implements DeclarativeFunctionDriver {
             } else {
                 return new SHACLSPARQLARQFunction(shaclFunction.as(SHSPARQLFunction.class));
             }
+        } else if (shaclFunction.hasProperty(SH.pyLibrary) || pyPreferred) {
+            return new SHACLPyARQFunction(shaclFunction.as(SHPyFunction.class));
         } else if (shaclFunction.hasProperty(SH.ask) || shaclFunction.hasProperty(SH.select)) {
             return new SHACLSPARQLARQFunction(shaclFunction.as(SHSPARQLFunction.class));
-        } else {
-            return new SHACLJSARQFunction(shaclFunction.as(SHJSFunction.class));
         }
+        return new SHACLJSARQFunction(shaclFunction.as(SHJSFunction.class));
     }
+
 }
