@@ -1,0 +1,98 @@
+# baseURI: http://datashapes.org/py/tests/function/simplePyFunctions.test
+# imports: http://datashapes.org/dash
+# prefix: ex
+
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix ex: <http://datashapes.org/py/tests/function/simplePyFunctions.test#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://datashapes.org/py/tests/function/simplePyFunctions.test>
+  rdf:type owl:Ontology ;
+  rdfs:label "Test of simple Py functions" ;
+  owl:imports <http://datashapes.org/dash> ;
+  owl:versionInfo "Created with TopBraid Composer" ;
+.
+ex:SimplePyFunctionsLibrary
+  rdf:type sh:PyLibrary ;
+  rdfs:label "Simple PyFunctions library" ;
+  sh:pyLibraryURL "http://datashapes.org/py/tests/function/simple_py_functions.py"^^xsd:anyURI ;
+.
+ex:boolean_function
+  rdf:type sh:PyFunction ;
+  rdfs:label "boolean function" ;
+  sh:pyFunctionName "boolean_function" ;
+  sh:pyLibrary ex:SimplePyFunctionsLibrary ;
+  sh:returnType xsd:boolean ;
+.
+ex:float_function
+  rdf:type sh:PyFunction ;
+  sh:pyFunctionName "float_function" ;
+  sh:pyLibrary ex:SimplePyFunctionsLibrary ;
+  sh:returnType xsd:float ;
+.
+ex:integer_function
+  rdf:type sh:PyFunction ;
+  rdfs:label "integer function" ;
+  sh:pyFunctionName "integer_function" ;
+  sh:pyLibrary ex:SimplePyFunctionsLibrary ;
+  sh:returnType xsd:integer ;
+.
+ex:node_function
+  rdf:type sh:PyFunction ;
+  rdfs:label "node function" ;
+  sh:pyFunctionName "node_function" ;
+  sh:pyLibrary ex:SimplePyFunctionsLibrary ;
+.
+ex:string_function
+  rdf:type sh:PyFunction ;
+  sh:pyFunctionName "string_function" ;
+  sh:pyLibrary ex:SimplePyFunctionsLibrary ;
+  sh:returnType xsd:string ;
+.
+ex:testBooleanFunction
+  rdf:type dash:FunctionTestCase ;
+  dash:expectedResult "true"^^xsd:boolean ;
+  dash:expression "ex:boolean_function()" ;
+.
+ex:testFloatFunction
+  rdf:type dash:FunctionTestCase ;
+  dash:expectedResult 4.2 ;
+  dash:expression "ex:float_function()" ;
+.
+ex:testIntegerFunction
+  rdf:type dash:FunctionTestCase ;
+  dash:expectedResult 42 ;
+  dash:expression "ex:integer_function()" ;
+.
+ex:testNodeFunction
+  rdf:type dash:FunctionTestCase ;
+  dash:expectedResult <http://aldi.de> ;
+  dash:expression "ex:node_function()" ;
+.
+ex:testStringFunction
+  rdf:type dash:FunctionTestCase ;
+  dash:expectedResult "Hello" ;
+  dash:expression "ex:string_function()" ;
+.
+ex:testWithArguments
+  rdf:type dash:FunctionTestCase ;
+  dash:expectedResult <http://aldi.de/product_4_2> ;
+  dash:expression "ex:with_arguments(4, 2)" ;
+.
+ex:with_arguments
+  rdf:type sh:PyFunction ;
+  sh:pyFunctionName "with_arguments" ;
+  sh:pyLibrary ex:SimplePyFunctionsLibrary ;
+  sh:parameter [
+      sh:path ex:arg1 ;
+      sh:name "arg1" ;
+    ] ;
+  sh:parameter [
+      sh:path ex:arg2 ;
+      sh:name "arg2" ;
+    ] ;
+.
