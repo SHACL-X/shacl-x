@@ -70,7 +70,7 @@ public class PyGraph {
 
     public Object query() {
         try {
-            return engine.invokeFunctionOrdered("RDFQuery", new Object[]{this});
+            return engine.invokeFunctionOrdered("rdf_query", new Object[]{this});
         } catch (Exception ex) {
             throw ExceptionUtil.throwUnchecked(ex);
         }
