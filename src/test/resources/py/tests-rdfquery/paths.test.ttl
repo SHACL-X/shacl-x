@@ -1,0 +1,30 @@
+# baseURI: http://datashapes.org/py/tests-rdfquery/paths.test
+# imports: http://datashapes.org/dash
+# prefix: ex
+
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix ex: <http://datashapes.org/py/tests-rdfquery/paths.test#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://datashapes.org/py/tests-rdfquery/paths.test>
+  rdf:type owl:Ontology ;
+  rdfs:label "Test of paths" ;
+  owl:imports <http://datashapes.org/dash> ;
+  owl:versionInfo "Created with TopBraid Composer" ;
+.
+<http://datashapes.org/py/tests-rdfquery/paths.test#paths.py>
+  rdf:type sh:PyLibrary ;
+  sh:pyLibrary dash:RDFQueryPyLibrary ;
+  sh:pyLibraryURL "http://datashapes.org/py/tests-rdfquery/paths.py"^^xsd:anyURI ;
+.
+ex:predicatePathSingle
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult "Shape"@en ;
+  rdfs:label "predicate path single" ;
+  sh:pyFunctionName "predicate_path_single" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
