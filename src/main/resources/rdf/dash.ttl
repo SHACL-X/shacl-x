@@ -409,6 +409,20 @@ dash:JSTestCase
       sh:name "expected result" ;
     ] ;
 .
+dash:PyTestCase
+  a rdfs:Class ;
+  rdfs:comment "A test case that calls a given Python function like a sh:PyFunction and compares its result with the dash:expectedResult." ;
+  rdfs:label "Python test case" ;
+  rdfs:subClassOf dash:TestCase ;
+  rdfs:subClassOf sh:PyFunction ;
+  sh:property [
+      a sh:PropertyShape ;
+      sh:path dash:expectedResult ;
+      sh:description "The expected result of the Python function call, as an RDF node." ;
+      sh:maxCount 1 ;
+      sh:name "expected result" ;
+    ] ;
+.
 dash:LabelViewer
   a dash:Viewer ;
   rdfs:comment "A Viewer for URI resources, rendering as a hyperlink to that URI based on the display label of the resource. Also includes other ways of interacting with the URI such as opening a nested summary display." ;
