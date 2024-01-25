@@ -92,7 +92,7 @@ class AbstractQuery:
     def match(self, s, p, o):
         return MatchQuery(self, s, p, o)
 
-    def orderBy(self, var_name):
+    def order_by(self, var_name):
         return OrderByQuery(self, var_name)
 
     def path(self, s, path, o):
@@ -101,7 +101,7 @@ class AbstractQuery:
         else:
             return PathQuery(self, s, path, o)
 
-    def addAllNodes(self, var_name, _set):
+    def add_all_nodes(self, var_name, _set):
         attr_name = var_to_attr(var_name)
         for sol in self.next_solution():
             node = sol[attr_name]
@@ -164,7 +164,7 @@ class AbstractQuery:
 
     def get_node(self, var_name):
         s = self.next_solution()
-        if s:
+        if s is not None:
             self.close()
             return s[var_to_attr(var_name)]
         else:
@@ -173,17 +173,17 @@ class AbstractQuery:
     def get_node_array(self, var_name):
         results = []
         attr = var_to_attr(var_name)
-        for n in self.next_solution():
-            # FIXME
-            results.append(n[attr])
+        for k, v in (self.next_solution()).items():
+            if k == attr:
+                results.append(v)
         return results
 
     def get_node_set(self, var_name):
         results = NodeSet()
         attr = var_to_attr(var_name)
-        for n in self.next_solution():
-            # FIXME
-            results.add(n[attr])
+        for k, v in (self.next_solution()).items():
+            if k == attr:
+                results.append(v)
         return results
 
     def get_object(self, subject, predicate):
@@ -235,7 +235,7 @@ class PathQuery(AbstractQuery):
             self.object = _object
 
     def close(self):
-        self.close()
+        self.input.close()
 
     def next_solution(self):
         r = getattr(self, 'path_results', None)
@@ -243,7 +243,7 @@ class PathQuery(AbstractQuery):
             n = r[self.path_index]
             result = create_solution(self.input_solution)
             if hasattr(self, 'object_attr'):
-                setattr(result, self.object_attr, n)
+                result[self.object_attr] = n
             self.path_index += 1
             if self.path_index == len(r):
                 delattr(self, 'path_results')  # Mark as exhausted
@@ -335,7 +335,7 @@ class MatchQuery(AbstractQuery):
 
         # Pull from input
         self.input_solution = self.input.next_solution()
-        if self.input_solution is not None:
+        if len(self.input_solution) >= 0:
             if hasattr(self, 'sv'):
                 sm = self.input_solution[self.sv]
             else:
@@ -437,7 +437,4 @@ class BindQuery(AbstractQuery):
 
 
 def rdf_query(graph, initial_solution=None):
-    # if initial_solution:
     return StartQuery(graph, initial_solution)
-    # else:
-    # return StartQuery(graph, [])
