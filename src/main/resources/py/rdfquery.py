@@ -44,22 +44,22 @@ def add_path_values(graph, subject, path, _set):
             for j in range(len(a)):
                 add_path_values(graph, a[j], path[i], s)
         _set.add_all(s.to_array())
-    elif hasattr(path, 'or'):
+    elif 'or' in path:
         for i in range(len(path['or'])):
             add_path_values(graph, subject, path['or'][i], _set)
-    elif hasattr(path, 'inverse'):
+    elif 'inverse' in path:
         if path['inverse'].isURI():
             matches = rdf_query(graph).match("?subject", path['inverse'], subject).get_node_array("?subject")
             _set.add_all(matches)
         else:
             raise ValueError("Unsupported: Inverse paths only work for named nodes")
-    elif hasattr(path, 'zeroOrOne'):
+    elif 'zeroOrOne' in path:
         add_path_values(graph, subject, path['zeroOrOne'], _set)
         _set.add(subject)
-    elif hasattr(path, 'zeroOrMore'):
+    elif 'zeroOrMore' in path:
         walk_path(graph, subject, path['zeroOrMore'], _set, NodeSet())
         _set.add(subject)
-    elif hasattr(path, 'oneOrMore'):
+    elif 'oneOrMore' in path:
         walk_path(graph, subject, path['oneOrMore'], _set, NodeSet())
     else:
         raise ValueError("Unsupported path object: " + str(path))
@@ -72,7 +72,7 @@ def walk_path(graph, subject, path, _set, visited):
     a = s.to_array()
     _set.add_all(a)
     for i in range(len(a)):
-        if a[i] not in visited:
+        if not visited.contains(a[i]):
             walk_path(graph, a[i], path, _set, visited)
 
 
@@ -155,7 +155,7 @@ class AbstractQuery:
 
     def get_array(self):
         results = []
-        for n in self.next_solution():
+        while (n := self.next_solution()) is not None:
             results.append(n)
         return results
 
@@ -173,9 +173,8 @@ class AbstractQuery:
     def get_node_array(self, var_name):
         results = []
         attr = var_to_attr(var_name)
-        for k, v in (self.next_solution()).items():
-            if k == attr:
-                results.append(v)
+        while (n := self.next_solution()) is not None:
+            results.append(n[attr])
         return results
 
     def get_node_set(self, var_name):
@@ -321,7 +320,9 @@ class MatchQuery(AbstractQuery):
 
         if oit:
             n = oit.next()
-            if n is not None:
+            # n is None is evaluated differently from n == None
+            # None here is a foreign object
+            if n != None:
                 result = create_solution(self.input_solution)
                 if hasattr(self, 'sv'):
                     result[self.sv] = n.getSubject()
@@ -335,7 +336,7 @@ class MatchQuery(AbstractQuery):
 
         # Pull from input
         self.input_solution = self.input.next_solution()
-        if len(self.input_solution) >= 0:
+        if self.input_solution is not None:
             if hasattr(self, 'sv'):
                 sm = self.input_solution[self.sv]
             else:
@@ -371,7 +372,7 @@ class StartQuery(AbstractQuery):
         pass
 
     def next_solution(self):
-        if self.solution:
+        if self.solution is not None:
             if len(self.solution) > 0:
                 return self.solution.pop(0)
             else:
