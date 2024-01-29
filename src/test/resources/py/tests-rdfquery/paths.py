@@ -1,9 +1,12 @@
+tests_rdfquery_uri = "http://datashapes.org/py/tests-rdfquery/paths.test#"
+
+
 def inverse_path_single():
     return rdf_query(_data).path("sh:Shape", {"inverse": T("rdfs:subClassOf")}, "?subClass").get_count()
 
 
 def one_or_more():
-    return rdf_query(_data).path(py_tf.namedNode("http://datashapes.org/js/tests-rdfquery/paths.test#MergedClass"),
+    return rdf_query(_data).path(py_tf.namedNode(tests_rdfquery_uri + "MergedClass"),
                                  {"oneOrMore": T("rdfs:subClassOf")}, "?superClass").get_count()
 
 
@@ -34,5 +37,5 @@ def zero_or_one():
 
 
 def zero_or_more():
-    return rdf_query(_data).path(py_tf.namedNode("http://datashapes.org/js/tests-rdfquery/paths.test#MergedClass"),
+    return rdf_query(_data).path(py_tf.namedNode(tests_rdfquery_uri + "MergedClass"),
                                  {"zeroOrMore": T("rdfs:subClassOf")}, "?superClass").get_count()
