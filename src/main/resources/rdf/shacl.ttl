@@ -1668,3 +1668,109 @@ sh:JSValidator
   	rdfs:subClassOf sh:JSExecutable ;
   	rdfs:subClassOf sh:Validator ;
   	rdfs:isDefinedBy sh: .
+
+
+# SHACL-Py --------------------------------------------------------------------
+
+sh:PyExecutable
+	a rdfs:Class ;
+	rdfs:label "Python executable"@en ;
+	rdfs:comment "Abstract base class of resources that declare an executable Python."@en ;
+	rdfs:subClassOf rdfs:Resource ;
+	rdfs:isDefinedBy sh: .
+
+sh:PyTarget
+	a rdfs:Class ;
+	rdfs:label "Python target"@en ;
+	rdfs:comment "The class of targets that are based on Python functions."@en ;
+	rdfs:subClassOf sh:Target ;
+	rdfs:subClassOf sh:PyExecutable ;
+	rdfs:isDefinedBy sh: .
+
+sh:PyTargetType
+	a rdfs:Class ;
+	rdfs:label "Python target type"@en ;
+	rdfs:comment "The (meta) class for parameterizable targets that are based on Python functions."@en ;
+	rdfs:subClassOf sh:TargetType ;
+	rdfs:subClassOf sh:PyExecutable ;
+	rdfs:isDefinedBy sh: .
+
+sh:PyConstraint
+	a rdfs:Class ;
+	rdfs:label "Python-based constraint"@en ;
+	rdfs:comment "The class of constraints backed by a Python function."@en ;
+	rdfs:subClassOf sh:PyExecutable ;
+	rdfs:isDefinedBy sh: .
+	
+sh:PyConstraintComponent
+	a sh:ConstraintComponent ;
+	rdfs:label "Python constraint component"@en ;
+	rdfs:comment "A constraint component with the parameter sh:py linking to a sh:PyConstraint containing a sh:script."@en ;
+  	sh:parameter sh:PyConstraint-py ;
+	rdfs:isDefinedBy sh: .
+ 
+sh:PyConstraint-py
+	a sh:Parameter ;
+	sh:path sh:py ;
+	rdfs:isDefinedBy sh: .
+	
+sh:py
+	a rdf:Property ;
+	rdfs:label "Python constraint"@en ;
+	rdfs:comment "Constraints expressed in Python." ;
+  	rdfs:range sh:PyConstraint ;
+	rdfs:isDefinedBy sh: .
+
+sh:pyFunctionName
+	a rdf:Property ;
+	rdfs:label "Python function name"@en ;
+	rdfs:comment "The name of the Python function to execute."@en ;
+	rdfs:domain sh:PyExecutable ;
+	rdfs:range xsd:string ;
+	rdfs:isDefinedBy sh: .
+
+sh:pyLibrary
+	a rdf:Property ;
+	rdfs:label "Python library"@en ;
+  	rdfs:comment "Declares which Python libraries are needed to execute this."@en ;
+	rdfs:range sh:PyLibrary ;
+	rdfs:isDefinedBy sh: .
+
+sh:pyLibraryURL
+	a rdf:Property ;
+	rdfs:label "Python library URL"@en ;
+	rdfs:comment "Declares the URLs of a Python library. This should be the absolute URL of a Python file. Implementations may redirect those to local files."@en ;
+	rdfs:domain sh:PyLibrary ;
+	rdfs:range xsd:anyURI ;
+	rdfs:isDefinedBy sh: .
+	
+sh:PyFunction
+	a rdfs:Class ;
+  	rdfs:label "Python function"@en ;
+	rdfs:comment "The class of SHACL functions that execute a Python function when called."@en ;
+	rdfs:subClassOf sh:Function ;
+	rdfs:subClassOf sh:PyExecutable ;
+	rdfs:isDefinedBy sh: .
+
+sh:PyLibrary
+	a rdfs:Class ;
+	rdfs:label "Python library"@en ;
+	rdfs:comment "Represents a Python library, typically identified by one or more URLs of files to include."@en ;
+	rdfs:subClassOf rdfs:Resource ;
+	rdfs:isDefinedBy sh: .
+
+sh:PyRule
+	a rdfs:Class ;
+	rdfs:label "Python rule"@en ;
+	rdfs:comment "The class of SHACL rules expressed using Python."@en ;
+	rdfs:subClassOf sh:PyExecutable ;
+	rdfs:subClassOf sh:Rule ;
+	rdfs:isDefinedBy sh: .
+
+sh:PyValidator
+	a rdfs:Class ;
+  	rdfs:label "Python validator"@en ;
+	rdfs:comment "A SHACL validator based on Python. This can be used to declare SHACL constraint components that perform Python-based validation when used."@en ;
+  	rdfs:subClassOf sh:PyExecutable ;
+  	rdfs:subClassOf sh:Validator ;
+  	rdfs:isDefinedBy sh: .
