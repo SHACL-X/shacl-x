@@ -96,7 +96,7 @@ class AbstractQuery:
         return OrderByQuery(self, var_name)
 
     def path(self, s, path, o):
-        if path and hasattr(path, "getValue") and hasattr(path, "getUri"):
+        if path and hasattr(path, "getValue()") and hasattr(path, "getUri()"):
             return MatchQuery(self, s, path, o)
         else:
             return PathQuery(self, s, path, o)
@@ -338,12 +338,18 @@ class MatchQuery(AbstractQuery):
         self.input_solution = self.input.next_solution()
         if self.input_solution is not None:
             if hasattr(self, 'sv'):
-                sm = self.input_solution[self.sv]
+                if self.sv in self.input_solution:
+                    sm = self.input_solution[self.sv]
+                else:
+                    sm = None
             else:
                 sm = self.s
 
             if hasattr(self, 'pv'):
-                pm = self.input_solution[self.pv]
+                if self.pv in self.input_solution:
+                    pm = self.input_solution[self.pv]
+                else:
+                    pm = None
             else:
                 pm = self.p
 
