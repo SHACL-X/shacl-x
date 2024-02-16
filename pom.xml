@@ -129,7 +129,7 @@
         <!-- Logging : <optional> so the application chooses the provider for slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
+            <artifactId>slf4j-reload4j</artifactId>
             <version>${ver.slf4j}</version>
             <optional>true</optional>
             <scope>test</scope>
