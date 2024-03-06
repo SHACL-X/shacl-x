@@ -1,0 +1,111 @@
+# baseURI: http://datashapes.org/py/tests-rdfquery/paths.test
+# imports: http://datashapes.org/dash
+# prefix: ex
+
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix ex: <http://datashapes.org/py/tests-rdfquery/paths.test#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://datashapes.org/py/tests-rdfquery/paths.test>
+  rdf:type owl:Ontology ;
+  rdfs:label "Test of paths" ;
+  owl:imports <http://datashapes.org/dash> ;
+  owl:versionInfo "Created with TopBraid Composer" ;
+.
+ex:MergedClass
+  rdf:type rdfs:Class ;
+  rdfs:label "Merged class" ;
+  rdfs:subClassOf ex:MiddleClass1 ;
+  rdfs:subClassOf ex:MiddleClass2 ;
+.
+ex:MiddleClass1
+  rdf:type rdfs:Class ;
+  rdfs:label "Middle class1" ;
+  rdfs:subClassOf ex:RootClass ;
+  rdfs:subClassOf ex:SiblingClass ;
+.
+ex:MiddleClass2
+  rdf:type rdfs:Class ;
+  rdfs:label "Middle class2" ;
+  rdfs:subClassOf ex:RootClass ;
+.
+ex:RootClass
+  rdf:type rdfs:Class ;
+  rdfs:label "Root class" ;
+  rdfs:subClassOf rdfs:Resource ;
+.
+ex:SiblingClass
+  rdf:type rdfs:Class ;
+  rdfs:label "Sibling class" ;
+  rdfs:subClassOf rdfs:Resource ;
+.
+ex:inversePathSingle
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult 2 ;
+  rdfs:label "inverse path single" ;
+  sh:pyFunctionName "inverse_path_single" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
+ex:oneOrMore
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult 5 ;
+  rdfs:label "one or more" ;
+  sh:pyFunctionName "one_or_more" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
+ex:orPathLabelOrComment
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult 2 ;
+  rdfs:label "or path label or comment" ;
+  sh:pyFunctionName "or_path_label_or_comment" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
+<http://datashapes.org/py/tests-rdfquery/paths.test#paths.py>
+  rdf:type sh:PyLibrary ;
+  sh:pyLibrary dash:RDFQueryPyLibrary ;
+  sh:pyLibraryURL "http://datashapes.org/py/tests-rdfquery/paths.py"^^xsd:anyURI ;
+.
+ex:predicatePathChain
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult "Shape"@en ;
+  sh:pyFunctionName "predicate_path_chain" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
+ex:predicatePathSingle
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult "Shape"@en ;
+  rdfs:label "predicate path single" ;
+  sh:pyFunctionName "predicate_path_single" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
+ex:sequencePath2
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult rdfs:Class ;
+  rdfs:label "sequence path2" ;
+  sh:pyFunctionName "sequence_path_2" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
+ex:sequencePath3
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult rdfs:Class ;
+  rdfs:label "sequence path3" ;
+  sh:pyFunctionName "sequence_path_3" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
+ex:zeroOrMore
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult 6 ;
+  rdfs:label "zero or more" ;
+  sh:pyFunctionName "zero_or_more" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.
+ex:zeroOrOne
+  rdf:type dash:PyTestCase ;
+  dash:expectedResult 2 ;
+  sh:pyFunctionName "zero_or_one" ;
+  sh:pyLibrary <http://datashapes.org/py/tests-rdfquery/paths.test#paths.py> ;
+.

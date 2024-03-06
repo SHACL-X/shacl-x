@@ -20,39 +20,43 @@ import org.apache.jena.rdf.model.Resource;
 import org.topbraid.jenax.functions.DeclarativeFunctionDriver;
 import org.topbraid.jenax.functions.DeclarativeFunctionFactory;
 import org.topbraid.shacl.model.SHJSFunction;
+import org.topbraid.shacl.model.SHPyFunction;
 import org.topbraid.shacl.model.SHSPARQLFunction;
 import org.topbraid.shacl.vocabulary.SH;
 
 
 /**
  * A DeclarativeFunctionDriver for SHACL functions.
- * 
+ *
  * @author Holger Knublauch
  */
 public class SHACLFunctionDriver implements DeclarativeFunctionDriver {
-	
-	private static boolean jsPreferred = false;
-	
-	public static void setJSPreferred(boolean value) {
-		jsPreferred = value;
-	}
 
-	
-	@Override
-	public DeclarativeFunctionFactory create(Resource shaclFunction) {
-		if(jsPreferred) {
-			if(shaclFunction.hasProperty(SH.jsLibrary)) {
-				return new SHACLJSARQFunction(shaclFunction.as(SHJSFunction.class));
-			}
-			else {
-				return new SHACLSPARQLARQFunction(shaclFunction.as(SHSPARQLFunction.class));
-			}
-		}
-		else if(shaclFunction.hasProperty(SH.ask) || shaclFunction.hasProperty(SH.select)) {
-			return new SHACLSPARQLARQFunction(shaclFunction.as(SHSPARQLFunction.class));
-		}
-		else {
-			return new SHACLJSARQFunction(shaclFunction.as(SHJSFunction.class));
-		}
-	}
+    private static boolean jsPreferred = false;
+    private static boolean pyPreferred = false;
+
+    public static void setJSPreferred(boolean value) {
+        jsPreferred = value;
+    }
+
+    public static void setPyPreferred(boolean value) {
+        pyPreferred = value;
+    }
+
+    @Override
+    public DeclarativeFunctionFactory create(Resource shaclFunction) {
+        if (jsPreferred) {
+            if (shaclFunction.hasProperty(SH.jsLibrary)) {
+                return new SHACLJSARQFunction(shaclFunction.as(SHJSFunction.class));
+            } else {
+                return new SHACLSPARQLARQFunction(shaclFunction.as(SHSPARQLFunction.class));
+            }
+        } else if (shaclFunction.hasProperty(SH.pyLibrary) || pyPreferred) {
+            return new SHACLPyARQFunction(shaclFunction.as(SHPyFunction.class));
+        } else if (shaclFunction.hasProperty(SH.ask) || shaclFunction.hasProperty(SH.select)) {
+            return new SHACLSPARQLARQFunction(shaclFunction.as(SHSPARQLFunction.class));
+        }
+        return new SHACLJSARQFunction(shaclFunction.as(SHJSFunction.class));
+    }
+
 }

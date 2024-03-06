@@ -64,7 +64,7 @@ class JSRule extends AbstractRule {
 			}
 			
 			boolean nested = SHACLScriptEngineManager.begin();
-			JSScriptEngine engine = SHACLScriptEngineManager.getCurrentEngine();
+			ScriptEngine engine = SHACLScriptEngineManager.getCurrentJSEngine();
 	
 			SHJSExecutable as = rule.as(SHJSExecutable.class);
 			JSGraph dataJSGraph = new JSGraph(ruleEngine.getDataset().getDefaultModel().getGraph(), engine);

@@ -12,6 +12,8 @@ import org.topbraid.shacl.validation.ConstraintExecutors;
 public class SHACLPreferences {
 	
 	private static boolean jsPreferred;
+
+	private static boolean pyPreferred;
 	
 	private static boolean produceFailuresMode;
 
@@ -23,6 +25,10 @@ public class SHACLPreferences {
 	 */
 	public static boolean isJSPreferred() {
 		return jsPreferred;
+	}
+
+	public static boolean isPyPreferred() {
+		return pyPreferred;
 	}
 	
 	
@@ -42,6 +48,14 @@ public class SHACLPreferences {
 		ConstraintExecutors.get().setJSPreferred(value);
 		SHACLFunctionDriver.setJSPreferred(value);
 		CustomTargets.get().setJSPreferred(value);
+	}
+
+	public static void setPyPreferred(boolean value) {
+		pyPreferred = value;
+		ConstraintExecutors.get().setPyPreferred(value);
+		SHACLFunctionDriver.setPyPreferred(value);
+		//CustomTargets.get().setPyPreferred(value);
+		// TODO custom targets Python executor
 	}
 	
 	

@@ -52,7 +52,7 @@ public abstract class TestCaseType {
 	 * Gets all test case resources from a given Model that this type can handle.
 	 * @param model  the Model containing the test case
 	 * @param graph  the URI resource of model
-	 * @return the rest cases
+	 * @return the test cases
 	 */
 	public Collection<TestCase> getTestCases(Model model, Resource graph) {
 		return JenaUtil.getAllInstances(testCaseClass.inModel(model))

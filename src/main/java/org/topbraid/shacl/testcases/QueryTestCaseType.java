@@ -34,10 +34,7 @@ import org.topbraid.jenax.functions.CurrentThreadFunctions;
 import org.topbraid.jenax.util.ARQFactory;
 import org.topbraid.jenax.util.ExceptionUtil;
 import org.topbraid.jenax.util.JenaUtil;
-import org.topbraid.shacl.testcases.context.JSPreferredTestCaseContext;
-import org.topbraid.shacl.testcases.context.SPARQLPreferredTestCaseContext;
-import org.topbraid.shacl.testcases.context.TestCaseContext;
-import org.topbraid.shacl.testcases.context.TestCaseContextFactory;
+import org.topbraid.shacl.testcases.context.*;
 import org.topbraid.shacl.vocabulary.DASH;
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -47,6 +44,7 @@ public class QueryTestCaseType extends TestCaseType {
 	static {
 		registerContextFactory(SPARQLPreferredTestCaseContext.getTestCaseContextFactory());
 		registerContextFactory(JSPreferredTestCaseContext.getTestCaseContextFactory());
+		registerContextFactory(PyPreferredTestCaseContext.getTestCaseContextFactory());
 	}
 	
 	public static void registerContextFactory(TestCaseContextFactory factory) {

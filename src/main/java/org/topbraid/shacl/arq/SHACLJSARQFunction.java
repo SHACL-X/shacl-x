@@ -29,7 +29,7 @@ import org.graalvm.polyglot.Value;
 import org.topbraid.jenax.util.ExceptionUtil;
 import org.topbraid.jenax.util.JenaDatatypes;
 import org.topbraid.shacl.js.JSGraph;
-import org.topbraid.shacl.js.JSScriptEngine;
+import org.topbraid.shacl.js.ScriptEngine;
 import org.topbraid.shacl.js.SHACLScriptEngineManager;
 import org.topbraid.shacl.js.model.JSFactory;
 import org.topbraid.shacl.model.SHJSExecutable;
@@ -56,7 +56,7 @@ public class SHACLJSARQFunction extends SHACLARQFunction {
 		}
 		
 		boolean nested = SHACLScriptEngineManager.begin();
-		JSScriptEngine engine = SHACLScriptEngineManager.getCurrentEngine();
+		ScriptEngine engine = SHACLScriptEngineManager.getCurrentJSEngine();
 
 		SHJSExecutable as = getSHACLFunction().as(SHJSExecutable.class);
 		JSGraph dataJSGraph = new JSGraph(dataModel.getGraph(), engine);

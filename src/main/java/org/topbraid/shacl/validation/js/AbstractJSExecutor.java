@@ -29,7 +29,7 @@ import org.topbraid.jenax.statistics.ExecStatistics;
 import org.topbraid.jenax.statistics.ExecStatisticsManager;
 import org.topbraid.shacl.engine.Constraint;
 import org.topbraid.shacl.js.JSGraph;
-import org.topbraid.shacl.js.JSScriptEngine;
+import org.topbraid.shacl.js.ScriptEngine;
 import org.topbraid.shacl.js.SHACLScriptEngineManager;
 import org.topbraid.shacl.js.ScriptEngineUtil;
 import org.topbraid.shacl.js.model.JSFactory;
@@ -55,7 +55,7 @@ public abstract class AbstractJSExecutor implements ConstraintExecutor {
     @Override
     public void executeConstraint(Constraint constraint, ValidationEngine validationEngine, Collection<RDFNode> focusNodes) {
 
-        JSScriptEngine jsEngine = SHACLScriptEngineManager.getCurrentEngine();
+        ScriptEngine jsEngine = SHACLScriptEngineManager.getCurrentJSEngine();
 
         Dataset dataset = validationEngine.getDataset();
         URI shapesGraphURI = validationEngine.getShapesGraphURI();

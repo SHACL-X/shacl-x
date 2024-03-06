@@ -39,7 +39,7 @@ public class JSTarget implements Target {
 	public void addTargetNodes(Dataset dataset, Collection<RDFNode> results) {
 		
 		boolean nested = SHACLScriptEngineManager.begin();
-		JSScriptEngine engine = SHACLScriptEngineManager.getCurrentEngine();
+		ScriptEngine engine = SHACLScriptEngineManager.getCurrentJSEngine();
 
 		Model model = dataset.getDefaultModel();
 		JSGraph dataJSGraph = new JSGraph(model.getGraph(), engine);

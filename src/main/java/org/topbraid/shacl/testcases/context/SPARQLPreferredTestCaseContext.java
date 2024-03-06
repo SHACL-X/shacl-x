@@ -35,18 +35,22 @@ public class SPARQLPreferredTestCaseContext implements TestCaseContext {
 	}
 
 	
-	private boolean oldValue;
+	private boolean oldValueJS;
+	private boolean oldValuePy;
 
 	@Override
 	public void setUpTestContext() {
-		oldValue = SHACLPreferences.isJSPreferred();
+		oldValueJS = SHACLPreferences.isJSPreferred();
+		oldValuePy = SHACLPreferences.isPyPreferred();
 		SHACLPreferences.setJSPreferred(false);
+		SHACLPreferences.setPyPreferred(false);
 	}
 
 	
 	@Override
 	public void tearDownTestContext() {
-		SHACLPreferences.setJSPreferred(oldValue);
+		SHACLPreferences.setJSPreferred(oldValueJS);
+		SHACLPreferences.setPyPreferred(oldValuePy);
 	}
 
 

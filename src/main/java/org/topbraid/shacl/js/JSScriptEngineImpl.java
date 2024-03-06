@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class JSScriptEngineImpl implements JSScriptEngine {
+public abstract class JSScriptEngineImpl implements ScriptEngine {
 
     protected final static String ARGS_FUNCTION_NAME = "theGoodOldArgsFunction";
 
