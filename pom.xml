@@ -21,19 +21,14 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.topbraid</groupId>
-    <artifactId>shacl</artifactId>
+    <groupId>io.github.shacl-x</groupId>
+    <artifactId>shacl-x</artifactId>
     <version>1.3.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>TopBraid SHACL API</name>
-    <description>TopBraid SHACL API</description>
-    <url>http://topbraid.org/shacl/api</url>
-
-    <organization>
-        <name>TopQuadrant, Inc.</name>
-        <url>http://topquadrant.com</url>
-    </organization>
+    <name>SHACL eXtended (SHACL-X)</name>
+    <description>This SHACL implementation is an extension of the TopBraid SHACL API</description>
+    <url>https://shacl-x.github.io/docs/</url>
 
     <licenses>
         <license>
@@ -44,10 +39,14 @@
     </licenses>
 
     <issueManagement>
-        <url>https://github.com/TopQuadrant/shacl/issues</url>
+        <url>https://github.com/shacl-x/shacl-x/issues</url>
     </issueManagement>
 
     <developers>
+        <developer>
+            <name>Ashley Caselli</name>
+            <organization>University of Geneva</organization>
+        </developer>
         <developer>
             <name>Holger Knublauch</name>
         </developer>
@@ -55,17 +54,9 @@
 
     <contributors>
         <contributor>
-            <!-- Github contributors page -->
-            <url>https://github.com/TopQuadrant/shacl/graphs/contributors</url>
+            <url>https://github.com/shacl-x/shacl-x/graphs/contributors</url>
         </contributor>
     </contributors>
-
-    <scm>
-        <url>https://github.com/TopQuadrant/shacl</url>
-        <connection>scm:git:https://github.com/TopQuadrant/shacl</connection>
-        <developerConnection>scm:git:git@github.com:TopQuadrant/shacl.git</developerConnection>
-        <tag>shacl-1.3.2</tag>
-    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
