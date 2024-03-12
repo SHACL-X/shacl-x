@@ -6,6 +6,13 @@ docker push --all-tags "$REGISTRY/$IMAGE_NAME_LOWER"
 let config = require('semantic-release-preconfigured-conventional-commits');
 config.plugins.push(
     [
+        "@terrestris/maven-semantic-release",
+        {
+            "settingsPath": "./settings.xml",
+            "updateSnapshotVersion": true
+        }
+    ],
+    [
         "@semantic-release/exec",
         {
             "publishCmd": publishCmd
