@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@terrestris/maven-semantic-release": "^3.0.1",
+    "semantic-release": "^23.0.2",
+    "semantic-release-preconfigured-conventional-commits": "^1.1.85"
+  }
+}

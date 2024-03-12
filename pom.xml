@@ -274,15 +274,10 @@
     </profiles>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh.snapshots</id>
-            <name>Sonatype Snapshots Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>ossrh.releases</id>
-            <name>Sonatype Gateway to Maven Central</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github</id>
+            <name>GitHub SHACL-X Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/shacl-x/shacl-x</url>
         </repository>
     </distributionManagement>
 

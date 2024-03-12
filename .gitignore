@@ -36,6 +36,7 @@
 *.sqlite
 
 #### Development and IDE Files
+node_modules/
 
 ## Maven files
 target/
