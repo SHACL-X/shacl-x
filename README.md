@@ -1,4 +1,6 @@
-![GitHub CI](https://github.com/ashleycaselli/shacl-x/actions/workflows/build-maven.yml/badge.svg)
+[![Autorelease](https://github.com/SHACL-X/shacl-x/actions/workflows/autorelease.yml/badge.svg?branch=master)](https://github.com/SHACL-X/shacl-x/actions/workflows/autorelease.yml)
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+
 
 # TopBraid SHACL API Extended
 
