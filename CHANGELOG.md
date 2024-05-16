@@ -1,3 +1,36 @@
+## [1.4.1](https://github.com/SHACL-X/shacl-x/compare/1.4.0...1.4.1) (2024-05-16)
+
+
+### Dependency updates
+
+* **core-deps:** update slf4j monorepo to v2.0.13 ([8e97f02](https://github.com/SHACL-X/shacl-x/commit/8e97f02e491950aa0c5af9992a0eebab67c1323c))
+* **deps:** update alpine docker tag to v3.19 ([afcee5f](https://github.com/SHACL-X/shacl-x/commit/afcee5f1d0843729cafa2c6ee60fcea221177bf2))
+* **deps:** update alpine docker tag to v3.19.1 ([abede59](https://github.com/SHACL-X/shacl-x/commit/abede59c4a1f31d534ac27ec287001ff8abbffbb))
+* **deps:** update dependency maven to v3.8.8 ([7655383](https://github.com/SHACL-X/shacl-x/commit/765538322528ccbdeadf2f5f49db807a79591fe7))
+* **deps:** update dependency maven to v3.9.6 ([999b9f1](https://github.com/SHACL-X/shacl-x/commit/999b9f1e0332b5861a5ab268fd0b607ca57c30ba))
+* **deps:** update dependency maven-wrapper to v3.3.1 ([1fe0c92](https://github.com/SHACL-X/shacl-x/commit/1fe0c926d8aa5bfdce2c4189e73cd09f2bd53dcd))
+* **deps:** update dependency semantic-release to v23.0.5 ([0cce181](https://github.com/SHACL-X/shacl-x/commit/0cce18198656fcc38659ac1e75ecf809120bcca3))
+* **deps:** update dependency semantic-release to v23.0.6 ([3abdf47](https://github.com/SHACL-X/shacl-x/commit/3abdf47999a702505ed327536ae5ece4b8bd745d))
+* **deps:** update dependency semantic-release to v23.0.8 ([9f76306](https://github.com/SHACL-X/shacl-x/commit/9f763066993c4edf009b9eed48032cd3adfdd52c))
+* **deps:** update dependency semantic-release to v23.1.1 ([4833294](https://github.com/SHACL-X/shacl-x/commit/4833294271e5a93bd874b7a5bc90e055fbbf05a3))
+
+
+### Build and continuous integration
+
+* **deps:** update dependency org.apache.maven.plugins:maven-assembly-plugin to v3.7.1 ([7f81d24](https://github.com/SHACL-X/shacl-x/commit/7f81d240021ec4b320d184c2d8daeb3b3339583a))
+* **deps:** update dependency org.apache.maven.plugins:maven-compiler-plugin to v3.13.0 ([019feea](https://github.com/SHACL-X/shacl-x/commit/019feea10cf103f101442dc5b4e57b5b10455a2d))
+* **deps:** update dependency org.apache.maven.plugins:maven-gpg-plugin to v3.2.4 ([e26ab99](https://github.com/SHACL-X/shacl-x/commit/e26ab996db7b73a2d013a8ecda3e613828a99d79))
+* **deps:** update dependency org.apache.maven.plugins:maven-jar-plugin to v3.4.1 ([a71a93d](https://github.com/SHACL-X/shacl-x/commit/a71a93d8b39b4dea541a971adcadba1e2c11b389))
+* **deps:** update dependency org.apache.maven.plugins:maven-source-plugin to v3.3.1 ([36df8d1](https://github.com/SHACL-X/shacl-x/commit/36df8d1597a672dd7a6c7d437affc1097ff7d679))
+* **deps:** update docker/login-action action to v3.1.0 ([1cc6f79](https://github.com/SHACL-X/shacl-x/commit/1cc6f79ec676bf224475faf14c5def64ad2a5d83))
+
+
+### General maintenance
+
+* **readme:** update ci badge and add semantic-release one ([1328060](https://github.com/SHACL-X/shacl-x/commit/1328060c5c64ef708905da6418acacf35d763b40))
+* **renovate:** disable automerge and add dockerfile deps config ([aba1a70](https://github.com/SHACL-X/shacl-x/commit/aba1a706f62cf55b3bcc61f60c49748378746f96))
+* setting next snapshot version [skip ci] ([ad27552](https://github.com/SHACL-X/shacl-x/commit/ad2755205c6e2e232ff1a86fdb7abc2c8d931253))
+
 ## [1.4.0](https://github.com/SHACL-X/shacl-x/compare/1.3.2...1.4.0) (2024-03-12)
 
 
