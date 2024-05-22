@@ -1,32 +1,33 @@
 package org.topbraid.shacl.testcases;
 
-import org.apache.jena.graph.Graph;
-import org.apache.jena.query.ARQ;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.ResultSet;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.sparql.function.FunctionRegistry;
-import org.apache.jena.util.FileUtils;
-import org.topbraid.jenax.functions.CurrentThreadFunctionRegistry;
-import org.topbraid.jenax.functions.CurrentThreadFunctions;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.jenax.util.ARQFactory;
-import org.topbraid.jenax.util.JenaDatatypes;
 import org.topbraid.jenax.util.JenaUtil;
-import org.topbraid.shacl.testcases.context.*;
+import org.topbraid.shacl.engine.ShapesGraph;
+import org.topbraid.shacl.rules.RuleEngine;
+import org.topbraid.shacl.testcases.context.JSPreferredTestCaseContext;
+import org.topbraid.shacl.testcases.context.PyPreferredTestCaseContext;
+import org.topbraid.shacl.testcases.context.SPARQLPreferredTestCaseContext;
+import org.topbraid.shacl.testcases.context.TestCaseContextFactory;
+import org.topbraid.shacl.util.ModelPrinter;
+import org.topbraid.shacl.util.SHACLUtil;
 import org.topbraid.shacl.vocabulary.DASH;
+import org.topbraid.shacl.vocabulary.SH;
 
-import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class InferencingTestCaseType extends TestCaseType {
 
-    private static List<TestCaseContextFactory> contextFactories = new LinkedList<>();
+    private static final List<TestCaseContextFactory> contextFactories = new LinkedList<>();
 
     static {
         registerContextFactory(SPARQLPreferredTestCaseContext.getTestCaseContextFactory());
@@ -58,73 +59,46 @@ public class InferencingTestCaseType extends TestCaseType {
 
 
         @Override
-        public void run(Model results) {
+        public void run(Model results) throws InterruptedException {
             Resource testCase = getResource();
 
-            FunctionRegistry oldFR = FunctionRegistry.get();
-            CurrentThreadFunctionRegistry threadFR = new CurrentThreadFunctionRegistry(oldFR);
-            FunctionRegistry.set(ARQ.getContext(), threadFR);
-            CurrentThreadFunctions old = CurrentThreadFunctionRegistry.register(testCase.getModel());
+            Model dataModel = SHACLUtil.withDefaultValueTypeInferences(testCase.getModel());
 
-            try {
-                for (TestCaseContextFactory contextFactory : contextFactories) {
-                    TestCaseContext context = contextFactory.createContext();
-                    String expression = JenaUtil.getStringProperty(testCase, DASH.expression);
-                    Statement expectedResultS = testCase.getProperty(DASH.expectedResult);
-                    String queryString = "SELECT (" + expression + " AS ?result) WHERE {}";
-                    Query query = ARQFactory.get().createQuery(testCase.getModel(), queryString);
-                    context.setUpTestContext();
-                    try (QueryExecution qexec = ARQFactory.get().createQueryExecution(query, testCase.getModel())) {
-                        ResultSet rs = qexec.execSelect();
-                        if (!rs.hasNext()) {
-                            if (expectedResultS != null) {
-                                createFailure(results,
-                                        "Expression returned no result, but expected: " + expectedResultS.getObject(),
-                                        context);
-                                return;
-                            }
-                        } else {
-                            RDFNode actual = rs.next().get("result");
-                            if (expectedResultS == null) {
-                                if (actual != null) {
-                                    createFailure(results,
-                                            "Expression returned a result, but none expected: " + actual, context);
-                                    return;
-                                }
-                            } else if (testCase.hasProperty(DASH.expectedResultIsTTL, JenaDatatypes.TRUE)) {
-                                Graph expectedGraph = parseGraph(expectedResultS.getObject());
-                                Graph actualGraph = parseGraph(actual);
-                                if (!expectedGraph.isIsomorphicWith(actualGraph)) {
-                                    createFailure(results,
-                                            "Mismatching result graphs. Expected: " + expectedResultS.getObject() + ". Found: " + actual, context);
-                                    return;
-                                }
-                            } else if (!expectedResultS.getObject().equals(actual)) {
-                                createFailure(results,
-                                        "Mismatching result. Expected: " + expectedResultS.getObject() + ". Found: " + actual, context);
-                                return;
-                            }
-                        }
-                    } finally {
-                        context.tearDownTestContext();
-                    }
+            Dataset dataset = ARQFactory.get().getDataset(dataModel);
+            URI shapesGraphURI = SHACLUtil.withShapesGraph(dataset);
+            ShapesGraph shapesGraph = new ShapesGraph(dataset.getNamedModel(shapesGraphURI.toString()));
+
+            RuleEngine ruleEngine = new RuleEngine(dataset, shapesGraphURI, shapesGraph, dataModel);
+            ruleEngine.executeAll();
+
+            Model actualResults = ruleEngine.getInferencesModel();
+            actualResults.setNsPrefix(SH.PREFIX, SH.NS);
+            actualResults.setNsPrefix("rdf", RDF.getURI());
+            actualResults.setNsPrefix("rdfs", RDFS.getURI());
+
+            Model expectedModel = JenaUtil.createDefaultModel();
+            List<Statement> expectedResults = getResource().listProperties(DASH.expectedResult).toList();
+            boolean valid = false;
+            for (Statement s : expectedResults) {
+                valid = false;
+                expectedModel.add(s);
+                Resource expectedInferredBN = s.getObject().asResource();
+                Triple expectedInferredTriple = new Triple(expectedInferredBN.getProperty(RDF.subject).getObject().asNode(),
+                        expectedInferredBN.getProperty(RDF.predicate).getObject().asNode(),
+                        expectedInferredBN.getProperty(RDF.object).getObject().asNode());
+                if (actualResults.getGraph().contains(expectedInferredTriple)) {
+                    valid = true;
                 }
-            } finally {
-                CurrentThreadFunctionRegistry.unregister(old);
-                FunctionRegistry.set(ARQ.getContext(), oldFR);
             }
 
-            createResult(results, DASH.SuccessTestCaseResult);
-        }
-
-
-        private Graph parseGraph(RDFNode node) {
-            Model model = JenaUtil.createDefaultModel();
-            if (node.isLiteral()) {
-                String str = node.asLiteral().getLexicalForm();
-                model.read(new ByteArrayInputStream(str.getBytes()), "urn:x:dummy", FileUtils.langTurtle);
+            if (valid) {
+                createResult(results, DASH.SuccessTestCaseResult);
+            } else {
+                System.out.println("Expected: " + ModelPrinter.get().print(expectedModel) + "\nActual: " + ModelPrinter.get().print(actualResults));
+                createFailure(results,
+                        "Mismatching inference results. Expected " + expectedModel.size() + " triples, found " + actualResults.size());
             }
-            return model.getGraph();
         }
+
     }
 }
