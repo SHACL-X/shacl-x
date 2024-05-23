@@ -49,7 +49,6 @@ public class TermFactory {
 	
 	
 	public JSLiteral literal(Object value, Object langOrDatatype) {
-		System.out.println("value: " + value.getClass() + " " + value);
 		String stringVal = value.toString();
         if (value instanceof Number) {
             stringVal = String.valueOf(value);
