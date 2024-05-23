@@ -68,12 +68,12 @@ public class PyTermFactory {
         pm.add(prefix, namespace);
     }
 
-    public PyTerm term(String str) {
+    public PyTerm term(Object obj) {
         Node n;
         try {
-            n = NodeFactoryExtra.parseNode(str, pm);
+            n = NodeFactoryExtra.parseNode(String.valueOf(obj), pm);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Cannot parse node \"" + str + "\"", ex);
+            throw new IllegalArgumentException("Cannot parse node \"" + obj + "\"", ex);
         }
         if (n.isURI()) {
             return new PyNamedNode(n);
