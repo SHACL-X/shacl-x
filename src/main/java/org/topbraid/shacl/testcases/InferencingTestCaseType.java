@@ -1,12 +1,16 @@
 package org.topbraid.shacl.testcases;
 
 import org.apache.jena.graph.Triple;
+import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.sparql.function.FunctionRegistry;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.topbraid.jenax.functions.CurrentThreadFunctionRegistry;
+import org.topbraid.jenax.functions.CurrentThreadFunctions;
 import org.topbraid.jenax.util.ARQFactory;
 import org.topbraid.jenax.util.JenaUtil;
 import org.topbraid.shacl.engine.ShapesGraph;
@@ -15,7 +19,6 @@ import org.topbraid.shacl.testcases.context.JSPreferredTestCaseContext;
 import org.topbraid.shacl.testcases.context.PyPreferredTestCaseContext;
 import org.topbraid.shacl.testcases.context.SPARQLPreferredTestCaseContext;
 import org.topbraid.shacl.testcases.context.TestCaseContextFactory;
-import org.topbraid.shacl.util.ModelPrinter;
 import org.topbraid.shacl.util.SHACLUtil;
 import org.topbraid.shacl.vocabulary.DASH;
 import org.topbraid.shacl.vocabulary.SH;
@@ -62,6 +65,11 @@ public class InferencingTestCaseType extends TestCaseType {
         public void run(Model results) throws InterruptedException {
             Resource testCase = getResource();
 
+            FunctionRegistry oldFR = FunctionRegistry.get();
+            CurrentThreadFunctionRegistry threadFR = new CurrentThreadFunctionRegistry(oldFR);
+            FunctionRegistry.set(ARQ.getContext(), threadFR);
+            CurrentThreadFunctions old = CurrentThreadFunctionRegistry.register(testCase.getModel());
+
             Model dataModel = SHACLUtil.withDefaultValueTypeInferences(testCase.getModel());
 
             Dataset dataset = ARQFactory.get().getDataset(dataModel);
@@ -70,6 +78,9 @@ public class InferencingTestCaseType extends TestCaseType {
 
             RuleEngine ruleEngine = new RuleEngine(dataset, shapesGraphURI, shapesGraph, dataModel);
             ruleEngine.executeAll();
+
+            CurrentThreadFunctionRegistry.unregister(old);
+            FunctionRegistry.set(ARQ.getContext(), oldFR);
 
             Model actualResults = ruleEngine.getInferencesModel();
             actualResults.setNsPrefix(SH.PREFIX, SH.NS);
@@ -94,7 +105,6 @@ public class InferencingTestCaseType extends TestCaseType {
             if (valid) {
                 createResult(results, DASH.SuccessTestCaseResult);
             } else {
-                System.out.println("Expected: " + ModelPrinter.get().print(expectedModel) + "\nActual: " + ModelPrinter.get().print(actualResults));
                 createFailure(results,
                         "Mismatching inference results. Expected " + expectedModel.size() + " triples, found " + actualResults.size());
             }
