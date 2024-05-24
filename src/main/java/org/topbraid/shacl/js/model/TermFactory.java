@@ -49,7 +49,7 @@ public class TermFactory {
 	
 	
 	public JSLiteral literal(Object value, Object langOrDatatype) {
-        String stringVal = value.toString();
+		String stringVal = value.toString();
         if (value instanceof Number) {
             stringVal = String.valueOf(value);
         }
@@ -76,13 +76,13 @@ public class TermFactory {
 	}
 	
 	
-	public JSTerm term(String str) {
-        Node n;
+	public JSTerm term(Object obj) {
+		Node n;
         try {
-        	n = NodeFactoryExtra.parseNode(str, pm);
+        	n = NodeFactoryExtra.parseNode(String.valueOf(obj), pm);
         }
         catch(Exception ex) {
-        	throw new IllegalArgumentException("Cannot parse node \"" + str + "\"", ex);
+        	throw new IllegalArgumentException("Cannot parse node \"" + obj + "\"", ex);
         }
         if(n.isURI()) {
         	return new JSNamedNode(n);
