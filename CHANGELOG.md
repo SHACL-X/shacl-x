@@ -1,3 +1,25 @@
+## [1.4.2](https://github.com/SHACL-X/shacl-x/compare/1.4.1...1.4.2) (2024-05-24)
+
+
+### Bug Fixes
+
+* **JSRule:** add check condition for JS triples that are converted to a java.List ([2a180ae](https://github.com/SHACL-X/shacl-x/commit/2a180aede63518f0139388e9fd8a93fbba5c4b67))
+* **TermFactory:** term() method accepts an Object instead of a String to avoid Polyglot API cast issues ([a538416](https://github.com/SHACL-X/shacl-x/commit/a53841643728fb40d357ef1f2642e5f05ca29018))
+
+
+### Tests
+
+* add InferencingTestCaseType ([02403bd](https://github.com/SHACL-X/shacl-x/commit/02403bdc41a94e81de53ab5955cbf8dc230e69cc))
+* **inferencing:** add FunctionRegistry code snippet for loading SPARQL functions from the given model ([8e5ae0f](https://github.com/SHACL-X/shacl-x/commit/8e5ae0f8a2687e98c9032f0ba72722d373ec7c27))
+* **InferencingTestCase:** add ruleengine execution and expectedResults check ([c8a30fb](https://github.com/SHACL-X/shacl-x/commit/c8a30fbb759f24520e3cea81190f30792150fb60))
+* **person2schema:** add missing test data triples ([d567b5d](https://github.com/SHACL-X/shacl-x/commit/d567b5d6aee82443ed7b38a650b6dea9f1b95961))
+* **resources:** update rectangle.js code with new syntax for Java-JavaScript interoperability ([30605e4](https://github.com/SHACL-X/shacl-x/commit/30605e4aa8753fa664dfa9a4b98ce0fb74884452))
+
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([e2675b6](https://github.com/SHACL-X/shacl-x/commit/e2675b6093201a6a3485b081f61bc3c6e4b11b4d))
+
 ## [1.4.1](https://github.com/SHACL-X/shacl-x/compare/1.4.0...1.4.1) (2024-05-16)
 
 
