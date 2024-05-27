@@ -1,16 +1,13 @@
 package org.topbraid.shacl.testcases;
 
 import org.apache.jena.graph.Triple;
-import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.sparql.function.FunctionRegistry;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.jenax.functions.CurrentThreadFunctionRegistry;
-import org.topbraid.jenax.functions.CurrentThreadFunctions;
 import org.topbraid.jenax.util.ARQFactory;
 import org.topbraid.jenax.util.JenaUtil;
 import org.topbraid.shacl.engine.ShapesGraph;
@@ -65,10 +62,7 @@ public class InferencingTestCaseType extends TestCaseType {
         public void run(Model results) throws InterruptedException {
             Resource testCase = getResource();
 
-            FunctionRegistry oldFR = FunctionRegistry.get();
-            CurrentThreadFunctionRegistry threadFR = new CurrentThreadFunctionRegistry(oldFR);
-            FunctionRegistry.set(ARQ.getContext(), threadFR);
-            CurrentThreadFunctions old = CurrentThreadFunctionRegistry.register(testCase.getModel());
+            Runnable tearDownCTFR = CurrentThreadFunctionRegistry.register(testCase.getModel());
 
             Model dataModel = SHACLUtil.withDefaultValueTypeInferences(testCase.getModel());
 
@@ -79,8 +73,7 @@ public class InferencingTestCaseType extends TestCaseType {
             RuleEngine ruleEngine = new RuleEngine(dataset, shapesGraphURI, shapesGraph, dataModel);
             ruleEngine.executeAll();
 
-            CurrentThreadFunctionRegistry.unregister(old);
-            FunctionRegistry.set(ARQ.getContext(), oldFR);
+            tearDownCTFR.run();
 
             Model actualResults = ruleEngine.getInferencesModel();
             actualResults.setNsPrefix(SH.PREFIX, SH.NS);
