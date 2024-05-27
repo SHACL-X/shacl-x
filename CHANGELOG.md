@@ -1,3 +1,18 @@
+## [1.4.3](https://github.com/SHACL-X/shacl-x/compare/1.4.2...1.4.3) (2024-05-27)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency org.apache.jena:jena-arq to v4 ([4ebeaea](https://github.com/SHACL-X/shacl-x/commit/4ebeaeaf5dc39a566b68e088c8697a1cdcfd99e8))
+* **deps:** update alpine docker tag to v3.20.0 ([dfc9cc7](https://github.com/SHACL-X/shacl-x/commit/dfc9cc722e89bbf78c2176a4e04900cff1b83999))
+* **deps:** update dependency maven to v3.9.7 ([b29ef8f](https://github.com/SHACL-X/shacl-x/commit/b29ef8f151cb975751804f0bdec503f6c7c86c65))
+
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([fcd86fe](https://github.com/SHACL-X/shacl-x/commit/fcd86fe340a942de1ad73a1946d6152ae7d5279c))
+* update code to support jena v4.10 ([f29b525](https://github.com/SHACL-X/shacl-x/commit/f29b525d9c9bf3e5235c806ea5cbde36d9eaa7aa))
+
 ## [1.4.2](https://github.com/SHACL-X/shacl-x/compare/1.4.1...1.4.2) (2024-05-24)
 
 
