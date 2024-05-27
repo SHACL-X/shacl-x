@@ -60,7 +60,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <ver.jena>3.17.0</ver.jena>
+        <ver.jena>4.10.0</ver.jena>
         <ver.junit>4.13.2</ver.junit>
         <ver.antlr>4.13.1</ver.antlr>
         <ver.slf4j>2.0.13</ver.slf4j>
