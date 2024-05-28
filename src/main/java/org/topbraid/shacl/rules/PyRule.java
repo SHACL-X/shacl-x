@@ -79,22 +79,26 @@ class PyRule extends AbstractRule {
                 Object result = engine.invokeFunction(functionName, bindings);
                 if (ScriptEngineUtil.isArray(result)) {
                     for (Object tripleO : ScriptEngineUtil.asArray(result)) {
+                        Node subject;
+                        Node predicate;
+                        Node object;
                         if (ScriptEngineUtil.isArray(tripleO)) {
                             List<Object> nodes = ScriptEngineUtil.asArray(tripleO);
-                            Node subject = PyFactory.getNode(nodes.get(0));
-                            Node predicate = PyFactory.getNode(nodes.get(1));
-                            Node object = PyFactory.getNode(nodes.get(2));
-                            ruleEngine.infer(Triple.create(subject, predicate, object), this, shape);
-                        } else if (tripleO instanceof Map) {
-                            @SuppressWarnings("rawtypes")
-                            Map triple = (Map) tripleO;
-                            Node subject = PyFactory.getNode(triple.get("subject"));
-                            Node predicate = PyFactory.getNode(triple.get("predicate"));
-                            Node object = PyFactory.getNode(triple.get("object"));
-                            ruleEngine.infer(Triple.create(subject, predicate, object), this, shape);
+                            subject = PyFactory.getNode(nodes.get(0));
+                            predicate = PyFactory.getNode(nodes.get(1));
+                            object = PyFactory.getNode(nodes.get(2));
+                        } else if (tripleO instanceof @SuppressWarnings("rawtypes")Map triple) {
+                            subject = PyFactory.getNode(triple.get("subject"));
+                            predicate = PyFactory.getNode(triple.get("predicate"));
+                            object = PyFactory.getNode(triple.get("object"));
+                        } else if (tripleO instanceof List triple) {
+                            subject = PyFactory.getNode(triple.get(0));
+                            predicate = PyFactory.getNode(triple.get(1));
+                            object = PyFactory.getNode(triple.get(2));
                         } else {
-                            throw new SHACLException("Array members produced by rule must be either arrays with three nodes, or Py objects with subject, predicate and object");
+                            throw new SHACLException("Array members produced by rule must be either Arrays/Lists with three nodes, or Python objects with subject, predicate and object");
                         }
+                        ruleEngine.infer(Triple.create(subject, predicate, object), this, shape);
                     }
                 }
             } catch (ScriptException ex) {
