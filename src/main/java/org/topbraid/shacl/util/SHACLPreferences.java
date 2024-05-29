@@ -54,8 +54,7 @@ public class SHACLPreferences {
 		pyPreferred = value;
 		ConstraintExecutors.get().setPyPreferred(value);
 		SHACLFunctionDriver.setPyPreferred(value);
-		//CustomTargets.get().setPyPreferred(value);
-		// TODO custom targets Python executor
+		CustomTargets.get().setPyPreferred(value);
 	}
 	
 	

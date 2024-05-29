@@ -16,64 +16,78 @@
  */
 package org.topbraid.shacl.targets;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.validation.js.JSTargetLanguage;
+import org.topbraid.shacl.validation.py.PyTargetLanguage;
 import org.topbraid.shacl.validation.sparql.SPARQLTargetLanguage;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A singleton managing the available custom target plugins.
  * The only currently supported custom target is for SPARQL.
- * 
+ *
  * @author Holger Knublauch
  */
 public class CustomTargets {
 
-	private static CustomTargets singleton = new CustomTargets();
-	
-	public static CustomTargets get() {
-		return singleton;
-	}
-	
-	
-	private final List<CustomTargetLanguage> languages = new LinkedList<>();
-	
-	CustomTargets() {
-		init();
-	}
-	
-	
-	public void addLanguage(CustomTargetLanguage plugin) {
-		languages.add(plugin);
-	}
-	
-	
-	public CustomTargetLanguage getLanguageForTarget(Resource executable) {
-		for(CustomTargetLanguage language : languages) {
-			if(language.canHandle(executable)) {
-				return language;
-			}
-		}
-		return null;
-	}
-	
-	
-	private void init() {
-		addLanguage(new SPARQLTargetLanguage());
-		addLanguage(new JSTargetLanguage());
-	}
-	
-	
-	public void setJSPreferred(boolean value) {
-		languages.clear();
-		if(value) {
-			addLanguage(new JSTargetLanguage());
-			addLanguage(new SPARQLTargetLanguage());
-		}
-		else {
-			init();
-		}
-	}
+    private static CustomTargets singleton = new CustomTargets();
+
+    public static CustomTargets get() {
+        return singleton;
+    }
+
+
+    private final List<CustomTargetLanguage> languages = new LinkedList<>();
+
+    CustomTargets() {
+        init();
+    }
+
+
+    public void addLanguage(CustomTargetLanguage plugin) {
+        languages.add(plugin);
+    }
+
+
+    public CustomTargetLanguage getLanguageForTarget(Resource executable) {
+        for (CustomTargetLanguage language : languages) {
+            if (language.canHandle(executable)) {
+                return language;
+            }
+        }
+        return null;
+    }
+
+
+    private void init() {
+        addLanguage(new SPARQLTargetLanguage());
+        addLanguage(new JSTargetLanguage());
+        addLanguage(new PyTargetLanguage());
+    }
+
+
+    public void setJSPreferred(boolean value) {
+        languages.clear();
+        if (value) {
+            addLanguage(new JSTargetLanguage());
+            addLanguage(new SPARQLTargetLanguage());
+            addLanguage(new PyTargetLanguage());
+        } else {
+            init();
+        }
+    }
+
+    public void setPyPreferred(boolean value) {
+        languages.clear();
+        if (value) {
+            addLanguage(new PyTargetLanguage());
+            addLanguage(new JSTargetLanguage());
+            addLanguage(new SPARQLTargetLanguage());
+        } else {
+            init();
+        }
+    }
+    
 }
