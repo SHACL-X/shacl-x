@@ -1,3 +1,26 @@
+## [1.5.0](https://github.com/SHACL-X/shacl-x/compare/1.4.3...1.5.0) (2024-05-29)
+
+
+### Features
+
+* **py-target:** add support for Python-based custom targets ([36a3054](https://github.com/SHACL-X/shacl-x/commit/36a30547485d02db25563112a21590595b2ad141))
+
+
+### Bug Fixes
+
+* **PyRule:** add check condition for Python triples that are converted to a java.List ([39f05c3](https://github.com/SHACL-X/shacl-x/commit/39f05c3b464de727d7be191dc6ad902f66d8381a))
+
+
+### Tests
+
+* **py-rules:** add rectangle test ([d962cee](https://github.com/SHACL-X/shacl-x/commit/d962cee059e7b5e2d0d34ff48e640f6ea3d43b95))
+* **py-target:** add test cases for custom Python-based targets ([b65cf78](https://github.com/SHACL-X/shacl-x/commit/b65cf782b7c31cebfad09fd71a916a8ac5a73987))
+
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([02d20f7](https://github.com/SHACL-X/shacl-x/commit/02d20f778a6ba3683dea52f18dc6a9209e6b70ed))
+
 ## [1.4.3](https://github.com/SHACL-X/shacl-x/compare/1.4.2...1.4.3) (2024-05-27)
 
 
