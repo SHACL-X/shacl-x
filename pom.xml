@@ -147,7 +147,6 @@
                     <encoding>UTF-8</encoding>
                     <debug>true</debug>
                     <debuglevel>source,lines,vars</debuglevel>
-                    <optimize>true</optimize>
                     <source>17</source>
                     <target>17</target>
                 </configuration>
