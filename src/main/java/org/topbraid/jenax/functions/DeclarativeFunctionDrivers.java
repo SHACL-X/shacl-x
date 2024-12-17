@@ -51,7 +51,7 @@ public class DeclarativeFunctionDrivers implements DeclarativeFunctionDriver {
     }
 
 
-    private Map<Property, DeclarativeFunctionDriver> drivers = new HashMap<Property, DeclarativeFunctionDriver>();
+    private Map<Property, DeclarativeFunctionDriver> drivers = new HashMap<>();
 
     DeclarativeFunctionDrivers() {
         register(SH.ask, new SHACLFunctionDriver());
@@ -92,7 +92,7 @@ public class DeclarativeFunctionDrivers implements DeclarativeFunctionDriver {
             if (direct != null) {
                 return direct;
             } else {
-                return getDriver(functionR, new HashSet<Resource>());
+                return getDriver(functionR, new HashSet<>());
             }
         } finally {
             JenaUtil.setGraphReadOptimization(false);

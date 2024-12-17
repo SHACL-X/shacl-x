@@ -82,7 +82,7 @@ public class DatasetWrappingDatasetGraph extends DatasetGraphBase {
 
     @Override
     public Iterator<Node> listGraphNodes() {
-        List<Node> results = new LinkedList<Node>();
+        List<Node> results = new LinkedList<>();
         Iterator<String> names = dataset.listNames();
         while (names.hasNext()) {
             String name = names.next();

@@ -61,7 +61,6 @@ public class SHACLFunctionsCache {
         }
     }
 
-    ;
 
     private Map<Key, Result> cache = Collections.synchronizedMap(new MyCache());
 

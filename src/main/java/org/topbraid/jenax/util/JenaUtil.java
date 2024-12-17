@@ -113,7 +113,7 @@ public class JenaUtil {
     public static void addTransitiveObjects(Set<Resource> results, Resource subject, Property predicate) {
         helper.setGraphReadOptimization(true);
         try {
-            addTransitiveObjects(results, new HashSet<Resource>(), subject, predicate);
+            addTransitiveObjects(results, new HashSet<>(), subject, predicate);
         } finally {
             helper.setGraphReadOptimization(false);
         }
@@ -247,8 +247,8 @@ public class JenaUtil {
         if (graph instanceof MultiUnion) {
             MultiUnion union = (MultiUnion) graph;
             collectBaseGraphs(union.getBaseGraph(), baseGraphs);
-            for (Object subGraph : union.getSubGraphs()) {
-                collectBaseGraphs((Graph) subGraph, baseGraphs);
+            for (Graph subGraph : union.getSubGraphs()) {
+                collectBaseGraphs(subGraph, baseGraphs);
             }
         } else if (graph != null) {
             baseGraphs.add(graph);
@@ -257,7 +257,7 @@ public class JenaUtil {
 
 
     /**
-     * Creates a new Graph.  By default this will deliver a plain in-memory graph,
+     * Creates a new Graph. By default, this will deliver a plain in-memory graph,
      * but other implementations may deliver graphs with concurrency support and
      * other features.
      *
@@ -470,7 +470,7 @@ public class JenaUtil {
      * @return the best suitable value or null
      */
     public static Literal getBestStringLiteral(Resource resource, List<String> langs, Iterable<Property> properties) {
-        return getBestStringLiteral(resource, langs, properties, (r, p) -> r.listProperties(p));
+        return getBestStringLiteral(resource, langs, properties, Resource::listProperties);
     }
 
 
@@ -752,11 +752,7 @@ public class JenaUtil {
 
     public static double getDoubleProperty(Resource subject, Property predicate, double defaultValue) {
         Double d = getDoubleProperty(subject, predicate);
-        if (d != null) {
-            return d;
-        } else {
-            return defaultValue;
-        }
+        return Objects.requireNonNullElse(d, defaultValue);
     }
 
 
@@ -1181,15 +1177,12 @@ public class JenaUtil {
 
         // TODO: Replace this hack once there is a Jena patch
         if (result.hasHaving()) {
-            NodeTransform nodeTransform = new NodeTransform() {
-                @Override
-                public Node apply(Node node) {
-                    Node n = substitutions.get(node);
-                    if (n == null) {
-                        return node;
-                    }
-                    return n;
+            NodeTransform nodeTransform = node -> {
+                Node n = substitutions.get(node);
+                if (n == null) {
+                    return node;
                 }
+                return n;
             };
             ElementTransform eltrans = new ElementTransformSubst(substitutions);
             ExprTransform exprTrans = new ExprTransformNodeElement(nodeTransform, eltrans);
@@ -1207,12 +1200,7 @@ public class JenaUtil {
 
 
     public static void sort(List<Resource> nodes) {
-        Collections.sort(nodes, new Comparator<Resource>() {
-            @Override
-            public int compare(Resource o1, Resource o2) {
-                return NodeUtils.compareRDFTerms(o1.asNode(), o2.asNode());
-            }
-        });
+        Collections.sort(nodes, (o1, o2) -> NodeUtils.compareRDFTerms(o1.asNode(), o2.asNode()));
     }
 
 

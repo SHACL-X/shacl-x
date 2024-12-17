@@ -86,14 +86,16 @@ public class FunctionExpression extends ComplexNodeExpression {
             }
         } else {
             StringBuffer sb = new StringBuffer();
-            sb.append("<");
-            sb.append(function);
-            sb.append(">(");
+            sb.append("<")
+                    .append(function)
+                    .append(">(");
             for (int i = 0; i < args.size(); i++) {
                 if (i > 0) {
                     sb.append(",");
                 }
-                sb.append("?a" + i);
+                sb
+                        .append("?a")
+                        .append(i);
             }
             sb.append(")");
 

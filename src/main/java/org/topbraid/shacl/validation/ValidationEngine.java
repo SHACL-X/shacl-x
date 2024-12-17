@@ -150,7 +150,7 @@ public class ValidationEngine extends AbstractEngine implements ConfigurableEngi
         }
         Collection<RDFNode> messages = constraint.getShape().getMessages();
         if (messages.size() > 0) {
-            messages.stream().forEach(message -> result.addProperty(SH.resultMessage, message));
+            messages.forEach(message -> result.addProperty(SH.resultMessage, message));
         } else if (defaultMessage != null) {
             result.addProperty(SH.resultMessage, defaultMessage.get());
         }
@@ -337,7 +337,7 @@ public class ValidationEngine extends AbstractEngine implements ConfigurableEngi
 
                 Collection<RDFNode> focusNodes = shape.getTargetNodes(dataset);
                 if (focusNodeFilter != null) {
-                    List<RDFNode> filteredFocusNodes = new LinkedList<RDFNode>();
+                    List<RDFNode> filteredFocusNodes = new LinkedList<>();
                     for (RDFNode focusNode : focusNodes) {
                         if (focusNodeFilter.test(focusNode)) {
                             filteredFocusNodes.add(focusNode);
@@ -368,7 +368,7 @@ public class ValidationEngine extends AbstractEngine implements ConfigurableEngi
 
 
     /**
-     * Validates a given focus node against all of the shapes that have matching targets.
+     * Validates a given focus node against all the shapes that have matching targets.
      *
      * @param focusNode the node to validate
      * @return an instance of sh:ValidationReport in the results Model

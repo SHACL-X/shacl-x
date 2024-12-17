@@ -149,15 +149,11 @@ public class SHFactory {
 
 
     public static boolean isJSConstraint(RDFNode node) {
-        return node instanceof Resource &&
-                (JenaUtil.hasIndirectType((Resource) node, SH.JSConstraint) ||
-                        (!((Resource) node).hasProperty(RDF.type) && node.getModel().contains(null, SH.js, node)));
+        return node instanceof Resource && (JenaUtil.hasIndirectType((Resource) node, SH.JSConstraint) || (!((Resource) node).hasProperty(RDF.type) && node.getModel().contains(null, SH.js, node)));
     }
 
     public static boolean isPyConstraint(RDFNode node) {
-        return node instanceof Resource &&
-                (JenaUtil.hasIndirectType((Resource) node, SH.PyConstraint) ||
-                        (!((Resource) node).hasProperty(RDF.type) && node.getModel().contains(null, SH.py, node)));
+        return node instanceof Resource && (JenaUtil.hasIndirectType((Resource) node, SH.PyConstraint) || (!((Resource) node).hasProperty(RDF.type) && node.getModel().contains(null, SH.py, node)));
     }
 
 
@@ -171,9 +167,7 @@ public class SHFactory {
 
 
     public static boolean isSPARQLConstraint(RDFNode node) {
-        return node instanceof Resource &&
-                (JenaUtil.hasIndirectType((Resource) node, SH.SPARQLConstraint) ||
-                        (!((Resource) node).hasProperty(RDF.type) && node.getModel().contains(null, SH.sparql, node)));
+        return node instanceof Resource && (JenaUtil.hasIndirectType((Resource) node, SH.SPARQLConstraint) || (!((Resource) node).hasProperty(RDF.type) && node.getModel().contains(null, SH.sparql, node)));
     }
 
 
@@ -194,9 +188,7 @@ public class SHFactory {
             if (JenaUtil.hasIndirectType((Resource) node, SH.NodeShape)) {
                 return true;
             } else if (node.isAnon() && !((Resource) node).hasProperty(RDF.type)) {
-                if (node.getModel().contains(null, SH.node, node)) {
-                    return true;
-                }
+                return node.getModel().contains(null, SH.node, node);
             }
         }
         return false;
@@ -204,15 +196,11 @@ public class SHFactory {
 
 
     public static boolean isParameterizableConstraint(RDFNode node) {
-        if (node instanceof Resource) {
-            Resource r = (Resource) node;
+        if (node instanceof Resource r) {
             if (!r.hasProperty(RDF.type)) {
-                return node.getModel().contains(null, SH.property, node) ||
-                        node.getModel().contains(null, SH.parameter, node);
-            } else if (r.hasProperty(RDF.type, SH.NodeShape) ||
-                    r.hasProperty(RDF.type, SH.PropertyShape) ||
-                    r.hasProperty(RDF.type, SH.Parameter)) {
-                return true;
+                return node.getModel().contains(null, SH.property, node) || node.getModel().contains(null, SH.parameter, node);
+            } else {
+                return r.hasProperty(RDF.type, SH.NodeShape) || r.hasProperty(RDF.type, SH.PropertyShape) || r.hasProperty(RDF.type, SH.Parameter);
             }
         }
         return false;
@@ -220,8 +208,7 @@ public class SHFactory {
 
 
     public static boolean isParameter(Resource resource) {
-        return resource.hasProperty(RDF.type, SH.Parameter) ||
-                (!resource.hasProperty(RDF.type) && resource.getModel().contains(null, SH.parameter, resource));
+        return resource.hasProperty(RDF.type, SH.Parameter) || (!resource.hasProperty(RDF.type) && resource.getModel().contains(null, SH.parameter, resource));
     }
 
 
@@ -235,8 +222,7 @@ public class SHFactory {
      * @return true if node is a parameterizable instance
      */
     public static boolean isParameterizableInstance(RDFNode node) {
-        if (node instanceof Resource) {
-            Resource resource = (Resource) node;
+        if (node instanceof Resource resource) {
 
             // Return true if this has sh:Parameterizable as its metaclass
             List<Resource> types = JenaUtil.getTypes(resource);
@@ -249,9 +235,7 @@ public class SHFactory {
             // If this is a typeless node, check for defaultType of incoming references
             if (types.isEmpty()) {
                 Resource defaultType = SHACLUtil.getResourceDefaultType(resource);
-                if (defaultType != null && JenaUtil.hasIndirectType(defaultType, SH.Parameterizable)) {
-                    return true;
-                }
+                return defaultType != null && JenaUtil.hasIndirectType(defaultType, SH.Parameterizable);
             }
         }
         return false;
@@ -259,7 +243,6 @@ public class SHFactory {
 
 
     public static boolean isPropertyShape(Resource resource) {
-        return resource.hasProperty(RDF.type, SH.PropertyShape) ||
-                resource.getModel().contains(null, SH.property, resource);
+        return resource.hasProperty(RDF.type, SH.PropertyShape) || resource.getModel().contains(null, SH.property, resource);
     }
 }

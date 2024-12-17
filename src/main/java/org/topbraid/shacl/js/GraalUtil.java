@@ -9,7 +9,7 @@ public class GraalUtil {
 
     public static List<Object> asArray(Object obj) throws Exception {
         if (((Value) obj).hasArrayElements()) {
-            List<Object> ret = new ArrayList();
+            List<Object> ret = new ArrayList<>();
             Value v = (Value) obj;
             for (int i = 0; i < v.getArraySize(); i++) {
                 ret.add(v.getArrayElement(i).as(Object.class));
@@ -21,8 +21,7 @@ public class GraalUtil {
     }
 
     public static boolean isArray(Object obj) {
-        if (obj instanceof Value) {
-            Value v = (Value) obj;
+        if (obj instanceof Value v) {
             return v.hasArrayElements();
         } else {
             return false;

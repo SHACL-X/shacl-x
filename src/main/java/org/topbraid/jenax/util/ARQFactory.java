@@ -59,7 +59,7 @@ public class ARQFactory {
     /**
      * Caches Jena query objects for SPARQL command or expression Strings.
      */
-    private Map<String, UpdateRequest> string2Update = new ConcurrentHashMap<String, UpdateRequest>();
+    private Map<String, UpdateRequest> string2Update = new ConcurrentHashMap<>();
 
     private boolean useCaches = true;
 
@@ -150,7 +150,10 @@ public class ARQFactory {
         StringBuffer queryString = new StringBuffer();
         String defaultNamespace = JenaUtil.getNsPrefixURI(model, "");
         if (defaultNamespace != null) {
-            queryString.append("PREFIX :   <" + defaultNamespace + ">\n");
+            queryString
+                    .append("PREFIX :   <")
+                    .append(defaultNamespace)
+                    .append(">\n");
         }
         if (includeExtraPrefixes) {
             Map<String, String> extraPrefixes = ExtraPrefixes.getExtraPrefixes();
@@ -163,7 +166,12 @@ public class ARQFactory {
         Map<String, String> map = model.getNsPrefixMap();
         map.forEach((prefix, namespace) -> {
             if (!prefix.isEmpty() && namespace != null)
-                queryString.append("PREFIX " + prefix + ": <" + namespace + ">\n");
+                queryString
+                        .append("PREFIX ")
+                        .append(prefix)
+                        .append(": <")
+                        .append(namespace)
+                        .append(">\n");
         });
         return queryString.toString();
     }
@@ -397,7 +405,7 @@ public class ARQFactory {
      * @return a List of those GRAPHs
      */
     public static List<String> getNamedGraphURIs(Query query) {
-        final List<String> results = new LinkedList<String>();
+        final List<String> results = new LinkedList<>();
         ElementWalker.walk(query.getQueryPattern(), new ElementVisitorBase() {
             @Override
             public void visit(ElementNamedGraph el) {

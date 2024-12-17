@@ -16,11 +16,6 @@
  */
 package org.topbraid.shacl.engine.filters;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Predicate;
-
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.jenax.util.JenaUtil;
 import org.topbraid.shacl.model.SHShape;
@@ -28,29 +23,34 @@ import org.topbraid.shacl.vocabulary.DASH;
 import org.topbraid.shacl.vocabulary.SH;
 import org.topbraid.shacl.vocabulary.TOSH;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Predicate;
+
 /**
  * A Predicate that can be used to bypass any shapes that are also constraint components.
- * 
+ *
  * @author Holger Knublauch
  */
 public class ExcludeMetaShapesFilter implements Predicate<SHShape> {
-	
-	private static Set<Resource> systemShapes = new HashSet<>();
-	static {
-		Collections.addAll(systemShapes, TOSH.PropertyGroupShape, TOSH.PropertyShapeShape, TOSH.ShapeShape);
-		Collections.addAll(systemShapes, DASH.Editor, DASH.GraphStoreTestCase, DASH.InferencingTestCase, DASH.QueryTestCase, DASH.ValidationTestCase, DASH.Viewer, DASH.Widget);
-	}
+
+    private static Set<Resource> systemShapes = new HashSet<>();
+
+    static {
+        Collections.addAll(systemShapes, TOSH.PropertyGroupShape, TOSH.PropertyShapeShape, TOSH.ShapeShape);
+        Collections.addAll(systemShapes, DASH.Editor, DASH.GraphStoreTestCase, DASH.InferencingTestCase, DASH.QueryTestCase, DASH.ValidationTestCase, DASH.Viewer, DASH.Widget);
+    }
 
 
-	public static void addSystemShapes(Resource... shapes) {
-		for(Resource shape : shapes) {
-			systemShapes.add(shape);
-		}
-	}
-	
+    public static void addSystemShapes(Resource... shapes) {
+        systemShapes.addAll(Arrays.asList(shapes));
+    }
 
-	@Override
-	public boolean test(SHShape shape) {
-		return !JenaUtil.hasIndirectType(shape, SH.ConstraintComponent) && !systemShapes.contains(shape);
-	}
+
+    @Override
+    public boolean test(SHShape shape) {
+        return !JenaUtil.hasIndirectType(shape, SH.ConstraintComponent) && !systemShapes.contains(shape);
+    }
 }

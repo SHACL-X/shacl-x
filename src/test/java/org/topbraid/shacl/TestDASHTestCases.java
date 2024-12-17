@@ -96,11 +96,11 @@ public class TestDASHTestCases {
     @Parameters(name = "{0}")
     public static Collection<Object[]> data() throws Exception {
 
-        List<TestCase> testCases = new LinkedList<TestCase>();
+        List<TestCase> testCases = new LinkedList<>();
         File rootFolder = new File("src/test/resources");
         collectTestCases(rootFolder, testCases);
 
-        List<Object[]> results = new LinkedList<Object[]>();
+        List<Object[]> results = new LinkedList<>();
         for (TestCase testCase : testCases) {
             results.add(new Object[]{testCase});
         }

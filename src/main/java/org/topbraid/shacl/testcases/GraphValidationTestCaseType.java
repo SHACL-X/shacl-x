@@ -16,16 +16,8 @@
  */
 package org.topbraid.shacl.testcases;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.jena.query.Dataset;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.jenax.util.ARQFactory;
@@ -35,122 +27,117 @@ import org.topbraid.shacl.arq.SHACLPaths;
 import org.topbraid.shacl.engine.ShapesGraph;
 import org.topbraid.shacl.util.ModelPrinter;
 import org.topbraid.shacl.util.SHACLUtil;
-import org.topbraid.shacl.validation.ValidationEngine;
-import org.topbraid.shacl.validation.ValidationEngineConfiguration;
-import org.topbraid.shacl.validation.ValidationEngineFactory;
-import org.topbraid.shacl.validation.ValidationSuggestionGenerator;
-import org.topbraid.shacl.validation.ValidationSuggestionGeneratorFactory;
+import org.topbraid.shacl.validation.*;
 import org.topbraid.shacl.vocabulary.DASH;
 import org.topbraid.shacl.vocabulary.SH;
 
+import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
+
 public class GraphValidationTestCaseType extends TestCaseType {
 
-	public final static List<Property> IGNORED_PROPERTIES = Arrays.asList(new Property[] {
-		SH.message, // For TopBraid's suggestions
-		SH.resultMessage,
-		DASH.suggestionGroup
-	});
-	
-	
-	public static void addStatements(Model model, Statement s) {
-		if(!IGNORED_PROPERTIES.contains(s.getPredicate())) {
-			model.add(s);
-		}
-		if(s.getObject().isAnon()) {
-			for(Statement t : s.getModel().listStatements(s.getResource(), null, (RDFNode)null).toList()) {
-				addStatements(model, t);
-			}
-		}
-	}
-
-	
-	public static void addSuggestions(Model dataModel, Model shapesModel, Model actualResults) {
-		ValidationSuggestionGenerator generator = ValidationSuggestionGeneratorFactory.get().createValidationSuggestionGenerator(dataModel, shapesModel);
-		if(generator == null) {
-			throw new UnsupportedOperationException("Cannot run test due to no suggestion generator installed");
-		}
-		generator.addSuggestions(actualResults, Integer.MAX_VALUE, null);
-	}
+    public final static List<Property> IGNORED_PROPERTIES = Arrays.asList(SH.message, // For TopBraid's suggestions
+            SH.resultMessage,
+            DASH.suggestionGroup);
 
 
-	public GraphValidationTestCaseType() {
-		super(DASH.GraphValidationTestCase);
-	}
+    public static void addStatements(Model model, Statement s) {
+        if (!IGNORED_PROPERTIES.contains(s.getPredicate())) {
+            model.add(s);
+        }
+        if (s.getObject().isAnon()) {
+            for (Statement t : s.getModel().listStatements(s.getResource(), null, (RDFNode) null).toList()) {
+                addStatements(model, t);
+            }
+        }
+    }
 
 
-	@Override
-	protected TestCase createTestCase(Resource graph, Resource resource) {
-		return new GraphValidationTestCase(graph, resource);
-	}
+    public static void addSuggestions(Model dataModel, Model shapesModel, Model actualResults) {
+        ValidationSuggestionGenerator generator = ValidationSuggestionGeneratorFactory.get().createValidationSuggestionGenerator(dataModel, shapesModel);
+        if (generator == null) {
+            throw new UnsupportedOperationException("Cannot run test due to no suggestion generator installed");
+        }
+        generator.addSuggestions(actualResults, Integer.MAX_VALUE, null);
+    }
 
 
-	private static class GraphValidationTestCase extends TestCase {
-		
-		GraphValidationTestCase(Resource graph, Resource resource) {
-			super(graph, resource);
-		}
+    public GraphValidationTestCaseType() {
+        super(DASH.GraphValidationTestCase);
+    }
 
-		@Override
-		public void run(Model results) throws Exception {
-			
-			Model dataModel = SHACLUtil.withDefaultValueTypeInferences(getResource().getModel());
 
-			Dataset dataset = ARQFactory.get().getDataset(dataModel);
-			URI shapesGraphURI = SHACLUtil.withShapesGraph(dataset);
+    @Override
+    protected TestCase createTestCase(Resource graph, Resource resource) {
+        return new GraphValidationTestCase(graph, resource);
+    }
 
-			ShapesGraph shapesGraph = new ShapesGraph(dataset.getNamedModel(shapesGraphURI.toString()));
 
-			ValidationEngineConfiguration configuration = new ValidationEngineConfiguration();
-			if(!getResource().hasProperty(DASH.validateShapes, JenaDatatypes.TRUE)) {
-				configuration.setValidateShapes(false);
-			}
-			ValidationEngine validationEngine = ValidationEngineFactory.get().create(dataset, shapesGraphURI, shapesGraph, null);
-			validationEngine.setConfiguration(configuration);
-			validationEngine.applyEntailments();
-			Resource actualReport = validationEngine.validateAll();
-			Model actualResults = actualReport.getModel();
-			if(getResource().hasProperty(DASH.includeSuggestions, JenaDatatypes.TRUE)) {
-				Model shapesModel = dataset.getNamedModel(shapesGraphURI.toString());
-				addSuggestions(dataModel, shapesModel, actualResults);
-			}
-			actualResults.setNsPrefix(SH.PREFIX, SH.NS);
-			actualResults.setNsPrefix("rdf", RDF.getURI());
-			actualResults.setNsPrefix("rdfs", RDFS.getURI());
-			for(Property ignoredProperty : IGNORED_PROPERTIES) {
-				actualResults.removeAll(null, ignoredProperty, (RDFNode)null);
-			}
-			Model expectedModel = JenaUtil.createDefaultModel();
-			Resource expectedReport = getResource().getPropertyResourceValue(DASH.expectedResult);
-			for(Statement s : expectedReport.listProperties().toList()) {
-				expectedModel.add(s);
-			}
-			for(Statement s : expectedReport.listProperties(SH.result).toList()) {
-				for(Statement t : s.getResource().listProperties().toList()) {
-					if(t.getPredicate().equals(DASH.suggestion)) {
-						addStatements(expectedModel, t);
-					}
-					else if(SH.resultPath.equals(t.getPredicate())) {
-						expectedModel.add(t.getSubject(), t.getPredicate(),
-								SHACLPaths.clonePath(t.getResource(), expectedModel));
-					}
-					else {
-						expectedModel.add(t);
-						if(SH.detail.equals(t.getPredicate())) {
-							for(Statement n : t.getResource().listProperties().toList()) {
-								expectedModel.add(n);
-							}
-						}
-					}
-				}
-			}
-			if(expectedModel.getGraph().isIsomorphicWith(actualResults.getGraph())) {
-				createResult(results, DASH.SuccessTestCaseResult);
-			}
-			else {
-				System.out.println("Expected: " + ModelPrinter.get().print(expectedModel) + "\nActual: " + ModelPrinter.get().print(actualResults));
-				createFailure(results, 
-						"Mismatching validation results. Expected " + expectedModel.size() + " triples, found " + actualResults.size());
-			}
-		}
-	}
+    private static class GraphValidationTestCase extends TestCase {
+
+        GraphValidationTestCase(Resource graph, Resource resource) {
+            super(graph, resource);
+        }
+
+        @Override
+        public void run(Model results) throws Exception {
+
+            Model dataModel = SHACLUtil.withDefaultValueTypeInferences(getResource().getModel());
+
+            Dataset dataset = ARQFactory.get().getDataset(dataModel);
+            URI shapesGraphURI = SHACLUtil.withShapesGraph(dataset);
+
+            ShapesGraph shapesGraph = new ShapesGraph(dataset.getNamedModel(shapesGraphURI.toString()));
+
+            ValidationEngineConfiguration configuration = new ValidationEngineConfiguration();
+            if (!getResource().hasProperty(DASH.validateShapes, JenaDatatypes.TRUE)) {
+                configuration.setValidateShapes(false);
+            }
+            ValidationEngine validationEngine = ValidationEngineFactory.get().create(dataset, shapesGraphURI, shapesGraph, null);
+            validationEngine.setConfiguration(configuration);
+            validationEngine.applyEntailments();
+            Resource actualReport = validationEngine.validateAll();
+            Model actualResults = actualReport.getModel();
+            if (getResource().hasProperty(DASH.includeSuggestions, JenaDatatypes.TRUE)) {
+                Model shapesModel = dataset.getNamedModel(shapesGraphURI.toString());
+                addSuggestions(dataModel, shapesModel, actualResults);
+            }
+            actualResults.setNsPrefix(SH.PREFIX, SH.NS);
+            actualResults.setNsPrefix("rdf", RDF.getURI());
+            actualResults.setNsPrefix("rdfs", RDFS.getURI());
+            for (Property ignoredProperty : IGNORED_PROPERTIES) {
+                actualResults.removeAll(null, ignoredProperty, (RDFNode) null);
+            }
+            Model expectedModel = JenaUtil.createDefaultModel();
+            Resource expectedReport = getResource().getPropertyResourceValue(DASH.expectedResult);
+            for (Statement s : expectedReport.listProperties().toList()) {
+                expectedModel.add(s);
+            }
+            for (Statement s : expectedReport.listProperties(SH.result).toList()) {
+                for (Statement t : s.getResource().listProperties().toList()) {
+                    if (t.getPredicate().equals(DASH.suggestion)) {
+                        addStatements(expectedModel, t);
+                    } else if (SH.resultPath.equals(t.getPredicate())) {
+                        expectedModel.add(t.getSubject(), t.getPredicate(),
+                                SHACLPaths.clonePath(t.getResource(), expectedModel));
+                    } else {
+                        expectedModel.add(t);
+                        if (SH.detail.equals(t.getPredicate())) {
+                            for (Statement n : t.getResource().listProperties().toList()) {
+                                expectedModel.add(n);
+                            }
+                        }
+                    }
+                }
+            }
+            if (expectedModel.getGraph().isIsomorphicWith(actualResults.getGraph())) {
+                createResult(results, DASH.SuccessTestCaseResult);
+            } else {
+                System.out.println("Expected: " + ModelPrinter.get().print(expectedModel) + "\nActual: " + ModelPrinter.get().print(actualResults));
+                createFailure(results,
+                        "Mismatching validation results. Expected " + expectedModel.size() + " triples, found " + actualResults.size());
+            }
+        }
+    }
 }
