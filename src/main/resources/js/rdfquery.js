@@ -48,25 +48,25 @@ Equivalent SPARQL:
 		} LIMIT 1
 */
 
-if(!this["TermFactory"]) {
+if (!this["TermFactory"]) {
     // In some environments such as Nashorn this may already have a value
     // In TopBraid this is redirecting to native Jena calls
     TermFactory = {
 
         REGEX_URI: /^([a-z][a-z0-9+.-]*):(?:\/\/((?:(?=((?:[a-z0-9-._~!$&'()*+,;=:]|%[0-9A-F]{2})*))(\3)@)?(?=(\[[0-9A-F:.]{2,}\]|(?:[a-z0-9-._~!$&'()*+,;=]|%[0-9A-F]{2})*))\5(?::(?=(\d*))\6)?)(\/(?=((?:[a-z0-9-._~!$&'()*+,;=:@\/]|%[0-9A-F]{2})*))\8)?|(\/?(?!\/)(?=((?:[a-z0-9-._~!$&'()*+,;=:@\/]|%[0-9A-F]{2})*))\10)?)(?:\?(?=((?:[a-z0-9-._~!$&'()*+,;=:@\/?]|%[0-9A-F]{2})*))\11)?(?:#(?=((?:[a-z0-9-._~!$&'()*+,;=:@\/?]|%[0-9A-F]{2})*))\12)?$/i,
 
-        impl : null,   // This needs to be connected to an API such as $rdf
+        impl: null,   // This needs to be connected to an API such as $rdf
 
         // Globally registered prefixes for TTL short cuts
-        namespaces : {},
+        namespaces: {},
 
         /**
          * Registers a new namespace prefix for global TTL short cuts (qnames).
          * @param prefix  the prefix to add
          * @param namespace  the namespace to add for the prefix
          */
-        registerNamespace : function(prefix, namespace) {
-            if(this.namespaces.prefix) {
+        registerNamespace: function (prefix, namespace) {
+            if (this.namespaces.prefix) {
                 throw "Prefix " + prefix + " already registered"
             }
             this.namespaces[prefix] = namespace;
@@ -78,7 +78,7 @@ if(!this["TermFactory"]) {
          * @param str  a string, e.g. "owl:Thing" or "true" or '"Hello"@en'.
          * @return an RDF term
          */
-        term : function(str) {
+        term: function (str) {
             // TODO: this implementation currently only supports booleans and qnames - better overload to rdflib.js
             if ("true" === str || "false" === str) {
                 return this.literal(str, (this.term("xsd:boolean")));
@@ -110,7 +110,7 @@ if(!this["TermFactory"]) {
          * Produces a new blank node.
          * @param id  an optional ID for the node
          */
-        blankNode : function(id) {
+        blankNode: function (id) {
             return this.impl.blankNode(id);
         },
 
@@ -119,12 +119,12 @@ if(!this["TermFactory"]) {
          * @param lex  the lexical form, e.g. "42"
          * @param langOrDatatype  either a language string or a URI node with the datatype
          */
-        literal : function(lex, langOrDatatype) {
+        literal: function (lex, langOrDatatype) {
             return this.impl.literal(lex, langOrDatatype)
         },
 
         // This function is basically left for Task Force compatibility, but the preferred function is uri()
-        namedNode : function(uri) {
+        namedNode: function (uri) {
             return this.impl.namedNode(uri)
         },
 
@@ -132,7 +132,7 @@ if(!this["TermFactory"]) {
          * Produces a new URI node.
          * @param uri  the URI of the node
          */
-        uri : function(uri) {
+        uri: function (uri) {
             return namedNode(uri);
         }
     }
@@ -199,7 +199,7 @@ function AbstractQuery() {
  * @param bindFunction  a function that takes a solution object
  *                      and returns a node or null based on it.
  */
-AbstractQuery.prototype.bind = function(varName, bindFunction) {
+AbstractQuery.prototype.bind = function (varName, bindFunction) {
     return new BindQuery(this, varName, bindFunction);
 }
 
@@ -208,7 +208,7 @@ AbstractQuery.prototype.bind = function(varName, bindFunction) {
  * @param filterFunction  a function that takes a solution object
  *                        and returns true iff that solution is valid
  */
-AbstractQuery.prototype.filter = function(filterFunction) {
+AbstractQuery.prototype.filter = function (filterFunction) {
     return new FilterQuery(this, filterFunction);
 }
 
@@ -216,7 +216,7 @@ AbstractQuery.prototype.filter = function(filterFunction) {
  * Creates a new query that only allows the first n solutions through.
  * @param limit  the maximum number of results to allow
  */
-AbstractQuery.prototype.limit = function(limit) {
+AbstractQuery.prototype.limit = function (limit) {
     return new LimitQuery(this, limit);
 }
 
@@ -230,7 +230,7 @@ AbstractQuery.prototype.limit = function(limit) {
  * @param p  the match predicate
  * @param o  the match object
  */
-AbstractQuery.prototype.match = function(s, p, o) {
+AbstractQuery.prototype.match = function (s, p, o) {
     return new MatchQuery(this, s, p, o);
 }
 
@@ -239,7 +239,7 @@ AbstractQuery.prototype.match = function(s, p, o) {
  * for a given variable.
  * @param varName  the name of the variable to sort by, starting with "?"
  */
-AbstractQuery.prototype.orderBy = function(varName) {
+AbstractQuery.prototype.orderBy = function (varName) {
     return new OrderByQuery(this, varName);
 }
 
@@ -259,11 +259,10 @@ AbstractQuery.prototype.orderBy = function(varName) {
  * @param path  the match path object (e.g. a NamedNode for a simple predicate hop)
  * @param o  the match object or a variable name (string)
  */
-AbstractQuery.prototype.path = function(s, path, o) {
-    if(path && path.value && path.isURI()) {
+AbstractQuery.prototype.path = function (s, path, o) {
+    if (path && path.value && path.isURI()) {
         return new MatchQuery(this, s, path, o);
-    }
-    else {
+    } else {
         return new PathQuery(this, s, path, o);
     }
 }
@@ -284,11 +283,11 @@ AbstractQuery.prototype.path = function(s, path, o) {
  * @param varName  the name of the variable, starting with "?"
  * @param set  the set to add to
  */
-AbstractQuery.prototype.addAllNodes = function(varName, set) {
+AbstractQuery.prototype.addAllNodes = function (varName, set) {
     let attrName = var2Attr(varName);
-    for(let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
+    for (let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
         let node = sol[attrName];
-        if(node) {
+        if (node) {
             set.add(node);
         }
     }
@@ -303,49 +302,43 @@ AbstractQuery.prototype.addAllNodes = function(varName, set) {
  * @param predicate  the predicate node
  * @param object  the object node
  */
-AbstractQuery.prototype.construct = function(subject, predicate, object) {
+AbstractQuery.prototype.construct = function (subject, predicate, object) {
     let results = [];
-    for(let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
+    for (let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
         let s = null;
-        if(typeof subject === 'string') {
-            if(subject.indexOf('?') == 0) {
+        if (typeof subject === 'string') {
+            if (subject.indexOf('?') == 0) {
                 s = sol[var2Attr(subject)];
-            }
-            else {
+            } else {
                 s = T(subject);
             }
-        }
-        else {
+        } else {
             s = subject;
         }
         let p = null;
-        if(typeof predicate === 'string') {
-            if(predicate.indexOf('?') == 0) {
+        if (typeof predicate === 'string') {
+            if (predicate.indexOf('?') == 0) {
                 p = sol[var2Attr(predicate)];
-            }
-            else {
+            } else {
                 p = T(predicate);
             }
-        }
-        else {
+        } else {
             p = predicate;
         }
 
         let o = null;
-        if(typeof object === 'string') {
-            if(object.indexOf('?') == 0) {
+        if (typeof object === 'string') {
+            if (object.indexOf('?') == 0) {
                 o = sol[var2Attr(object)];
-            }
-            else {
+            } else {
                 o = T(object);
             }
-        }
-        else {
+        } else {
             o = object;
         }
 
-        if(s && p && o) {
-            results.push({ subject: s, predicate: p, object: o});
+        if (s && p && o) {
+            results.push({subject: s, predicate: p, object: o});
         }
     }
     return results;
@@ -355,8 +348,8 @@ AbstractQuery.prototype.construct = function(subject, predicate, object) {
  * Executes a given function for each solution.
  * @param callback  a function that takes a solution as argument
  */
-AbstractQuery.prototype.forEach = function(callback) {
-    for(let n = this.nextSolution(); n; n = this.nextSolution()) {
+AbstractQuery.prototype.forEach = function (callback) {
+    for (let n = this.nextSolution(); n; n = this.nextSolution()) {
         callback(n);
     }
 }
@@ -366,11 +359,11 @@ AbstractQuery.prototype.forEach = function(callback) {
  * @param varName  the name of a variable, starting with "?"
  * @param callback  a function that takes a node as argument
  */
-AbstractQuery.prototype.forEachNode = function(varName, callback) {
+AbstractQuery.prototype.forEachNode = function (varName, callback) {
     let attrName = var2Attr(varName);
-    for(let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
+    for (let sol = this.nextSolution(); sol; sol = this.nextSolution()) {
         let node = sol[attrName];
-        if(node) {
+        if (node) {
             callback(node);
         }
     }
@@ -380,9 +373,9 @@ AbstractQuery.prototype.forEachNode = function(varName, callback) {
  * Turns all result solutions into an array.
  * @return an array consisting of solution objects
  */
-AbstractQuery.prototype.getArray = function() {
+AbstractQuery.prototype.getArray = function () {
     let results = [];
-    for(let n = this.nextSolution(); n != null; n = this.nextSolution()) {
+    for (let n = this.nextSolution(); n != null; n = this.nextSolution()) {
         results.push(n);
     }
     return results;
@@ -392,7 +385,7 @@ AbstractQuery.prototype.getArray = function() {
  * Gets the number of (remaining) solutions.
  * @return the count
  */
-AbstractQuery.prototype.getCount = function() {
+AbstractQuery.prototype.getCount = function () {
     return this.getArray().length; // Quick and dirty implementation
 }
 
@@ -402,13 +395,12 @@ AbstractQuery.prototype.getCount = function() {
  * @param varName  the name of the binding to get, starting with "?"
  * @return the value of the variable or null or undefined if it doesn't exist
  */
-AbstractQuery.prototype.getNode = function(varName) {
+AbstractQuery.prototype.getNode = function (varName) {
     let s = this.nextSolution();
-    if(s) {
+    if (s) {
         this.close();
         return s[var2Attr(varName)];
-    }
-    else {
+    } else {
         return null;
     }
 }
@@ -417,10 +409,10 @@ AbstractQuery.prototype.getNode = function(varName) {
  * Turns all results into an array of bindings for a given variable.
  * @return an array consisting of RDF node objects
  */
-AbstractQuery.prototype.getNodeArray = function(varName) {
+AbstractQuery.prototype.getNodeArray = function (varName) {
     let results = [];
     let attr = var2Attr(varName);
-    for(let n = this.nextSolution(); n != null; n = this.nextSolution()) {
+    for (let n = this.nextSolution(); n != null; n = this.nextSolution()) {
         results.push(n[attr]);
     }
     return results;
@@ -432,10 +424,10 @@ AbstractQuery.prototype.getNodeArray = function(varName) {
  * @param varName  the name of the variable, starting with "?"
  * @return a set consisting of RDF node objects
  */
-AbstractQuery.prototype.getNodeSet = function(varName) {
+AbstractQuery.prototype.getNodeSet = function (varName) {
     let results = new NodeSet();
     let attr = var2Attr(varName);
-    for(let n = this.nextSolution(); n != null; n = this.nextSolution()) {
+    for (let n = this.nextSolution(); n != null; n = this.nextSolution()) {
         results.add(n[attr]);
     }
     return results;
@@ -452,44 +444,40 @@ AbstractQuery.prototype.getNodeSet = function(varName) {
  * @param predicate  an RDF term or a variable (starting with "?") or a TTL representation
  * @return the object of the "first" triple matching the subject/predicate combination
  */
-AbstractQuery.prototype.getObject = function(subject, predicate) {
+AbstractQuery.prototype.getObject = function (subject, predicate) {
     let sol = this.nextSolution();
-    if(sol) {
+    if (sol) {
         this.close();
         let s;
-        if(typeof subject === 'string') {
-            if(subject.indexOf('?') == 0) {
+        if (typeof subject === 'string') {
+            if (subject.indexOf('?') == 0) {
                 s = sol[var2Attr(subject)];
-            }
-            else {
+            } else {
                 s = T(subject);
             }
-        }
-        else {
+        } else {
             s = subject;
         }
-        if(!s) {
+        if (!s) {
             throw "getObject() called with null subject";
         }
         let p;
-        if(typeof predicate === 'string') {
-            if(predicate.indexOf('?') == 0) {
+        if (typeof predicate === 'string') {
+            if (predicate.indexOf('?') == 0) {
                 p = sol[var2Attr(predicate)];
-            }
-            else {
+            } else {
                 p = T(predicate);
             }
-        }
-        else {
+        } else {
             p = predicate;
         }
-        if(!p) {
+        if (!p) {
             throw "getObject() called with null predicate";
         }
 
         let it = this.source.find(s, p, null);
         let triple = it.next();
-        if(triple) {
+        if (triple) {
             it.close();
             return triple.object;
         }
@@ -501,12 +489,11 @@ AbstractQuery.prototype.getObject = function(subject, predicate) {
  * Tests if there is any solution and closes the query.
  * @return true if there is another solution
  */
-AbstractQuery.prototype.hasSolution = function() {
-    if(this.nextSolution()) {
+AbstractQuery.prototype.hasSolution = function () {
+    if (this.nextSolution()) {
         this.close();
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -524,7 +511,7 @@ AbstractQuery.prototype.hasSolution = function() {
  * @returns true if the solution's variable equals the node
  */
 function exprEquals(varName, node) {
-    return function(sol) {
+    return function (sol) {
         return node.equals(sol[var2Attr(varName)]);
     }
 }
@@ -537,7 +524,7 @@ function exprEquals(varName, node) {
  * @returns true if the solution's variable does not equal the node
  */
 function exprNotEquals(varName, node) {
-    return function(sol) {
+    return function (sol) {
         return !node.equals(sol[var2Attr(varName)]);
     }
 }
@@ -562,20 +549,19 @@ function BindQuery(input, varName, bindFunction) {
 
 BindQuery.prototype = Object.create(AbstractQuery.prototype);
 
-BindQuery.prototype.close = function() {
+BindQuery.prototype.close = function () {
     this.input.close();
 }
 
 // Pulls the next result from the input Query and passes it into
 // the given bind function to add a new node
-BindQuery.prototype.nextSolution = function() {
+BindQuery.prototype.nextSolution = function () {
     let result = this.input.nextSolution();
-    if(result == null) {
+    if (result == null) {
         return null;
-    }
-    else {
+    } else {
         let newNode = this.bindFunction(result);
-        if(newNode) {
+        if (newNode) {
             result[this.attr] = newNode;
         }
         return result;
@@ -595,19 +581,18 @@ function FilterQuery(input, filterFunction) {
 
 FilterQuery.prototype = Object.create(AbstractQuery.prototype);
 
-FilterQuery.prototype.close = function() {
+FilterQuery.prototype.close = function () {
     this.input.close();
 }
 
 // Pulls the next result from the input Query and passes it into
 // the given filter function
-FilterQuery.prototype.nextSolution = function() {
-    for(;;) {
+FilterQuery.prototype.nextSolution = function () {
+    for (; ;) {
         let result = this.input.nextSolution();
-        if(result == null) {
+        if (result == null) {
             return null;
-        }
-        else if(this.filterFunction(result) === true) {
+        } else if (this.filterFunction(result) === true) {
             return result;
         }
     }
@@ -625,18 +610,17 @@ function LimitQuery(input, limit) {
 
 LimitQuery.prototype = Object.create(AbstractQuery.prototype);
 
-LimitQuery.prototype.close = function() {
+LimitQuery.prototype.close = function () {
     this.input.close();
 }
 
 // Pulls the next result from the input Query unless the number
 // of previous calls has exceeded the given limit
-LimitQuery.prototype.nextSolution = function() {
-    if(this.limit > 0) {
+LimitQuery.prototype.nextSolution = function () {
+    if (this.limit > 0) {
         this.limit--;
         return this.input.nextSolution();
-    }
-    else {
+    } else {
         this.input.close();
         return null;
     }
@@ -650,46 +634,40 @@ LimitQuery.prototype.nextSolution = function() {
 function MatchQuery(input, s, p, o) {
     this.source = input.source;
     this.input = input;
-    if(typeof s === 'string') {
-        if(s.indexOf('?') == 0) {
+    if (typeof s === 'string') {
+        if (s.indexOf('?') == 0) {
             this.sv = var2Attr(s);
-        }
-        else {
+        } else {
             this.s = T(s);
         }
-    }
-    else {
+    } else {
         this.s = s;
     }
-    if(typeof p === 'string') {
-        if(p.indexOf('?') == 0) {
+    if (typeof p === 'string') {
+        if (p.indexOf('?') == 0) {
             this.pv = var2Attr(p);
-        }
-        else {
+        } else {
             this.p = T(p);
         }
-    }
-    else {
+    } else {
         this.p = p;
     }
-    if(typeof o === 'string') {
-        if(o.indexOf('?') == 0) {
+    if (typeof o === 'string') {
+        if (o.indexOf('?') == 0) {
             this.ov = var2Attr(o);
-        }
-        else {
+        } else {
             this.o = T(o);
         }
-    }
-    else {
+    } else {
         this.o = o;
     }
 }
 
 MatchQuery.prototype = Object.create(AbstractQuery.prototype);
 
-MatchQuery.prototype.close = function() {
+MatchQuery.prototype.close = function () {
     this.input.close();
-    if(this.ownIterator) {
+    if (this.ownIterator) {
         this.ownIterator.close();
     }
 }
@@ -701,39 +679,37 @@ MatchQuery.prototype.close = function() {
 // solution from the input Query, and so on.
 // At each step, it produces the union of the input solutions plus the
 // own solutions.
-MatchQuery.prototype.nextSolution = function() {
+MatchQuery.prototype.nextSolution = function () {
 
     let oit = this.ownIterator;
-    if(oit) {
+    if (oit) {
         let n = oit.next();
-        if(n != null) {
+        if (n != null) {
             let result = createSolution(this.inputSolution);
-            if(this.sv) {
+            if (this.sv) {
                 result[this.sv] = n.getSubject();
             }
-            if(this.pv) {
+            if (this.pv) {
                 result[this.pv] = n.getPredicate();
             }
-            if(this.ov) {
+            if (this.ov) {
                 result[this.ov] = n.getObject();
             }
             return result;
-        }
-        else {
+        } else {
             delete this.ownIterator; // Mark as exhausted
         }
     }
 
     // Pull from input
     this.inputSolution = this.input.nextSolution();
-    if(this.inputSolution) {
+    if (this.inputSolution) {
         let sm = this.sv ? this.inputSolution[this.sv] : this.s;
         let pm = this.pv ? this.inputSolution[this.pv] : this.p;
         let om = this.ov ? this.inputSolution[this.ov] : this.o;
         this.ownIterator = this.source.find(sm, pm, om);
         return this.nextSolution();
-    }
-    else {
+    } else {
         return null;
     }
 }
@@ -750,23 +726,22 @@ function OrderByQuery(input, varName) {
 
 OrderByQuery.prototype = Object.create(AbstractQuery.prototype);
 
-OrderByQuery.prototype.close = function() {
+OrderByQuery.prototype.close = function () {
     this.input.close();
 }
 
-OrderByQuery.prototype.nextSolution = function() {
-    if(!this.solutions) {
+OrderByQuery.prototype.nextSolution = function () {
+    if (!this.solutions) {
         this.solutions = this.input.getArray();
         let attrName = this.attrName;
-        this.solutions.sort(function(s1, s2) {
+        this.solutions.sort(function (s1, s2) {
             return compareTerms(s1[attrName], s2[attrName]);
         });
         this.index = 0;
     }
-    if(this.index < this.solutions.length) {
+    if (this.index < this.solutions.length) {
         return this.solutions[this.index++];
-    }
-    else {
+    } else {
         return null;
     }
 }
@@ -779,45 +754,42 @@ OrderByQuery.prototype.nextSolution = function() {
 function PathQuery(input, subject, path, object) {
     this.input = input;
     this.source = input.source;
-    if(typeof subject === 'string' && subject.indexOf("?") == 0) {
+    if (typeof subject === 'string' && subject.indexOf("?") == 0) {
         this.subjectAttr = var2Attr(subject);
-    }
-    else {
+    } else {
         this.subject = subject;
     }
-    if(path == null) {
+    if (path == null) {
         throw "Path cannot be unbound";
     }
-    if(typeof path === 'string') {
+    if (typeof path === 'string') {
         this.path_ = T(path);
-    }
-    else {
+    } else {
         this.path_ = path;
     }
-    if(typeof object === 'string' && object.indexOf("?") == 0) {
+    if (typeof object === 'string' && object.indexOf("?") == 0) {
         this.objectAttr = var2Attr(object);
-    }
-    else {
+    } else {
         this.object = object;
     }
 }
 
 PathQuery.prototype = Object.create(AbstractQuery.prototype);
 
-PathQuery.prototype.close = function() {
+PathQuery.prototype.close = function () {
     this.input.close();
 }
 
-PathQuery.prototype.nextSolution = function() {
+PathQuery.prototype.nextSolution = function () {
 
     let r = this.pathResults;
-    if(r) {
+    if (r) {
         let n = r[this.pathIndex++];
         let result = createSolution(this.inputSolution);
-        if(this.objectAttr) {
+        if (this.objectAttr) {
             result[this.objectAttr] = n;
         }
-        if(this.pathIndex == r.length) {
+        if (this.pathIndex == r.length) {
             delete this.pathResults; // Mark as exhausted
         }
         return result;
@@ -825,30 +797,27 @@ PathQuery.prototype.nextSolution = function() {
 
     // Pull from input
     this.inputSolution = this.input.nextSolution();
-    if(this.inputSolution) {
+    if (this.inputSolution) {
         let sm = this.subjectAttr ? this.inputSolution[this.subjectAttr] : this.subject;
-        if(sm == null) {
+        if (sm == null) {
             throw "Path cannot have unbound subject";
         }
         let om = this.objectAttr ? this.inputSolution[this.objectAttr] : this.object;
         let pathResultsSet = new NodeSet();
         addPathValues(this.source, sm, this.path_, pathResultsSet);
         this.pathResults = pathResultsSet.toArray();
-        if(this.pathResults.length == 0) {
+        if (this.pathResults.length == 0) {
             delete this.pathResults;
-        }
-        else if(om) {
+        } else if (om) {
             delete this.pathResults;
-            if(pathResultsSet.contains(om)) {
+            if (pathResultsSet.contains(om)) {
                 return this.inputSolution;
             }
-        }
-        else {
+        } else {
             this.pathIndex = 0;
         }
         return this.nextSolution();
-    }
-    else {
+    } else {
         return null;
     }
 }
@@ -868,10 +837,10 @@ function StartQuery(source, initialSolution) {
 
 StartQuery.prototype = Object.create(AbstractQuery.prototype);
 
-StartQuery.prototype.close = function() {
+StartQuery.prototype.close = function () {
 }
 
-StartQuery.prototype.nextSolution = function() {
+StartQuery.prototype.nextSolution = function () {
     if (this.solution) {
         if (this.solution.length > 0) {
             return this.solution.shift();
@@ -886,8 +855,8 @@ StartQuery.prototype.nextSolution = function() {
 
 function createSolution(base) {
     let result = {};
-    for(let attr in base) {
-        if(base.hasOwnProperty(attr)) {
+    for (let attr in base) {
+        if (base.hasOwnProperty(attr)) {
             result[attr] = base[attr];
         }
     }
@@ -896,36 +865,30 @@ function createSolution(base) {
 
 
 function compareTerms(t1, t2) {
-    if(!t1) {
+    if (!t1) {
         return !t2 ? 0 : 1;
-    }
-    else if(!t2) {
+    } else if (!t2) {
         return -1;
     }
     let bt = t1.getTermType().localeCompare(t2.getTermType());
-    if(bt != 0) {
+    if (bt != 0) {
         return bt;
-    }
-    else {
+    } else {
         // TODO: Does not handle numeric or date comparison
         let bv = t1.getValue().localeCompare(t2.getValue());
-        if(bv != 0) {
+        if (bv != 0) {
             return bv;
-        }
-        else {
-            if(t1.isLiteral()) {
+        } else {
+            if (t1.isLiteral()) {
                 let bd = t1.getDatatype().getUri().localeCompare(t2.getDatatype().getUri());
-                if(bd != 0) {
+                if (bd != 0) {
                     return bd;
-                }
-                else if(T("rdf:langString").equals(t1.getDatatype())) {
+                } else if (T("rdf:langString").equals(t1.getDatatype())) {
                     return t1.getLanguage().localeCompare(t2.getLanguage());
-                }
-                else {
+                } else {
                     return 0;
                 }
-            }
-            else {
+            } else {
                 return 0;
             }
         }
@@ -935,10 +898,10 @@ function compareTerms(t1, t2) {
 function getLocalName(uri) {
     // TODO: This is not the 100% correct local name algorithm
     let index = uri.lastIndexOf("#");
-    if(index < 0) {
+    if (index < 0) {
         index = uri.lastIndexOf("/");
     }
-    if(index < 0) {
+    if (index < 0) {
         throw "Cannot get local name of " + uri;
     }
     return uri.substring(index + 1);
@@ -952,46 +915,46 @@ function NodeSet() {
     this.values = [];
 }
 
-NodeSet.prototype.add = function(node) {
-    if(!this.contains(node)) {
+NodeSet.prototype.add = function (node) {
+    if (!this.contains(node)) {
         this.values.push(node);
     }
 }
 
-NodeSet.prototype.addAll = function(nodes) {
-    for(let i = 0; i < nodes.length; i++) {
+NodeSet.prototype.addAll = function (nodes) {
+    for (let i = 0; i < nodes.length; i++) {
         this.add(nodes[i]);
     }
 }
 
-NodeSet.prototype.contains = function(node) {
-    for(let i = 0; i < this.values.length; i++) {
-        if(this.values[i].equals(node)) {
+NodeSet.prototype.contains = function (node) {
+    for (let i = 0; i < this.values.length; i++) {
+        if (this.values[i].equals(node)) {
             return true;
         }
     }
     return false;
 }
 
-NodeSet.prototype.forEach = function(callback) {
-    for(let i = 0; i < this.values.length; i++) {
+NodeSet.prototype.forEach = function (callback) {
+    for (let i = 0; i < this.values.length; i++) {
         callback(this.values[i]);
     }
 }
 
-NodeSet.prototype.size = function() {
+NodeSet.prototype.size = function () {
     return this.values.length;
 }
 
-NodeSet.prototype.toArray = function() {
+NodeSet.prototype.toArray = function () {
     return this.values;
 }
 
-NodeSet.prototype.toString = function() {
+NodeSet.prototype.toString = function () {
     let str = "NodeSet(" + this.size() + "): [";
     let arr = this.toArray();
-    for(let i = 0; i < arr.length; i++) {
-        if(i > 0) {
+    for (let i = 0; i < arr.length; i++) {
+        if (i > 0) {
             str += ", ";
         }
         str += arr[i];
@@ -1001,15 +964,14 @@ NodeSet.prototype.toString = function() {
 
 
 function var2Attr(varName) {
-    if(!varName.indexOf("?") == 0) {
+    if (!varName.indexOf("?") == 0) {
         throw "Variable name must start with ?";
     }
-    if(varName.length == 1) {
+    if (varName.length == 1) {
         throw "Variable name too short";
     }
     return varName.substring(1);
 }
-
 
 
 // Simple Path syntax implementation:
@@ -1017,46 +979,38 @@ function var2Attr(varName) {
 // This should really be doing lazy evaluation and only up to the point
 // where the match object is found.
 function addPathValues(graph, subject, path, set) {
-    if(path.getUri) {
+    if (path.getUri) {
         set.addAll(RDFQuery(graph).match(subject, path, "?object").getNodeArray("?object"));
-    }
-    else if(Array.isArray(path)) {
+    } else if (Array.isArray(path)) {
         let s = new NodeSet();
         s.add(subject);
-        for(let i = 0; i < path.length; i++) {
+        for (let i = 0; i < path.length; i++) {
             let a = s.toArray();
             s = new NodeSet();
-            for(let j = 0; j < a.length; j++) {
+            for (let j = 0; j < a.length; j++) {
                 addPathValues(graph, a[j], path[i], s);
             }
         }
         set.addAll(s.toArray());
-    }
-    else if(path.or) {
-        for(let i = 0; i < path.or.length; i++) {
+    } else if (path.or) {
+        for (let i = 0; i < path.or.length; i++) {
             addPathValues(graph, subject, path.or[i], set);
         }
-    }
-    else if(path.inverse) {
-        if(path.inverse.isURI()) {
+    } else if (path.inverse) {
+        if (path.inverse.isURI()) {
             set.addAll(RDFQuery(graph).match("?subject", path.inverse, subject).getNodeArray("?subject"));
-        }
-        else {
+        } else {
             throw "Unsupported: Inverse paths only work for named nodes";
         }
-    }
-    else if(path.zeroOrOne) {
+    } else if (path.zeroOrOne) {
         addPathValues(graph, subject, path.zeroOrOne, set);
         set.add(subject);
-    }
-    else if(path.zeroOrMore) {
+    } else if (path.zeroOrMore) {
         walkPath(graph, subject, path.zeroOrMore, set, new NodeSet());
         set.add(subject);
-    }
-    else if(path.oneOrMore) {
+    } else if (path.oneOrMore) {
         walkPath(graph, subject, path.oneOrMore, set, new NodeSet());
-    }
-    else {
+    } else {
         throw "Unsupported path object: " + path;
     }
 }
@@ -1067,8 +1021,8 @@ function walkPath(graph, subject, path, set, visited) {
     addPathValues(graph, subject, path, s);
     let a = s.toArray();
     set.addAll(a);
-    for(let i = 0; i < a.length; i++) {
-        if(!visited.contains(a[i])) {
+    for (let i = 0; i < a.length; i++) {
+        if (!visited.contains(a[i])) {
             walkPath(graph, a[i], path, set, visited);
         }
     }

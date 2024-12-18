@@ -57,11 +57,7 @@ public class QueryExecutionFactoryFilter {
 
     public QueryExecution create(Query query, Model model, QuerySolution initialBinding) {
         analyzeRequest(query, model, initialBinding);
-        return QueryExecutionDatasetBuilder
-                .create()
-                .query(query)
-                .model(model)
-                .initialBinding(initialBinding).build();
+        return QueryExecutionDatasetBuilder.create().query(query).model(model).initialBinding(initialBinding).build();
     }
 
     public QueryExecution create(Query query, Dataset dataset) {
@@ -69,9 +65,9 @@ public class QueryExecutionFactoryFilter {
         return QueryExecutionFactory.create(query, dataset);
     }
 
-    public QueryExecution create(Query query, Dataset dataset, QuerySolution initialBinding) {
-        analyzeRequest(query, dataset, initialBinding);
-        return QueryExecutionFactory.create(query, dataset, initialBinding);
+    public QueryExecution create(Query query, Dataset dataset, QuerySolution querySolution) {
+        analyzeRequest(query, dataset, querySolution);
+        return QueryExecution.dataset(dataset).query(query).substitution(querySolution).build();
     }
 
     public QueryExecution sparqlService(String service, Query query) {
@@ -83,10 +79,7 @@ public class QueryExecutionFactoryFilter {
     }
 
     public QueryExecutionHTTP sparqlService(String service, Query query, HttpClient httpClient, List<String> defaultGraphURIs, List<String> namedGraphURIs) {
-        QueryExecutionHTTPBuilder qb = QueryExecutionHTTP
-                .service(service)
-                .query(query)
-                .httpClient(httpClient);
+        QueryExecutionHTTPBuilder qb = QueryExecutionHTTP.service(service).query(query).httpClient(httpClient);
 
         for (String uri : defaultGraphURIs)
             qb.addDefaultGraphURI(uri);
@@ -100,9 +93,7 @@ public class QueryExecutionFactoryFilter {
         printQuery(query, initialBinding);
 
         if (logger.isTraceEnabled()) {
-            logger.trace("QUERY[" + analyzeQuery(query)
-                    + "]\nMODEL[" + analyzeModel(model) + "]"
-                    + serializeBindings(initialBinding));
+            logger.trace("QUERY[" + analyzeQuery(query) + "]\nMODEL[" + analyzeModel(model) + "]" + serializeBindings(initialBinding));
         }
     }
 
@@ -110,9 +101,7 @@ public class QueryExecutionFactoryFilter {
         printQuery(query, initialBinding);
 
         if (logger.isTraceEnabled()) {
-            logger.trace("QUERY[" + analyzeQuery(query)
-                    + "]\nDATASET[" + analyzeDataset(dataset) + "]"
-                    + serializeBindings(initialBinding));
+            logger.trace("QUERY[" + analyzeQuery(query) + "]\nDATASET[" + analyzeDataset(dataset) + "]" + serializeBindings(initialBinding));
         }
     }
 

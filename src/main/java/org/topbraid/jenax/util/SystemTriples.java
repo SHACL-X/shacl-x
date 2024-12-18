@@ -17,7 +17,6 @@
 
 package org.topbraid.jenax.util;
 
-import org.apache.jena.datatypes.xsd.impl.XMLLiteralType;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.StmtIterator;
@@ -94,7 +93,7 @@ public class SystemTriples {
             vocabulary.add(OWL.differentFrom, RDF.type, OWL.SymmetricProperty);
             vocabulary.add(OWL.sameAs, RDF.type, OWL.SymmetricProperty);
             vocabulary.add(OWL.disjointWith, RDF.type, OWL.SymmetricProperty);
-            Resource xml = vocabulary.getResource(XMLLiteralType.theXMLLiteralType.getURI());
+            Resource xml = vocabulary.getResource(RDF.dtXMLLiteral.getURI());
             vocabulary.add(xml, RDFS.subClassOf, RDFS.Resource);
             for (String uri : JenaDatatypes.getDatatypeURIs()) {
                 Resource r = vocabulary.getResource(uri);

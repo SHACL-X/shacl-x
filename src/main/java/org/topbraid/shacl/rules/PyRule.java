@@ -87,7 +87,7 @@ class PyRule extends AbstractRule {
                             subject = PyFactory.getNode(nodes.get(0));
                             predicate = PyFactory.getNode(nodes.get(1));
                             object = PyFactory.getNode(nodes.get(2));
-                        } else if (tripleO instanceof @SuppressWarnings("rawtypes")Map triple) {
+                        } else if (tripleO instanceof Map triple) {
                             subject = PyFactory.getNode(triple.get("subject"));
                             predicate = PyFactory.getNode(triple.get("predicate"));
                             object = PyFactory.getNode(triple.get("object"));

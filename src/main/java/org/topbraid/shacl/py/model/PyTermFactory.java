@@ -25,14 +25,14 @@ import org.apache.jena.sparql.util.NodeFactoryExtra;
 
 /**
  * A partial implementation of DataFactory from
- * https://github.com/rdfjs/representation-task-force/blob/master/interface-spec.md
+ * <a href="https://github.com/rdfjs/representation-task-force/blob/master/interface-spec.md">Data model specs</a>
  * to be used by Python.
  *
  * @author Ashley Caselli
  */
 public class PyTermFactory {
 
-    private PrefixMap pm = new PrefixMapStd();
+    private final PrefixMap pm = new PrefixMapStd();
 
     public PyBlankNode blankNode() {
         return blankNode(null);
@@ -51,9 +51,9 @@ public class PyTermFactory {
             stringVal = String.valueOf(value);
         }
         if (langOrDatatype instanceof PyNamedNode) {
-            return new PyLiteral(NodeFactory.createLiteral(stringVal, TypeMapper.getInstance().getTypeByName(((PyNamedNode) langOrDatatype).getValue())));
+            return new PyLiteral(NodeFactory.createLiteralDT(stringVal, TypeMapper.getInstance().getTypeByName(((PyNamedNode) langOrDatatype).getValue())));
         } else if (langOrDatatype instanceof String) {
-            return new PyLiteral(NodeFactory.createLiteral(stringVal, (String) langOrDatatype));
+            return new PyLiteral(NodeFactory.createLiteralLang(stringVal, (String) langOrDatatype));
         } else {
             throw new IllegalArgumentException("Invalid type of langOrDatatype argument");
         }

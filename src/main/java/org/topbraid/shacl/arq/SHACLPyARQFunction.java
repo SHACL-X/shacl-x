@@ -22,7 +22,9 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.sparql.expr.ExprEvalException;
+import org.apache.jena.sparql.expr.ExprList;
 import org.apache.jena.sparql.expr.NodeValue;
+import org.apache.jena.sparql.util.Context;
 import org.graalvm.polyglot.Value;
 import org.topbraid.jenax.util.ExceptionUtil;
 import org.topbraid.jenax.util.JenaDatatypes;
@@ -73,7 +75,7 @@ public class SHACLPyARQFunction extends SHACLARQFunction {
                 if (node != null) {
                     return NodeValue.makeNode(node);
                 } else if (result instanceof String) {
-                    return NodeValue.makeNode(NodeFactory.createLiteral((String) result));
+                    return NodeValue.makeNode(NodeFactory.createLiteralString((String) result));
                 } else if (result instanceof Long) {
                     return NodeValue.makeNode(JenaDatatypes.createInteger(((Long) result).intValue()).asNode());
                 } else if (result instanceof Integer) {
@@ -100,5 +102,9 @@ public class SHACLPyARQFunction extends SHACLARQFunction {
     @Override
     protected String getQueryString() {
         return ((SHPyFunction) getSHACLFunction()).getFunctionName();
+    }
+
+    @Override
+    public void build(String uri, ExprList args, Context context) {
     }
 }
