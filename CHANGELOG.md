@@ -1,3 +1,48 @@
+## [1.5.1](https://github.com/SHACL-X/shacl-x/compare/1.5.0...1.5.1) (2024-12-18)
+
+### Dependency updates
+
+* **core-deps:** update dependency org.antlr:antlr4-runtime to v4.13.2 ([d0218b1](https://github.com/SHACL-X/shacl-x/commit/d0218b1b8304ac8cf5f70e1d70d7629959fc271e))
+* **deps:** remove deprecated "optimize" parameter of the maven-compiler-plugin ([dbc147d](https://github.com/SHACL-X/shacl-x/commit/dbc147d8bb6c3067907273b6fc77cab18d255431))
+* **deps:** update alpine docker tag to v3.20.3 ([794a00b](https://github.com/SHACL-X/shacl-x/commit/794a00b970e3ae067634c25ba90d1f82d84602ce))
+* **deps:** update dependency @terrestris/maven-semantic-release to v3.1.0 ([f6230ea](https://github.com/SHACL-X/shacl-x/commit/f6230ea07708c2ad9e2b843ef45284c6b14ebe26))
+* **deps:** update dependency maven to v3.9.9 ([095b213](https://github.com/SHACL-X/shacl-x/commit/095b213f98b83d98c5a4b2a7ec57da23c3df67e8))
+* **deps:** update dependency maven-wrapper to v3.3.2 ([a3a4316](https://github.com/SHACL-X/shacl-x/commit/a3a43166171a843b0137c819885c07e6dd8d52f9))
+* **deps:** update dependency semantic-release to v24 ([7a40ba0](https://github.com/SHACL-X/shacl-x/commit/7a40ba094afeddbba234cb00fd5a5293aa898b7c))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.111 ([ef5719c](https://github.com/SHACL-X/shacl-x/commit/ef5719cebe7896250453d5912b8d24bcc7dfcf2c))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.115 ([efd3854](https://github.com/SHACL-X/shacl-x/commit/efd385465f85d450c5a0a8b1c7570a2ca563ed12))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.116 ([c1ee5f7](https://github.com/SHACL-X/shacl-x/commit/c1ee5f727727ee709f7a4ed8d6da6a07085a6e59))
+
+### Build and continuous integration
+
+* **deps:** replace docker/login-action version tag with commit sha ([ed22ceb](https://github.com/SHACL-X/shacl-x/commit/ed22cebad3d114b4cfa958663622c40d9c582c63))
+* **deps:** update actions/checkout action to v4.2.1 ([07d41a0](https://github.com/SHACL-X/shacl-x/commit/07d41a03996ddfdcf299c19045cd9a1c4600c1a1))
+* **deps:** update actions/checkout action to v4.2.2 ([6755874](https://github.com/SHACL-X/shacl-x/commit/6755874ad029eed35e6b9e83cbdf88f10ed60ff1))
+* **deps:** update actions/setup-java action to v4.4.0 ([7e50a6f](https://github.com/SHACL-X/shacl-x/commit/7e50a6ffb6dd296762d5d77e083c9e48d35cb7ae))
+* **deps:** update actions/setup-java action to v4.4.0 ([35f256d](https://github.com/SHACL-X/shacl-x/commit/35f256df8af02c2e46caed951be2569404a4b63b))
+* **deps:** update actions/setup-java action to v4.5.0 ([be7803c](https://github.com/SHACL-X/shacl-x/commit/be7803cd3a260d6bf0d6de5962cdee6de6cbbcd5))
+* **deps:** update actions/setup-java action to v4.6.0 ([3d7b7e1](https://github.com/SHACL-X/shacl-x/commit/3d7b7e15a245cb539393e06d1af2905bc73525a4))
+* **deps:** update actions/setup-node action to v4.0.4 ([e41b2bb](https://github.com/SHACL-X/shacl-x/commit/e41b2bbfdb088feb81614c1baa0eb745c811479d))
+* **deps:** update actions/setup-node action to v4.1.0 ([fe599ab](https://github.com/SHACL-X/shacl-x/commit/fe599abf6fcb86c1f5ef71672bff115dcfd33aac))
+* **deps:** update dependency org.apache.maven.plugins:maven-gpg-plugin to v3.2.7 ([3cbe5c1](https://github.com/SHACL-X/shacl-x/commit/3cbe5c10140c5bceb600b905702ab993e5a4e921))
+* **deps:** update dependency org.apache.maven.plugins:maven-jar-plugin to v3.4.2 ([6f5c264](https://github.com/SHACL-X/shacl-x/commit/6f5c2649eee5fd264b946a11e46d94439b204a10))
+* **deps:** update dependency org.apache.maven.plugins:maven-javadoc-plugin to v3.10.1 ([e827ad7](https://github.com/SHACL-X/shacl-x/commit/e827ad7ea802904546efa6aa67e13f03e9fbecfc))
+* **deps:** update dependency org.apache.maven.plugins:maven-javadoc-plugin to v3.11.1 ([3cce5c7](https://github.com/SHACL-X/shacl-x/commit/3cce5c7744776c78a57a21c2b9ec8e1178e5c479))
+* **deps:** update dependency org.apache.maven.plugins:maven-javadoc-plugin to v3.11.2 ([f01af1c](https://github.com/SHACL-X/shacl-x/commit/f01af1cf24d82da2c4eba7e3a827365633e51ec0))
+* **deps:** update dependency org.apache.maven.plugins:maven-release-plugin to v3.1.1 ([e5131cf](https://github.com/SHACL-X/shacl-x/commit/e5131cf863644201e4643416d50b366c7c252d0d))
+* **deps:** update dependency org.sonatype.plugins:nexus-staging-maven-plugin to v1.7.0 ([99a21bd](https://github.com/SHACL-X/shacl-x/commit/99a21bd88283ba8b9ccf00978a3b7ae14115f853))
+* **deps:** update docker/login-action action to v3.2.0 ([ac8efd0](https://github.com/SHACL-X/shacl-x/commit/ac8efd08e41f1c2b90b533c5417e0dac26136147))
+* **deps:** update docker/login-action action to v3.3.0 ([4b459bb](https://github.com/SHACL-X/shacl-x/commit/4b459bb2e2e8dee1977b6f8fec282dfef0aae298))
+* update node.js to v22.11 ([89c145c](https://github.com/SHACL-X/shacl-x/commit/89c145c31529d49dc2d44d80e650348c8ece8dd1))
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([1f3e595](https://github.com/SHACL-X/shacl-x/commit/1f3e5955b0726bad3bec9d63bd5560b6e5b5f1ea))
+
+### Refactoring
+
+* main code style update and minor issues ([0d979c9](https://github.com/SHACL-X/shacl-x/commit/0d979c9a684491d6f91e63afc0dd016d44ae6eab))
+
 ## [1.5.0](https://github.com/SHACL-X/shacl-x/compare/1.4.3...1.5.0) (2024-05-29)
 
 
