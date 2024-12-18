@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-alpine as jre-build
+FROM eclipse-temurin:21-alpine AS jre-build
 
 WORKDIR /app
 
