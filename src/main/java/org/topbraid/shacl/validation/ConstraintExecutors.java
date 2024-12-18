@@ -57,7 +57,7 @@ public class ConstraintExecutors {
         addSpecialExecutor(DASH.ParameterConstraintComponent, constraint -> new PropertyConstraintExecutor());
         addSpecialExecutor(SH.JSConstraintComponent, constraint -> new JSConstraintExecutor());
         addSpecialExecutor(SH.PyConstraintComponent, constraint -> new PyConstraintExecutor());
-        addSpecialExecutor(SH.SPARQLConstraintComponent, constraint -> new SPARQLConstraintExecutor(constraint));
+        addSpecialExecutor(SH.SPARQLConstraintComponent, SPARQLConstraintExecutor::new);
         addSpecialExecutor(SH.ExpressionConstraintComponent, constraint -> new ExpressionConstraintExecutor());
 
         JavaConstraintExecutors.install(this);
