@@ -1,3 +1,24 @@
+## [1.5.2](https://github.com/SHACL-X/shacl-x/compare/1.5.1...1.5.2) (2024-12-19)
+
+### Dependency updates
+
+* **core-deps:** update alpine docker tag to v3.21.0 ([0845440](https://github.com/SHACL-X/shacl-x/commit/084544056f5da5cd8705158f0b0c0d7b031688ec))
+* **core-deps:** update dependency org.apache.jena:jena-arq to v5 ([c73b278](https://github.com/SHACL-X/shacl-x/commit/c73b2782e6656e8b371cb59af97a06596ab96b9f))
+* **core-deps:** update eclipse-temurin docker tag to v21 ([e228a8f](https://github.com/SHACL-X/shacl-x/commit/e228a8f4e7f55bb6b97d55edbfa5c5e2258b1da4))
+* **core-deps:** update slf4j monorepo to v2.0.16 (patch) ([19a409d](https://github.com/SHACL-X/shacl-x/commit/19a409ddafabe6a598441276b486ba684e9232ef))
+
+### Bug Fixes
+
+* replace deprecated code ([34363b1](https://github.com/SHACL-X/shacl-x/commit/34363b1b76c48b1923b4cc414ae24400a6d39a4c))
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([5983db9](https://github.com/SHACL-X/shacl-x/commit/5983db9900a27ab1bf5c00242ff640d57e47351b))
+
+### Refactoring
+
+* update code style and syntax ([c3c258f](https://github.com/SHACL-X/shacl-x/commit/c3c258f47d9f536a6f9c3834b43011d0cae9bdd0))
+
 ## [1.5.1](https://github.com/SHACL-X/shacl-x/compare/1.5.0...1.5.1) (2024-12-18)
 
 ### Dependency updates
