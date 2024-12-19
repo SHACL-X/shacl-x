@@ -74,11 +74,11 @@ public class PyFactory {
         } else if (obj instanceof Integer) {
             return JenaDatatypes.createInteger((Integer) obj).asNode();
         } else if (obj instanceof Number) {
-            return NodeFactory.createLiteral(obj.toString(), XSDDatatype.XSDdecimal);
+            return NodeFactory.createLiteralDT(obj.toString(), XSDDatatype.XSDdecimal);
         } else if (obj instanceof Boolean) {
             return ((Boolean) obj) ? JenaDatatypes.TRUE.asNode() : JenaDatatypes.FALSE.asNode();
         } else if (obj != null) {
-            return NodeFactory.createLiteral(obj.toString());
+            return NodeFactory.createLiteralString(obj.toString());
         } else {
             return null;
         }

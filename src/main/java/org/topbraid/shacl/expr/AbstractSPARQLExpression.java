@@ -76,7 +76,7 @@ public abstract class AbstractSPARQLExpression extends AbstractInputExpression {
 	@Override
 	public List<String> getFunctionalSyntaxArguments() {
 		List<String> results = new LinkedList<>();
-		results.add(FmtUtils.stringForNode(NodeFactory.createLiteral(queryString)));
+		results.add(FmtUtils.stringForNode(NodeFactory.createLiteralString(queryString)));
 		NodeExpression input = getInput();
 		if(input != null) {
 			results.add(input.getFunctionalSyntax());

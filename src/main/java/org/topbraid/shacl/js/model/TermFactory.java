@@ -25,76 +25,64 @@ import org.apache.jena.sparql.util.NodeFactoryExtra;
 
 /**
  * A partial implementation of DataFactory from
- * https://github.com/rdfjs/representation-task-force/blob/master/interface-spec.md
+ * <a href="https://github.com/rdfjs/representation-task-force/blob/master/interface-spec.md">Data model specs</a>
  * to be used by JavaScript.
- * 
+ *
  * @author Holger Knublauch
  */
 public class TermFactory {
-	
-	private PrefixMap pm = new PrefixMapStd();
-	
-	
-	public JSBlankNode blankNode() {
-		return blankNode(null);
-	}
-	
-	
-	public JSBlankNode blankNode(String value) {
-		Node node = value == null ?
-				NodeFactory.createBlankNode() :
-				NodeFactory.createBlankNode(value);
-		return new JSBlankNode(node);
-	}
-	
-	
-	public JSLiteral literal(Object value, Object langOrDatatype) {
-		String stringVal = value.toString();
+
+    private final PrefixMap pm = new PrefixMapStd();
+
+    public JSBlankNode blankNode() {
+        return blankNode(null);
+    }
+
+    public JSBlankNode blankNode(String value) {
+        Node node = value == null ?
+                NodeFactory.createBlankNode() :
+                NodeFactory.createBlankNode(value);
+        return new JSBlankNode(node);
+    }
+
+    public JSLiteral literal(Object value, Object langOrDatatype) {
+        String stringVal = value.toString();
         if (value instanceof Number) {
             stringVal = String.valueOf(value);
         }
-		if(langOrDatatype instanceof JSNamedNode) {
-			return new JSLiteral(NodeFactory.createLiteral(stringVal, TypeMapper.getInstance().getTypeByName(((JSNamedNode)langOrDatatype).getValue())));
-		}
-		else if(langOrDatatype instanceof String) {
-			return new JSLiteral(NodeFactory.createLiteral(stringVal, (String)langOrDatatype));
-		}
-		else {
-			throw new IllegalArgumentException("Invalid type of langOrDatatype argument");
-		}
-	}
+        if (langOrDatatype instanceof JSNamedNode) {
+            return new JSLiteral(NodeFactory.createLiteralDT(stringVal, TypeMapper.getInstance().getTypeByName(((JSNamedNode) langOrDatatype).getValue())));
+        } else if (langOrDatatype instanceof String) {
+            return new JSLiteral(NodeFactory.createLiteralLang(stringVal, (String) langOrDatatype));
+        } else {
+            throw new IllegalArgumentException("Invalid type of langOrDatatype argument");
+        }
+    }
 
-	
-	public JSNamedNode namedNode(String value) {
-		Node node = NodeFactory.createURI(value);
-		return new JSNamedNode(node);
-	}
-	
-	
-	public void registerNamespace(String prefix, String namespace) {
-		pm.add(prefix, namespace);
-	}
-	
-	
-	public JSTerm term(Object obj) {
-		Node n;
+    public JSNamedNode namedNode(String value) {
+        Node node = NodeFactory.createURI(value);
+        return new JSNamedNode(node);
+    }
+
+    public void registerNamespace(String prefix, String namespace) {
+        pm.add(prefix, namespace);
+    }
+
+    public JSTerm term(Object obj) {
+        Node n;
         try {
-        	n = NodeFactoryExtra.parseNode(String.valueOf(obj), pm);
+            n = NodeFactoryExtra.parseNode(String.valueOf(obj), pm);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Cannot parse node \"" + obj + "\"", ex);
         }
-        catch(Exception ex) {
-        	throw new IllegalArgumentException("Cannot parse node \"" + obj + "\"", ex);
+        if (n.isURI()) {
+            return new JSNamedNode(n);
+        } else if (n.isLiteral()) {
+            return new JSLiteral(n);
+        } else if (n.isBlank()) {
+            return new JSBlankNode(n);
+        } else {
+            throw new IllegalArgumentException("Unexpected node type for " + n);
         }
-        if(n.isURI()) {
-        	return new JSNamedNode(n);
-        }
-        else if(n.isLiteral()) {
-        	return new JSLiteral(n);
-        }
-        else if(n.isBlank()) {
-        	return new JSBlankNode(n);
-        }
-        else {
-        	throw new IllegalArgumentException("Unexpected node type for " + n);
-        }
-	}
+    }
 }

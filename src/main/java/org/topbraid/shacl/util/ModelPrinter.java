@@ -17,8 +17,8 @@
 package org.topbraid.shacl.util;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFWriterI;
-import org.apache.jena.util.FileUtils;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 
 import java.io.StringWriter;
 
@@ -32,7 +32,6 @@ public class ModelPrinter {
 
     private static ModelPrinter singleton = new ModelPrinter();
 
-
     public static ModelPrinter get() {
         return singleton;
     }
@@ -41,16 +40,9 @@ public class ModelPrinter {
         singleton = value;
     }
 
-
-    protected RDFWriterI createRDFWriter(Model model) {
-        return model.getWriter(FileUtils.langTurtle);
-    }
-
-
     public String print(Model model) {
         StringWriter writer = new StringWriter();
-        RDFWriterI w = createRDFWriter(model);
-        w.write(model, writer, "http://example.org/random");
+        RDFDataMgr.write(writer, model, Lang.TURTLE);
         return writer.toString();
     }
 }

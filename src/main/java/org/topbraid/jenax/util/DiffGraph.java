@@ -1,11 +1,11 @@
 package org.topbraid.jenax.util;
 
 import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.GraphMemFactory;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.graph.impl.GraphMatcher;
 import org.apache.jena.graph.impl.GraphWithPerform;
-import org.apache.jena.mem.GraphMem;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
 import org.apache.jena.util.iterator.ExtendedIterator;
@@ -30,7 +30,7 @@ public class DiffGraph extends TransparentWrappedGraph {
     /**
      * This graph has additional triples that are not in the delegate.
      */
-    protected GraphWithPerform addedGraph = new GraphMem();
+    protected GraphWithPerform addedGraph = (GraphWithPerform) GraphMemFactory.createDefaultGraph();
 
     /**
      * This Set has triples that are in the delegate but are excluded

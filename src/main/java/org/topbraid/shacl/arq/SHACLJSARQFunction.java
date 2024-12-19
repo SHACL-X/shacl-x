@@ -16,97 +16,95 @@
  */
 package org.topbraid.shacl.arq;
 
-import javax.script.ScriptException;
-
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.sparql.expr.ExprEvalException;
+import org.apache.jena.sparql.expr.ExprList;
 import org.apache.jena.sparql.expr.NodeValue;
+import org.apache.jena.sparql.util.Context;
 import org.graalvm.polyglot.Value;
 import org.topbraid.jenax.util.ExceptionUtil;
 import org.topbraid.jenax.util.JenaDatatypes;
 import org.topbraid.shacl.js.JSGraph;
-import org.topbraid.shacl.js.ScriptEngine;
 import org.topbraid.shacl.js.SHACLScriptEngineManager;
+import org.topbraid.shacl.js.ScriptEngine;
 import org.topbraid.shacl.js.model.JSFactory;
 import org.topbraid.shacl.model.SHJSExecutable;
 import org.topbraid.shacl.model.SHJSFunction;
 import org.topbraid.shacl.vocabulary.SH;
 
+import javax.script.ScriptException;
+
 public class SHACLJSARQFunction extends SHACLARQFunction {
-	
-	private String functionName;
-	
 
-	public SHACLJSARQFunction(SHJSFunction shaclFunction) {
-		super(shaclFunction);
-		this.functionName = shaclFunction.getFunctionName();
-		addParameters(shaclFunction);
-	}
+    private String functionName;
 
-	
-	@Override
-	public NodeValue executeBody(Dataset dataset, Model dataModel, QuerySolution bindings) {
-		
-		if(functionName == null) {
-			throw new IllegalArgumentException("Missing JavaScript function name of " + getSHACLFunction().getURI());
-		}
-		
-		boolean nested = SHACLScriptEngineManager.begin();
-		ScriptEngine engine = SHACLScriptEngineManager.getCurrentJSEngine();
 
-		SHJSExecutable as = getSHACLFunction().as(SHJSExecutable.class);
-		JSGraph dataJSGraph = new JSGraph(dataModel.getGraph(), engine);
-		try {
-			engine.executeLibraries(as);
-			engine.put(SH.JS_DATA_VAR, dataJSGraph);
-			
-			Object result = engine.invokeFunction(functionName, bindings);
-			if(result != null) {
-				if(result instanceof Value) {
-					result = ((Value) result).as(Object.class);
-				}
-				Node node = JSFactory.getNode(result);
-				if(node != null) {
-					return NodeValue.makeNode(node);
-				}
-				else if(result instanceof String) {
-					return NodeValue.makeNode(NodeFactory.createLiteral((String)result));
-				}
-				else if(result instanceof Long) {
-					return NodeValue.makeNode(JenaDatatypes.createInteger(((Long)result).intValue()).asNode());
-				}
-				else if(result instanceof Integer) {
-					return NodeValue.makeNode(JenaDatatypes.createInteger((Integer)result).asNode());
-				}
-				else if(result instanceof Double) {
-					return NodeValue.makeDecimal((Double)result);
-				}
-				else if(result instanceof Boolean) {
-					return NodeValue.booleanReturn((Boolean)result);
-				}
-			}
-		}
-		catch(ScriptException ex) {
-			ExceptionUtil.throwUnchecked(ex);
-		}
-		catch(Exception ex) {
-			ex.printStackTrace();
-			throw new ExprEvalException(ex);
-		}
-		finally {
-			dataJSGraph.close();
-			SHACLScriptEngineManager.end(nested);
-		}
-		throw new ExprEvalException();
-	}
+    public SHACLJSARQFunction(SHJSFunction shaclFunction) {
+        super(shaclFunction);
+        this.functionName = shaclFunction.getFunctionName();
+        addParameters(shaclFunction);
+    }
 
-	
-	@Override
-	protected String getQueryString() {
-		return ((SHJSFunction)getSHACLFunction()).getFunctionName();
-	}
+
+    @Override
+    public NodeValue executeBody(Dataset dataset, Model dataModel, QuerySolution bindings) {
+
+        if (functionName == null) {
+            throw new IllegalArgumentException("Missing JavaScript function name of " + getSHACLFunction().getURI());
+        }
+
+        boolean nested = SHACLScriptEngineManager.begin();
+        ScriptEngine engine = SHACLScriptEngineManager.getCurrentJSEngine();
+
+        SHJSExecutable as = getSHACLFunction().as(SHJSExecutable.class);
+        JSGraph dataJSGraph = new JSGraph(dataModel.getGraph(), engine);
+        try {
+            engine.executeLibraries(as);
+            engine.put(SH.JS_DATA_VAR, dataJSGraph);
+
+            Object result = engine.invokeFunction(functionName, bindings);
+            if (result != null) {
+                if (result instanceof Value) {
+                    result = ((Value) result).as(Object.class);
+                }
+                Node node = JSFactory.getNode(result);
+                if (node != null) {
+                    return NodeValue.makeNode(node);
+                } else if (result instanceof String) {
+                    return NodeValue.makeNode(NodeFactory.createLiteralString((String) result));
+                } else if (result instanceof Long) {
+                    return NodeValue.makeNode(JenaDatatypes.createInteger(((Long) result).intValue()).asNode());
+                } else if (result instanceof Integer) {
+                    return NodeValue.makeNode(JenaDatatypes.createInteger((Integer) result).asNode());
+                } else if (result instanceof Double) {
+                    return NodeValue.makeDecimal((Double) result);
+                } else if (result instanceof Boolean) {
+                    return NodeValue.booleanReturn((Boolean) result);
+                }
+            }
+        } catch (ScriptException ex) {
+            ExceptionUtil.throwUnchecked(ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ExprEvalException(ex);
+        } finally {
+            dataJSGraph.close();
+            SHACLScriptEngineManager.end(nested);
+        }
+        throw new ExprEvalException();
+    }
+
+
+    @Override
+    protected String getQueryString() {
+        return ((SHJSFunction) getSHACLFunction()).getFunctionName();
+    }
+
+    @Override
+    public void build(String uri, ExprList args, Context context) {
+    }
 }

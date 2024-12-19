@@ -30,58 +30,60 @@ import org.topbraid.shacl.vocabulary.SH;
 
 /**
  * Manages globally registered SHACL functions, usually loaded from .shapes.* files.
- * 
+ *
  * @author Holger Knublauch
  */
 public class SHACLFunctions {
-	
-	/**
-	 * Registers a single SHACL function declared as a sh:Function.
-	 * @param resource  the function resource
-	 */
-	public static void registerFunction(Resource resource) {
-		FunctionFactory arqFunction = DeclarativeFunctionDrivers.get().create(resource);
-		if(arqFunction != null) {
-			FunctionFactory oldFF = FunctionRegistry.get().get(resource.getURI());
-			if(oldFF == null || oldFF instanceof DeclarativeFunctionFactory) {
-				FunctionRegistry.get().put(resource.getURI(), arqFunction);
-			}
-		}
-	}
 
-	
-	/**
-	 * Registers all SHACL functions from a given Model.
-	 * @param model  the Model to register the functions from
-	 */
-	public static void registerFunctions(Model model) {
-		
-		SHFactory.ensureInited();
+    /**
+     * Registers a single SHACL function declared as a sh:Function.
+     *
+     * @param resource the function resource
+     */
+    public static void registerFunction(Resource resource) {
+        FunctionFactory arqFunction = DeclarativeFunctionDrivers.get().create(resource);
+        if (arqFunction != null) {
+            FunctionFactory oldFF = FunctionRegistry.get().get(resource.getURI());
+            if (oldFF == null || oldFF instanceof DeclarativeFunctionFactory) {
+                FunctionRegistry.get().put(resource.getURI(), arqFunction);
+            }
+        }
+    }
 
-		Resource shaclFunctionClass = SH.Function.inModel(model);
-		for(Resource resource : JenaUtil.getAllInstances(shaclFunctionClass)) {
-			if(resource.isURIResource()) {
-				registerFunction(resource);
-			}
-		}
-		
-		Resource ccClass = SH.ConstraintComponent.inModel(model);
-		for(Resource resource : JenaUtil.getAllInstances(ccClass)) {
-			perhapsRegisterFunction(resource.as(SHConstraintComponent.class), SH.validator);
-		}
-	}
-	
-	
-	private static void perhapsRegisterFunction(SHConstraintComponent component, Property predicate) {
-		for(Resource validator : JenaUtil.getResourceProperties(component, predicate)) {
-			if(validator.isURIResource() && 
-					!FunctionRegistry.get().isRegistered(validator.getURI()) &&
-					JenaUtil.hasIndirectType(validator, SH.SPARQLAskValidator)) {
-				FunctionFactory arqFunction = new SHACLSPARQLARQFunction(component, validator);
-				if(arqFunction != null) {
-					FunctionRegistry.get().put(validator.getURI(), arqFunction);
-				}
-			}
-		}
-	}
+
+    /**
+     * Registers all SHACL functions from a given Model.
+     *
+     * @param model the Model to register the functions from
+     */
+    public static void registerFunctions(Model model) {
+
+        SHFactory.ensureInited();
+
+        Resource shaclFunctionClass = SH.Function.inModel(model);
+        for (Resource resource : JenaUtil.getAllInstances(shaclFunctionClass)) {
+            if (resource.isURIResource()) {
+                registerFunction(resource);
+            }
+        }
+
+        Resource ccClass = SH.ConstraintComponent.inModel(model);
+        for (Resource resource : JenaUtil.getAllInstances(ccClass)) {
+            perhapsRegisterFunction(resource.as(SHConstraintComponent.class), SH.validator);
+        }
+    }
+
+
+    private static void perhapsRegisterFunction(SHConstraintComponent component, Property predicate) {
+        for (Resource validator : JenaUtil.getResourceProperties(component, predicate)) {
+            if (validator.isURIResource() &&
+                    !FunctionRegistry.get().isRegistered(validator.getURI()) &&
+                    JenaUtil.hasIndirectType(validator, SH.SPARQLAskValidator)) {
+                FunctionFactory arqFunction = new SHACLSPARQLARQFunction(component, validator);
+                if (arqFunction != null) {
+                    FunctionRegistry.get().put(validator.getURI(), arqFunction);
+                }
+            }
+        }
+    }
 }

@@ -122,15 +122,13 @@ public class ExceptionUtil {
             rslt = clazz.getConstructor(Throwable.class).newInstance(t);
         } catch (Exception e) {
             try {
-                rslt = clazz.newInstance();
+                rslt = clazz.getDeclaredConstructor().newInstance();
                 rslt.initCause(t);
             } catch (Exception e1) {
                 if (e1.getCause() == null) {
                     e1.initCause(t);
                 }
-                throw new IllegalArgumentException(
-                        clazz.getName() + " does not have a functioning constructor, with either no arguments or a Throwable argument.",
-                        e1);
+                throw new IllegalArgumentException(clazz.getName() + " does not have a functioning constructor, with either no arguments or a Throwable argument.", e1);
             }
         }
         throw rslt;

@@ -87,9 +87,7 @@ public class CurrentThreadFunctionRegistry extends FunctionRegistry {
                 FunctionRegistry.set(ARQ.getContext(), oldFR);
             };
         } else {
-            return () -> {
-                unregister(old);
-            };
+            return () -> unregister(old);
         }
     }
 

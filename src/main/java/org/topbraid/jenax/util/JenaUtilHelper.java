@@ -16,7 +16,6 @@
  */
 package org.topbraid.jenax.util;
 
-import org.apache.jena.graph.Factory;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.compose.MultiUnion;
 import org.apache.jena.mem.GraphMemBase;
@@ -24,6 +23,7 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.sparql.graph.GraphFactory;
 
 import java.util.Iterator;
 
@@ -76,7 +76,7 @@ public class JenaUtilHelper {
      * @return the default Graph
      */
     public Graph createDefaultGraph() {
-        return Factory.createDefaultGraph();
+        return GraphFactory.createDefaultGraph();
     }
 
 

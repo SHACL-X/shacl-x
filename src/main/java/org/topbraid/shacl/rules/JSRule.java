@@ -89,7 +89,7 @@ class JSRule extends AbstractRule {
                             subject = JSFactory.getNode(nodes.get(0));
                             predicate = JSFactory.getNode(nodes.get(1));
                             object = JSFactory.getNode(nodes.get(2));
-                        } else if (tripleO instanceof @SuppressWarnings("rawtypes")Map triple) {
+                        } else if (tripleO instanceof Map triple) {
                             subject = JSFactory.getNode(triple.get("subject"));
                             predicate = JSFactory.getNode(triple.get("predicate"));
                             object = JSFactory.getNode(triple.get("object"));

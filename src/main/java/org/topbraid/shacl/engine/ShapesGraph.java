@@ -123,7 +123,7 @@ public class ShapesGraph {
             }
 
             // Turn the shape Resource objects into Shape instances
-            this.rootShapes = new LinkedList<Shape>();
+            this.rootShapes = new LinkedList<>();
             for (Resource candidate : candidates) {
                 SHShape shape = SHFactory.asShape(candidate);
                 if (!shape.isDeactivated() && !isIgnored(shape.asNode())) {

@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-alpine as jre-build
+FROM eclipse-temurin:21-alpine AS jre-build
 
 WORKDIR /app
 
@@ -29,7 +29,7 @@ RUN unzip target/shacl-x-${VERSION}-bin.zip -d /app/
 
 # BUILD STAGE 2: keep only Java and SHACL-X
 
-FROM alpine:3.20.3
+FROM alpine:3.21.0
 
 ARG VERSION
 

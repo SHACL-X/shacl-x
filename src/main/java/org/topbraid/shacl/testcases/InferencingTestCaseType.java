@@ -87,7 +87,7 @@ public class InferencingTestCaseType extends TestCaseType {
                 valid = false;
                 expectedModel.add(s);
                 Resource expectedInferredBN = s.getObject().asResource();
-                Triple expectedInferredTriple = new Triple(expectedInferredBN.getProperty(RDF.subject).getObject().asNode(),
+                Triple expectedInferredTriple = Triple.create(expectedInferredBN.getProperty(RDF.subject).getObject().asNode(),
                         expectedInferredBN.getProperty(RDF.predicate).getObject().asNode(),
                         expectedInferredBN.getProperty(RDF.object).getObject().asNode());
                 if (actualResults.getGraph().contains(expectedInferredTriple)) {

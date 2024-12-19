@@ -18,8 +18,8 @@
 package org.topbraid.jenax.util;
 
 import org.apache.jena.enhanced.EnhGraph;
-import org.apache.jena.graph.Factory;
 import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.GraphMemFactory;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.compose.MultiUnion;
 import org.apache.jena.ontology.OntModel;
@@ -45,8 +45,8 @@ import org.apache.jena.sparql.syntax.syntaxtransform.ElementTransformSubst;
 import org.apache.jena.sparql.syntax.syntaxtransform.ExprTransformNodeElement;
 import org.apache.jena.sparql.syntax.syntaxtransform.QueryTransformOps;
 import org.apache.jena.sparql.util.Context;
+import org.apache.jena.sparql.util.NodeCmp;
 import org.apache.jena.sparql.util.NodeFactoryExtra;
-import org.apache.jena.sparql.util.NodeUtils;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
@@ -288,7 +288,7 @@ public class JenaUtil {
      * @return a new memory graph
      */
     public static Graph createMemoryGraph() {
-        return Factory.createDefaultGraph();
+        return GraphMemFactory.createDefaultGraph();
     }
 
 
@@ -1200,7 +1200,7 @@ public class JenaUtil {
 
 
     public static void sort(List<Resource> nodes) {
-        Collections.sort(nodes, (o1, o2) -> NodeUtils.compareRDFTerms(o1.asNode(), o2.asNode()));
+        Collections.sort(nodes, (o1, o2) -> NodeCmp.compareRDFTerms(o1.asNode(), o2.asNode()));
     }
 
 

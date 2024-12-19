@@ -29,6 +29,7 @@ import org.apache.jena.sparql.expr.NodeValue;
 import org.apache.jena.sparql.function.Function;
 import org.apache.jena.sparql.function.FunctionEnv;
 import org.apache.jena.sparql.sse.SSE;
+import org.apache.jena.sparql.util.Context;
 import org.apache.jena.sparql.util.FmtUtils;
 import org.topbraid.jenax.statistics.ExecStatistics;
 import org.topbraid.jenax.statistics.ExecStatisticsManager;
@@ -44,7 +45,7 @@ import java.util.Collections;
 public abstract class AbstractFunction implements Function {
 
     @Override
-    public void build(String uri, ExprList args) {
+    public void build(String uri, ExprList args, Context context) {
     }
 
 
