@@ -1,3 +1,33 @@
+## [1.5.3](https://github.com/SHACL-X/shacl-x/compare/1.5.2...1.5.3) (2025-05-06)
+
+### Dependency updates
+
+* **core-deps:** update alpine docker tag to v3.21.3 ([6cbc57b](https://github.com/SHACL-X/shacl-x/commit/6cbc57b77c0f66194d52f411acd05b21a4807c6f))
+* **core-deps:** update dependency org.graalvm.polyglot:* to the latest v23.1.x ([9abcb28](https://github.com/SHACL-X/shacl-x/commit/9abcb28f938462cb26d65032bd1dc18f009c2f91))
+* **core-deps:** update slf4j monorepo to v2.0.17 ([eaf22a9](https://github.com/SHACL-X/shacl-x/commit/eaf22a9d297e9f61e49184226b1791c72f7b776a))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.117 ([78fef95](https://github.com/SHACL-X/shacl-x/commit/78fef95438e6eb7f89c27c99185613212242d59e))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.119 ([71dace9](https://github.com/SHACL-X/shacl-x/commit/71dace9b3065dc5e4cb04c5b1a7233106d9a0512))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.121 ([fb148fd](https://github.com/SHACL-X/shacl-x/commit/fb148fd1d984415efdaacf84e31e2ff2b478df55))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.122 ([2097926](https://github.com/SHACL-X/shacl-x/commit/2097926c56728a575224a5ff8c77cb50e0655970))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.125 ([c8d462c](https://github.com/SHACL-X/shacl-x/commit/c8d462ce6d0db8958e2e257b53e70c42eef2a959))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.127 ([4182141](https://github.com/SHACL-X/shacl-x/commit/4182141980bc174ba4818f5af0680a7539b3e293))
+
+### Build and continuous integration
+
+* **deps:** update actions/setup-java action to v4.7.0 ([bb6a5fb](https://github.com/SHACL-X/shacl-x/commit/bb6a5fb02122682924d7fabe1dec83d72064d448))
+* **deps:** update actions/setup-java action to v4.7.1 ([e9e5abe](https://github.com/SHACL-X/shacl-x/commit/e9e5abea023000e84f626149d9c53074c31e8b59))
+* **deps:** update actions/setup-node action to v4.2.0 ([9e844cf](https://github.com/SHACL-X/shacl-x/commit/9e844cf701b19be63ed3a8da68757b0873495778))
+* **deps:** update actions/setup-node action to v4.4.0 ([7f5368d](https://github.com/SHACL-X/shacl-x/commit/7f5368d473bff7a7fa0f3dc58edaee6e7d887030))
+* **deps:** update dependency org.apache.maven.plugins:maven-compiler-plugin to v3.14.0 ([da6fd9f](https://github.com/SHACL-X/shacl-x/commit/da6fd9f6153bb96ca26aa27e1e12b4b5ac195461))
+* **deps:** update docker/login-action action to v3.4.0 ([f8bacce](https://github.com/SHACL-X/shacl-x/commit/f8bacce319e1fce33b4883a9fcbe8303a2108f62))
+* **deps:** update node.js version to v22.13 ([63fdb10](https://github.com/SHACL-X/shacl-x/commit/63fdb1088c52f4dbe0bbfbf19816ff32aa890492))
+* update node-version to v22.15 ([3294c80](https://github.com/SHACL-X/shacl-x/commit/3294c805664be2f968fb572847925fb50d81b471))
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([1422074](https://github.com/SHACL-X/shacl-x/commit/1422074f6de7143372e19d1c2c3446eb98268996))
+* update Java Compiler plugin parameters ([257a8b1](https://github.com/SHACL-X/shacl-x/commit/257a8b196bd61ca7e47f13ec681ee8e7d04d324b))
+
 ## [1.5.2](https://github.com/SHACL-X/shacl-x/compare/1.5.1...1.5.2) (2024-12-19)
 
 ### Dependency updates
