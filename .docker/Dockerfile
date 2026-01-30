@@ -29,7 +29,7 @@ RUN unzip target/shacl-x-${VERSION}-bin.zip -d /app/
 
 # BUILD STAGE 2: keep only Java and SHACL-X
 
-FROM alpine:3.21.3
+FROM alpine:3.21.6
 
 ARG VERSION
 
