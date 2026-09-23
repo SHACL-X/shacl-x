@@ -1,3 +1,30 @@
+## [1.5.5](https://github.com/SHACL-X/shacl-x/compare/1.5.4...1.5.5) (2026-09-23)
+
+### Dependency updates
+
+* **core-deps:** update slf4j monorepo to v2.0.19 ([6a319c1](https://github.com/SHACL-X/shacl-x/commit/6a319c1026badfce2d41687126769a80f5de51b3))
+
+### Build and continuous integration
+
+* **deps:** update actions/checkout action to v7.0.1 ([b0a66a7](https://github.com/SHACL-X/shacl-x/commit/b0a66a7a41c9df18867528ad9d90c9a8763fae1f))
+* **deps:** update actions/setup-java action to v5.4.0 ([65bb112](https://github.com/SHACL-X/shacl-x/commit/65bb112d1a536b15d152bd32db41ffd2a066a2e2))
+* **deps:** update actions/setup-java action to v5.5.0 ([58f51ab](https://github.com/SHACL-X/shacl-x/commit/58f51aba2857a8b7705482d62d4c8fd372e05b9e))
+* **deps:** update actions/setup-java action to v5.6.0 ([8e5f2cb](https://github.com/SHACL-X/shacl-x/commit/8e5f2cb4939eb9246616b44c6b8b5fee386d2a59))
+* **deps:** update actions/setup-java action to v5.7.0 ([0cae214](https://github.com/SHACL-X/shacl-x/commit/0cae214f956e6806f5a33f65bb5b1a9d70ea2a49))
+* **deps:** update actions/setup-java action to v6 ([e94f40d](https://github.com/SHACL-X/shacl-x/commit/e94f40d943abd0c592a762e315a511afa055f74e))
+* **deps:** update actions/setup-java action to v6.0.1 ([81ac502](https://github.com/SHACL-X/shacl-x/commit/81ac50234def44e9ded6819850e82fb42cf355f8))
+* **deps:** update actions/setup-node action to v6 ([4c8dbe4](https://github.com/SHACL-X/shacl-x/commit/4c8dbe4a935d0b0e0f0b028084b9de1d8f232564))
+* **deps:** update actions/setup-node action to v7 ([e0b3fba](https://github.com/SHACL-X/shacl-x/commit/e0b3fba2b62342972839301d3429a13ace4b2b1a))
+* **deps:** update dependency org.apache.maven.plugins:maven-compiler-plugin to v3.16.0 ([9179cb3](https://github.com/SHACL-X/shacl-x/commit/9179cb31a527f754ab1d68bc54901508b654b787))
+* **deps:** update dependency org.apache.maven.plugins:maven-jar-plugin to v3.5.1 ([9d437f5](https://github.com/SHACL-X/shacl-x/commit/9d437f5b0d15236d7202aaadb5c569624c971ad9))
+* **deps:** update docker/login-action action to v4 ([f5d9d45](https://github.com/SHACL-X/shacl-x/commit/f5d9d45ef011f8c67bf9f9e3b64a5e7d738916ab))
+* **deps:** update docker/login-action action to v4.4.0 ([f2ef8fa](https://github.com/SHACL-X/shacl-x/commit/f2ef8fa68069024e784b640cb51c31f5a3f5b98d))
+* **deps:** update docker/login-action action to v4.6.0 ([9ba2a3d](https://github.com/SHACL-X/shacl-x/commit/9ba2a3d2752a1f143a297599fb807d9041faad28))
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([e19c35a](https://github.com/SHACL-X/shacl-x/commit/e19c35a2378c4c5f0fd0bf68d04baccdfb323a89))
+
 ## [1.5.4](https://github.com/SHACL-X/shacl-x/compare/1.5.3...1.5.4) (2026-06-25)
 
 ### Dependency updates
