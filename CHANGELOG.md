@@ -1,3 +1,13 @@
+## [1.5.7](https://github.com/SHACL-X/shacl-x/compare/1.5.6...1.5.7) (2026-09-28)
+
+### Dependency updates
+
+* **core-deps:** update slf4j monorepo to v2.0.20 ([bbebca2](https://github.com/SHACL-X/shacl-x/commit/bbebca2d3c37e62fc5e74f99607347deda66416a))
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([f75c4b3](https://github.com/SHACL-X/shacl-x/commit/f75c4b3e88fa21960bd2218ccfd9c5b505219649))
+
 ## [1.5.6](https://github.com/SHACL-X/shacl-x/compare/1.5.5...1.5.6) (2026-09-28)
 
 ### Dependency updates
