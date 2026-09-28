@@ -1,3 +1,13 @@
+## [1.5.6](https://github.com/SHACL-X/shacl-x/compare/1.5.5...1.5.6) (2026-09-28)
+
+### Dependency updates
+
+* **core-deps:** update alpine docker tag to v3.21.8 ([55e21a5](https://github.com/SHACL-X/shacl-x/commit/55e21a59cb964caf3c00f6d7923e948957358eda))
+
+### General maintenance
+
+* setting next snapshot version [skip ci] ([30e8c83](https://github.com/SHACL-X/shacl-x/commit/30e8c83a91e9328e7f19978c8abd64fccae50444))
+
 ## [1.5.5](https://github.com/SHACL-X/shacl-x/compare/1.5.4...1.5.5) (2026-09-23)
 
 ### Dependency updates
